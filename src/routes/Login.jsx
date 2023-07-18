@@ -35,7 +35,7 @@ export default function Login() {
             ":hover": {color: 'grey', opacity: 0.7}
           }}
         >
-          <img src={process.env.PUBLIC_URL + '/kakao_login.png'} alt="login" />
+          <img src={process.env.PUBLIC_URL + '/assets/kakao_login.png'} alt="login" />
         </div>
       </div>
     );

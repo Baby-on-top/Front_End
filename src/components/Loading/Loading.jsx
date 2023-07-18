@@ -1,4 +1,3 @@
-import Packman from '../assets/loading_packman.gif';
 /** @jsxImportSource @emotion/react */
 
 export default function Loading() {
@@ -14,7 +13,7 @@ export default function Loading() {
         }}  
     >
       <h2>잠시만 기다려 주세요.</h2>
-      <img src={Packman} alt="로딩중" width="7%" />
+      <img src={process.env.PUBLIC_URL + '/assets/loading_packman.gif'} alt="로딩중" width="7%" />
     </div> 
   )
 }
