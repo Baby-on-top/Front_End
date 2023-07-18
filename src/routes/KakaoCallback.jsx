@@ -1,0 +1,38 @@
+import { useEffect } from 'react'
+import { Urls } from '../utils/Urls';
+import { Http } from '../utils/Http';
+import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import Loading from '../components/Loading/Loading';
+
+export default function KakaoCallback() {
+    const [, setAccessToken] = useCookies(['accessToken']);
+    const [, setRefreshToken] = useCookies(['refreshToken']);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            
+            try {
+                const response = await Http.get(`${Urls.LOGIN}?code=${code}`);
+
+                const { accessToken, refreshToken } = response.data;
+                setAccessToken('accessToken', accessToken, { path: '/' });
+                setRefreshToken('refreshToken', refreshToken, { path: '/' });
+
+                await navigate('/');
+            } catch (e) {
+                console.error(e);
+            }
+        };
+        fetchData();
+    }, [setAccessToken, setRefreshToken, navigate]); 
+
+    return (
+        <div>
+            <Loading />
+        </div>
+    )
+}
