@@ -1,9 +1,10 @@
+/** @jsxImportSource @emotion/react */
 import { useNavigate } from 'react-router-dom';
 
 export default function ErrorPage() {
     const navigate = useNavigate();
     return (
-        <div>
+        <div css={{ paddingLeft: 20 }}>
             <h1>
                 문제가 발생했습니다.
             </h1>
