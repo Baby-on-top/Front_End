@@ -1,4 +1,3 @@
-import React from 'react'
 import SideNav from './SideNav';
 import Cards from './Cards';
 import BoardModal from './BoardModal'
@@ -6,14 +5,7 @@ import chat from '../../images/chat.png';
 import { Global, css } from '@emotion/react';
 /** @jsxImportSource @emotion/react */
 
-
-
-
 export default function Lobby() {
-    function cli() {
-        console.log('You clicked submit.');
-    }
-
     return (
         <div>
             <Global
@@ -24,7 +16,7 @@ export default function Lobby() {
                 float: left;               
             }`} />
 
-            <SideNav></SideNav>
+            <SideNav />
 
             <div className="main"
                 css={{
@@ -44,18 +36,16 @@ export default function Lobby() {
                             fontSize: '40px',
                             marginTop: '30px',
                         }}>jungle_blue</p>
-                    <BoardModal></BoardModal>
-
-
+                    <BoardModal />
                 </div>
-                <Cards></Cards>
+                <Cards />
             </div>
             <div className="footer" css={{
                 bottom: '0px',
                 right: '0px',
                 position: 'fixed',
             }}>
-                <img className="chat" src={chat} alt="chat" onClick={cli} css={{
+                <img className="chat" src={chat} alt="chat" css={{
                     width: '70px',
                     height: '70px',
                     float: 'left',

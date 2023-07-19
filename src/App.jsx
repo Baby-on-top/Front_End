@@ -1,6 +1,6 @@
-import React from 'react';
 import Lobby from './components/lobby/Lobby'
-
+import { useNavigate } from 'react-router-dom';
+import { cookies } from 'react-cookie';
 
 export default function App() {
   return (

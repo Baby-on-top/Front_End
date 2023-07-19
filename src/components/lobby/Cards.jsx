@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
@@ -10,9 +9,7 @@ export default function Cards() {
 
   const fetchData = async () => {
     const response = await axios.get(SERVER_URL)
-    console.log(response)
     setBoardList(response.data.data);
-
   };
   useEffect(() => {
     fetchData();

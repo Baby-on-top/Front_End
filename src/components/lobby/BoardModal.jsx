@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import axios from 'axios';
 /** @jsxImportSource @emotion/react */
 
 export default function BoardModal() {

@@ -1,8 +1,5 @@
-import React, { Component } from 'react';
 import muji from '../../images/muji.jpg';
 /** @jsxImportSource @emotion/react */
-
-
 
 export default function SideNav() {
     return (
@@ -57,5 +54,5 @@ export default function SideNav() {
             <p>정글 2기</p>
             </div>
         </div>
-     );
+    );
 }
