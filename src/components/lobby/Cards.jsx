@@ -1,8 +1,7 @@
-import '../../App.css';
 import React, { Component } from 'react';
 import axios from 'axios';
-import muji from '../../images/muji.jpg';
 import { useEffect, useState } from 'react';
+/** @jsxImportSource @emotion/react */
 
 const SERVER_URL = '/api/board?workspaceId=1'
 
@@ -23,102 +22,46 @@ export default function Cards() {
     <div className="cards">
       {boardList.map((board) => (
         <div key={board.boardId}>
-          <div className="card">
-            <div className="card-head">{board.boardName}</div>
-            <div className="card-img">{board.boardImage}</div>
-            <div className="card-footer">{board.createAt}</div>
+          <div className="card" css={{
+            width: '30%',
+            height: '300px',
+            float: 'left',
+            border: '3px solid rgb(129, 128, 128)',
+            flexDirection: 'column',
+            marginRight: '30px',
+            marginBottom: '30px',
+            borderRadius: '10px',
+          }}>
+            <div className="card-head"
+             css={{
+              height: '50px',
+              marginTop: '0px',
+              marginBottom: '0px',
+              marginLeft: '10px',
+              width: '100%',
+            }}>{board.boardName}</div>
+            <img className="card-img" src={board.boardImage} alt="img"
+             css={{
+              width: '100%',
+              height: '70%',
+              objectFit: 'contain',
+              display: 'flex',
+            }}/>
+            <div className="card-footer"
+             css={{
+              marginTop: '0px',
+              marginLeft: '10px',
+              marginRight: '0px',
+              fontSize: '10px',
+              height: '10%',
+              width: '60%',
+              display: 'inline-block',
+            }}>{board.createAt}</div>
 
           </div>
 
             </div>
           ))}
-
-          <div className="card">
-            <img className="card-img" src={muji} alt="얼굴"/>
-            <p className="card-head">막내온탑</p>
-            <p className="card-footer">최근 업데이트 3분 전</p>
-            <img className="card-main" src={muji} alt="얼굴"/>
-
-          </div>
-          <div className="card">
-            <img className="card-img" src={muji} alt="얼굴"/>
-            <p className="card-head">막내온탑</p>
-            <p className="card-footer">최근 업데이트 3분 전</p>
-
-          </div>
-          <div className="card">
-            <img className="card-img" src={muji} alt="얼굴"/>
-            <p className="card-head">막내온탑</p>
-            <p className="card-footer">최근 업데이트 3분 전</p>
-
-          </div>
-          <div className="card">
-            <img className="card-img" src={muji} alt="얼굴"/>
-            <p className="card-head">막내온탑</p>
-            <p className="card-footer">최근 업데이트 3분 전</p>
-
-          </div>
-          <div className="card">
-            <img className="card-img" src={muji} alt="얼굴"/>
-            <p className="card-head">막내온탑</p>
-            <p className="card-footer">최근 업데이트 3분 전</p>
-
-          </div>
-
-
           
         </div>);
 }
-
-
-  
-  // const { keyword } = useParams();
-  // const { boardcard } = useBoardApi();
-  // const {
-  //   isLoading,
-  //   error,
-  //   data: cards,
-  // } = useQuery()
-
-
-
-
-
-    // return (
-    //     <div className="cards">
-    //       <div className="card">
-    //         <img className="card-img" src={muji} alt="얼굴"/>
-    //         <p className="card-head">막내온탑</p>
-    //         <p className="card-footer">최근 업데이트 3분 전</p>
-    //         <img className="card-main" src={muji} alt="얼굴"/>
-
-    //       </div>
-    //       <div className="card">
-    //         <img className="card-img" src={muji} alt="얼굴"/>
-    //         <p className="card-head">막내온탑</p>
-    //         <p className="card-footer">최근 업데이트 3분 전</p>
-
-    //       </div>
-    //       <div className="card">
-    //         <img className="card-img" src={muji} alt="얼굴"/>
-    //         <p className="card-head">막내온탑</p>
-    //         <p className="card-footer">최근 업데이트 3분 전</p>
-
-    //       </div>
-    //       <div className="card">
-    //         <img className="card-img" src={muji} alt="얼굴"/>
-    //         <p className="card-head">막내온탑</p>
-    //         <p className="card-footer">최근 업데이트 3분 전</p>
-
-    //       </div>
-    //       <div className="card">
-    //         <img className="card-img" src={muji} alt="얼굴"/>
-    //         <p className="card-head">막내온탑</p>
-    //         <p className="card-footer">최근 업데이트 3분 전</p>
-
-    //       </div>
-
-
-          
-    //     </div>);
-    
