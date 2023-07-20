@@ -50,6 +50,7 @@ export default function Lobby() {
                     height: '70px',
                     float: 'left',
                     padding: '20px 30px',
+                    filter: 'drop-shadow(5px 5px 15px rgba(0,0,0,0.4))',
                 }}/>
 
             </div>
