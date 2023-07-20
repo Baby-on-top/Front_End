@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Urls } from '../utils/urls';
+import { Urls } from './urls';
 // import { useCookies } from 'react-cookie';
 
 axios.defaults.withCredentials = true;
