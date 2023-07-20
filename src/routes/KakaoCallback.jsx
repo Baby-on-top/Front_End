@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
-import { Urls } from '../utils/Urls';
-import { Http } from '../utils/Http';
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import Loading from '../components/Loading/Loading';
+import { kakaoLogin } from '../utils/apis';
 
 export default function KakaoCallback() {
     const [, setAccessToken] = useCookies(['accessToken']);
@@ -16,7 +15,7 @@ export default function KakaoCallback() {
             const code = params.get('code');
             
             try {
-                const response = await Http.get(`${Urls.LOGIN}?code=${code}`);
+                const response = await kakaoLogin(code);
 
                 const { accessToken, refreshToken } = response.data;
                 setAccessToken('accessToken', accessToken, { path: '/' });
