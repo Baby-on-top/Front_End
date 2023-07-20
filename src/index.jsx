@@ -6,6 +6,7 @@ import Login from './routes/Login';
 import KakaoCallback from './routes/KakaoCallback';
 import ErrorPage from './routes/ErrorPage';
 import NotFoundErrorPage from './routes/NotFoundErrorPage';
+import Board from './components/board/Board';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
   {
     path: '/kakao-redirect',
     element: <KakaoCallback />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/board',
+    element: <Board />,
     errorElement: <ErrorPage />,
   },
   {
