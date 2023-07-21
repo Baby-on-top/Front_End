@@ -1,7 +1,15 @@
-import muji from '../../images/muji.jpg';
 /** @jsxImportSource @emotion/react */
+import muji from '../../images/muji.jpg';
+import { kakaoUnlink } from '../../utils/apis';
+import { useCookies } from 'react-cookie';
+import {useNavigate} from 'react-router-dom';
 
 export default function SideNav() {
+    const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
+    const REDIRECT_LOGOUT_URI = process.env.REACT_APP_LOGOUT_REDIRECT_URI;
+    const logoutLink = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${REDIRECT_LOGOUT_URI}`
+    const [cookies] = useCookies(['cookies']);
+    const navigate = useNavigate();
     return (
         <div className="side-nav"
          css={{
@@ -25,12 +33,69 @@ export default function SideNav() {
                 height: '100px',
                 float: 'left',
             }}/>
-            <h1 className="name"
+            <div css={{
+                flex:1,
+                flexDirection:'row',
+                height:'100px',
+                justifyContent:'center',
+                alignItems:'center',
+            }}>
+            
+            <div className="name"
              css={{
-                float: 'right',
-                marginTop: '25px',
-                marginRight: '50px',
-            }}>보드</h1>
+                fontSize: '30px',
+                paddingLeft:'150px',
+                paddingTop:'10px',
+            
+            }}>보드</div>
+            <div css={{paddingLeft:'135px'}}>
+             <button 
+                onClick={()=>{
+                    window.location.href = logoutLink;
+                }}
+                css={{
+                    flex:1,
+                    height: '30px',
+                    marginTop: '5px',
+                    marginRight: '5px',
+                    color: 'white',
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                    paddingLeft: '15px',
+                    paddingRight: '15px',
+                    backgroundColor: 'green',
+                    border: 'none',
+                    borderRadius: '10px',
+                }}>
+                    +
+                </button>
+
+                <button 
+                onClick={ async ()=> {
+                    const response = await kakaoUnlink(cookies);
+                    if(response.status == 200){
+                        navigate('/login');
+                    }
+                }
+                }
+                css={{
+                    flex:1,
+                    height: '30px',
+                    marginTop: '5px',
+                    marginRight: '5px',
+                    color: 'white',
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                    paddingLeft: '15px',
+                    paddingRight: '15px',
+                    backgroundColor: 'red',
+                    border: 'none',
+                    borderRadius: '10px',
+                }}>
+                    x
+                </button>
+                </div>
+            </div>
             </div>
 
             <div className="side-nav-mid">
