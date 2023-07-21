@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
+import { useEffect, useState } from 'react';
 import muji from '../../images/muji.jpg';
-import { kakaoUnlink } from '../../utils/apis';
+import { kakaoUnlink,kakaoInfo } from '../../utils/apis';
 import { useCookies } from 'react-cookie';
 import {useNavigate} from 'react-router-dom';
 
@@ -9,7 +10,20 @@ export default function SideNav() {
     const REDIRECT_LOGOUT_URI = process.env.REACT_APP_LOGOUT_REDIRECT_URI;
     const logoutLink = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${REDIRECT_LOGOUT_URI}`
     const [cookies] = useCookies(['cookies']);
+    const [profile,setProfile] = useState();
+    const [name , setName] = useState();
     const navigate = useNavigate();
+    async function getUserInfo(){
+        const response = await kakaoInfo(cookies);
+        setName(response.data.data.name);
+        setProfile(response.data.data.profile);
+        console.log(profile);
+    }
+
+    useEffect(()=>{
+       getUserInfo();
+    },[cookies])
+
     return (
         <div className="side-nav"
          css={{
@@ -27,7 +41,7 @@ export default function SideNav() {
                 borderBottom: '1px solid black',
             }}>
 
-            <img className="muji" src={muji} alt="얼굴"
+            <img className="muji" src={profile ?? muji} alt="얼굴"
              css={{
                 width: '100px',
                 height: '100px',
@@ -47,7 +61,7 @@ export default function SideNav() {
                 paddingLeft:'150px',
                 paddingTop:'10px',
             
-            }}>보드</div>
+            }}>{name}</div>
             <div css={{paddingLeft:'135px'}}>
              <button 
                 onClick={()=>{

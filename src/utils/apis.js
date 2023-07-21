@@ -36,3 +36,16 @@ export async function kakaoUnlink(cookie){
         console.error(e);
     }
 }
+export async function kakaoInfo(cookie){
+    const SERVER_URL = '/api/member/info';
+    try{
+        const response = await axios.get(SERVER_URL,
+        {
+            headers: {Token: cookie.accessToken},
+        }
+    )
+    return response;
+    }catch(e){
+        console.error(e);
+    }
+}
