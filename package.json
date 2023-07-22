@@ -2,7 +2,7 @@
   "name": "lignin",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://ec2-3-35-208-69.ap-northeast-2.compute.amazonaws.com",
+  "proxy": "http://ec2-13-124-159-172.ap-northeast-2.compute.amazonaws.com",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@react-hook/throttle": "^2.2.0",
@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@tldraw/core": "^1.23.2",
     "@tldraw/tldraw": "^1.29.2",
     "axios": "^1.4.0",
     "randomcolor": "^0.6.2",
@@ -20,6 +21,7 @@
     "react-scripts": "5.0.1",
     "recoil": "^0.7.7",
     "unique-names-generator": "^4.7.1",
+    "yorkie": "^2.0.0",
     "yorkie-js-sdk": "^0.4.5"
   },
   "scripts": {

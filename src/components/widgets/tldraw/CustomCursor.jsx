@@ -1,3 +1,6 @@
+import React from 'react'
+import { CursorComponent } from '@tldraw/core';
+
 // A custom cursor component.
 // Component overrides for the tldraw renderer
 const CustomCursor = ({

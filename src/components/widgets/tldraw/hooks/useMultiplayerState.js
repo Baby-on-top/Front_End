@@ -15,11 +15,6 @@ export function useMultiplayerState(roomId) {
   const [app, setApp] = useState();
   const [loading, setLoading] = useState(true);
 
-  client = new yorkie.Client(process.env.REACT_APP_YORKIE_API_ADDR, {
-    apiKey: process.env.REACT_APP_YORKIE_API_KEY,
-  });
-  doc = new yorkie.Document(roomId);
-
   // Callbacks --------------
 
   const onMount = useCallback(
