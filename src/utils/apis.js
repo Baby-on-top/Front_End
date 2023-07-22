@@ -1,11 +1,9 @@
 import axios from 'axios';
 import { Urls } from './urls';
-// import { useCookies } from 'react-cookie';
-
 axios.defaults.withCredentials = true;
-// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+//axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-// function getCookies() {
+// export function getCookies() {
 //     const [cookies] = useCookies(['cookies']);
 //     return cookies;
 // }
@@ -19,6 +17,22 @@ export async function kakaoLogin(code) {
         }
         return response.data;
     } catch (e) {
+        console.error(e);
+    }
+}
+export async function kakaoUnlink(cookie){
+
+    const SERVER_URL = '/api/member/unlink';
+  
+
+    try{
+        const response = await axios.get(SERVER_URL,
+        {
+            headers: {Token: cookie.accessToken},
+        }
+    )
+    return response;
+    }catch(e){
         console.error(e);
     }
 }
