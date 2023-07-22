@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
+import './components/widgets/note.css';
 import App from './App';
 import Login from './routes/Login';
 import KakaoCallback from './routes/KakaoCallback';
