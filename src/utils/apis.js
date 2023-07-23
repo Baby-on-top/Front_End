@@ -20,6 +20,7 @@ export async function kakaoLogin(code) {
         console.error(e);
     }
 }
+
 export async function kakaoUnlink(cookie){
 
     const SERVER_URL = '/api/member/unlink';
@@ -47,5 +48,21 @@ export async function kakaoInfo(cookie){
     return response;
     }catch(e){
         console.error(e);
+    }
+}
+
+
+export async function inviteWorkspace(accessToken, workspaceId){
+    const SERVER_URL = '/api/workspace/invite';
+    try{
+        const response = await axios.get(SERVER_URL,
+        {
+            headers: {Token: accessToken},
+            params: {workspaceId : workspaceId},
+        }
+    )
+    return response;
+    }catch(e){
+        console.error("fail : "+ e);
     }
 }
