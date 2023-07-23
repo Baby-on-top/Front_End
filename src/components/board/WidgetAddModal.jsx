@@ -4,52 +4,54 @@ import ModalHeader from "./ModalHeader";
 
 export default function WidgetAddModal() {
     const WidgetBox = styled.div`
-        padding: 64px 30px;
+        width: 200px;
+        height: 175px;
+        line-height : 175px;  // 가운데 정렬
         text-align: center;
         background-color: #D9D9D9;
+        font-size: 18px;
     `;
 
     return (
         <div id="modalWrap"
             css={{
+                backgroundColor: 'rgba(0,0,0,0.4)', /* Black w/ opacity */
+                overflow: 'auto',    /* Enable scroll if needed */
                 position: 'fixed', 
-                zIndex: 1,           /* Sit on top */
-                paddingTop: '13vh', /* Location of the box */
                 left: 0,
                 top: 0,
                 width: '100%',
                 height: '100%',
-                overflow: 'auto',    /* Enable scroll if needed */
-                backgroundColor: 'rgba(0,0,0,0.4)', /* Black w/ opacity */
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '15px',
             }}
         >
             <div id="modalBody"
                 css={{
-                    width: '60%',
-                    height: '65vh',
-                    padding: '20px 40px ',
+                    width: '100%',
+                    maxWidth: '800px',
+                    padding: '15px 40px 35px',
                     margin: '0 auto',
                     border: '1px solid #777',
                     backgroundColor: '#fff',
-                    borderRadius: '15px',
+                    borderRadius: '16px',
                 }}
             >
-                <div id="modalContents" css={{height: '100%'}}>
+                <div id="modalContents">
                     <ModalHeader />
                     <div css={{
                         paddingTop: 20, 
                         display: 'grid', 
-                        gridTemplateColumns: '1fr 1fr 1fr',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
                         rowGap: 30,
                         columnGap: 50,
-                        height: '50vh',
+                        justifyContent: 'center',
                     }}>
-                        <WidgetBox >캘린더</WidgetBox>
-                        <WidgetBox>노트</WidgetBox>
-                        <WidgetBox>그림판</WidgetBox>
-                        <WidgetBox>포스트잇</WidgetBox>
-                        <WidgetBox>스티커</WidgetBox>
-                        <WidgetBox>뽀모도로</WidgetBox>
+                        <WidgetBox>캘린더 🗓️</WidgetBox>
+                        <WidgetBox>노트 📒</WidgetBox>
+                        <WidgetBox>그림판 🎨</WidgetBox>
                     </div>
                 </div>
             </div>

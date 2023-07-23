@@ -11,7 +11,7 @@ export default function ModalHeader() {
                 textAlign: 'right',
                 float: 'right',
                 color: '#777',
-                fontSize: '30px',
+                fontSize: '26px',
                 cursor: 'pointer',
             }}
         >
