@@ -73,7 +73,7 @@ export default function SideNav() {
                 <button 
                 onClick={ async ()=> {
                     const response = await kakaoUnlink(cookies);
-                    if(response.status == 200){
+                    if(response.status === 200){
                         navigate('/login');
                     }
                 }
