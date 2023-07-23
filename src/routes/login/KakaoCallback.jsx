@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import Loading from '../components/Loading/Loading';
-import { kakaoLogin } from '../utils/apis';
+import Loading from '../../components/Loading/Loading';
+import { kakaoLogin } from '../../utils/apis';
 
 export default function KakaoCallback() {
     const [, setAccessToken] = useCookies(['accessToken']);
