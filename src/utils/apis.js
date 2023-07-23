@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Urls } from './urls';
 axios.defaults.withCredentials = true;
-//axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // export function getCookies() {
 //     const [cookies] = useCookies(['cookies']);
