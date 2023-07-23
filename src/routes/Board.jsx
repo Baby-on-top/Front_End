@@ -2,7 +2,10 @@ import React from "react";
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
+
 import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
+// import Note from "../components/widgets/note/Note";
+// import Note2 from "../components/widgets/note/Note2";
 
 export default function Board() {
     const navigate = useNavigate();
@@ -25,6 +28,8 @@ export default function Board() {
     return (
         <div>
             <YorkieTldrawEditor />
+            {/* <Note /> */}
+            {/* <Note2 /> */}
         </div>
     )
 }

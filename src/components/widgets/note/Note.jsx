@@ -1,4 +1,5 @@
 import * as Y from 'yjs'
+import './note.css';
 import { WebsocketProvider } from 'y-websocket'
 import { ySyncPlugin, yCursorPlugin, yUndoPlugin, undo, redo } from 'y-prosemirror'
 import { EditorState } from 'prosemirror-state'

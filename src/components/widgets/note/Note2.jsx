@@ -3,6 +3,7 @@ import { WebrtcProvider } from 'y-webrtc'
 import { QuillBinding } from './y-quill'
 import Quill from 'quill'
 import QuillCursors from 'quill-cursors'
+import './note.css';
 
 export default function Note2() {
     Quill.register('modules/cursors', QuillCursors)
