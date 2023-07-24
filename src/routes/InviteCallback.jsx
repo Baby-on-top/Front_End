@@ -12,13 +12,12 @@ export default function InviteCallback() {
     
     async function invite(){
         const response = await inviteWorkspace(cookie.accessToken,cookie.inviteWorkspaceId);
-        if(response.status == 200){
+        if(response.status === 200){
             navigate('/');
         }
     }
-
     useEffect(()=>{
-        if(cookie.accessToken == undefined){
+        if(cookie.accessToken === undefined){
             navigate('/login');
         }else{
             invite();

@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import Loading from '../components/Loading/Loading';
-import { kakaoLogin } from '../utils/apis';
-import { inviteWorkspace } from '../utils/apis';
+import Loading from '../../components/Loading/Loading';
+import { kakaoLogin, inviteWorkspace } from '../../utils/apis';
 
 export default function KakaoCallback() {
     const [, setAccessToken] = useCookies(['accessToken']);
@@ -23,7 +22,7 @@ export default function KakaoCallback() {
                 setAccessToken('accessToken', accessToken, { path: '/' });
                 setRefreshToken('refreshToken', refreshToken, { path: '/' });
                 
-                if(cookie.inviteWorkspaceId != undefined){
+                if(cookie.inviteWorkspaceId !== undefined){
                     const response = await inviteWorkspace(accessToken,cookie.inviteWorkspaceId);
                 }
                 

@@ -14,7 +14,8 @@ export default function SideNav() {
     const [profile,setProfile] = useState();
     const [name , setName] = useState();
     const navigate = useNavigate();
-    async function getUserInfo(){
+
+    async function getUserInfo() {
         const response = await kakaoInfo(cookies);
         setName(response.data.data.name);
         setProfile(response.data.data.profile);
@@ -88,7 +89,7 @@ export default function SideNav() {
                 <button 
                 onClick={ async ()=> {
                     const response = await kakaoUnlink(cookies);
-                    if(response.status == 200){
+                    if(response.status === 200){
                         navigate('/login');
                     }
                 }

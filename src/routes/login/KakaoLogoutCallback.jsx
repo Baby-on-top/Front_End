@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import Loading from '../components/Loading/Loading';
 import { useEffect } from 'react';
+import Loading from '../../components/Loading/Loading';
 
 
 export default function KakaoLogoutCallback() {

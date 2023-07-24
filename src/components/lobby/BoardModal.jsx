@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { useCookies } from 'react-cookie';
 import { boardCreate } from '../../utils/apis';
 
@@ -24,8 +24,6 @@ export default function BoardModal() {
 
     }
     fetchData();
-
-
   }
 
   // 모달 시작

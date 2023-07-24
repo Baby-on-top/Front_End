@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import React, { useRef, useState } from "react";
-import axios from 'axios';
 
 export default function WorkSpaceModal() {
 

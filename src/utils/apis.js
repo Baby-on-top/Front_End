@@ -21,10 +21,7 @@ export async function kakaoLogin(code) {
     }
 }
 export async function kakaoUnlink(cookie) {
-
     const SERVER_URL = '/api/member/unlink';
-
-
     try {
         const response = await axios.get(SERVER_URL,
             {
@@ -84,13 +81,13 @@ export async function inviteWorkspace(accessToken, workspaceId){
     const SERVER_URL = '/api/workspace/invite';
     try{
         const response = await axios.get(SERVER_URL,
-        {
-            headers: {Token: accessToken},
-            params: {workspaceId : workspaceId},
-        }
-    )
-    return response;
-    }catch(e){
+            {
+                headers: {Token: accessToken},
+                params: {workspaceId : workspaceId},
+            }
+        )
+        return response;
+    } catch(e) {
         console.error("fail : "+ e);
     }
 }
