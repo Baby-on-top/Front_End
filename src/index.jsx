@@ -10,6 +10,8 @@ import Board from './components/board/Board';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { CookiesProvider } from 'react-cookie';
+import InviteCallback from './routes/InviteCallback';
+import KakaoLogoutCallback from './routes/KakaoLogoutCallback';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,17 @@ const router = createBrowserRouter([
   {
     path: '/kakao-redirect',
     element: <KakaoCallback />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/kakao-logout',
+    element: <KakaoLogoutCallback />,
+    errorElement: <ErrorPage />,
+  },
+
+  {
+    path: '/invite-check',
+    element: <InviteCallback />,
     errorElement: <ErrorPage />,
   },
   {

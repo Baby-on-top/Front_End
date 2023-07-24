@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Urls } from './urls';
 axios.defaults.withCredentials = true;
-//axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // export function getCookies() {
 //     const [cookies] = useCookies(['cookies']);
@@ -76,5 +76,21 @@ export async function boardCreate(cookie, image, workspaceId, boardName, boardIm
         return response.data;
     } catch (e) {
         console.error(e);
+    }
+}
+
+
+export async function inviteWorkspace(accessToken, workspaceId){
+    const SERVER_URL = '/api/workspace/invite';
+    try{
+        const response = await axios.get(SERVER_URL,
+        {
+            headers: {Token: accessToken},
+            params: {workspaceId : workspaceId},
+        }
+    )
+    return response;
+    }catch(e){
+        console.error("fail : "+ e);
     }
 }
