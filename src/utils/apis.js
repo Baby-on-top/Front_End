@@ -91,3 +91,24 @@ export async function inviteWorkspace(accessToken, workspaceId){
         console.error("fail : "+ e);
     }
 }
+
+export async function inviteUrlCreate(workspaceId){
+    const SERVER_INVITE_URL = '/api/workspace/invite/'
+    const SERVER_URL = '/url';
+    var tDate = new Date();
+    tDate.setMinutes(tDate.getMinutes()+5);
+    try{
+        const response = await axios.post(SERVER_URL,
+            {
+            
+                    longUrl : SERVER_INVITE_URL+workspaceId,
+                    expiresDate: tDate
+                
+            }
+        )
+        return response;
+    } catch(e) {
+        console.error("fail : "+ e);
+    }
+
+}
