@@ -6,7 +6,10 @@ import history from '../../assets/history.png';
 
 export default function BoardHeader() {
   return (
-     <div>
+     <div css={{
+        position: 'fixed',
+        width: '100%',
+     }}>
         <div css={{
             display: 'flex',
             alignItems: 'center',
@@ -15,10 +18,10 @@ export default function BoardHeader() {
             left: '50%',
             transform: 'translateX(-50%)',
         }}>
-            <div css={{fontSize: 24, color: '#9A9999'}}>
+            <div css={{fontSize: 24, fontWeight: 500, color: '#9A9999'}}>
                 Jungle_Blue&nbsp;&nbsp;/
             </div>
-            <div css={{fontSize: 24}}>
+            <div css={{fontSize: 24, fontWeight: 500}}>
                 &nbsp;&nbsp;막내온탑
             </div>
         </div>

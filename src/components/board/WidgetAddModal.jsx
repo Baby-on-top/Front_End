@@ -14,10 +14,11 @@ export default function WidgetAddModal() {
         background-color: #D9D9D9;
         font-size: 18px;
         border-radius: 6px;
+        cursor: pointer;
     `;
 
     return (
-        <div id="modalWrap"
+        <div id="modal-wrap"
             css={{
                 backgroundColor: 'rgba(0,0,0,0.4)', /* Black w/ opacity */
                 overflow: 'auto',    /* Enable scroll if needed */
@@ -32,7 +33,7 @@ export default function WidgetAddModal() {
                 padding: '15px',
             }}
         >
-            <div id="modalBody"
+            <div id="modal-body"
                 css={{
                     width: '100%',
                     maxWidth: '800px',
@@ -44,7 +45,7 @@ export default function WidgetAddModal() {
                     borderRadius: '16px',
                 }}
             >
-                <div id="modalContents">
+                <div id="modal-contents">
                     <ModalHeader />
                     <div css={{
                         paddingTop: 20, 

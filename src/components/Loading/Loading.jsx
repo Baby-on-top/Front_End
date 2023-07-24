@@ -16,7 +16,7 @@ export default function Loading() {
             alignItems: 'center',
             flexDirection: 'column',
             // background: 'linear-gradient(180deg, #00AB59 0%, #008000 100%)',
-            background: 'white',
+            backgroundColor: 'transparent',
             overflow: 'hidden',
         }}  
     >
@@ -25,9 +25,9 @@ export default function Loading() {
           style={{ rotate }} 
           css={{
             background: '#00AB59',
-            borderRadius: '30px',
-            width: '150px',
-            height: '150px',
+            borderRadius: '10px',
+            width: '110px',
+            height: '110px',
           }} 
           />
       </div>

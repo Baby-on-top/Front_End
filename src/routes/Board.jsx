@@ -2,14 +2,16 @@
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
-import { atom, useRecoilState } from "recoil";
+import { atom } from "recoil";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from '../components/board/BoardHeader';
+import WidgetNav from '../components/board/WidgetNav';
 
 // import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
 // import Note from "../components/widgets/note/Note";
 // import Note2 from "../components/widgets/note/Note2";
 
+/// 위젯 추가 모달 상태 atom으로 board 전역에서 관리
 export const showModalState = atom({
     key: 'showModalState',  
     default: false,      
@@ -18,7 +20,6 @@ export const showModalState = atom({
 export default function Board() {
     const navigate = useNavigate();
     const [cookie] = useCookies(['cookie']);
-    const [showModal, setShowModal] = useRecoilState(showModalState);
     
     // 페이지에 들어올때 쿠키로 사용자 체크
     const loginCheck = () => {
@@ -35,11 +36,12 @@ export default function Board() {
     });
 
     return (
-        <>
+        <div>
             {/* <YorkieTldrawEditor /> */}
             {/* <Note /> */}
             {/* <Note2 /> */}
             <BoardHeader />
+            <WidgetNav />
 
             <div css={{
                 width: '100%',
@@ -50,10 +52,9 @@ export default function Board() {
                 alignItems: 'center',
             }}>
                 <div css={{marginBottom: 20}}> Board </div>
-                <button css={{width: '5%'}} onClick={() => setShowModal(!showModal)}> + </button>
 
                 <WidgetAddModal />
             </div>
-        </>
+        </div>
     )
 }
