@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
 import { atom, useRecoilState } from "recoil";
 import WidgetAddModal from "../components/board/WidgetAddModal";
+import BoardHeader from '../components/board/BoardHeader';
 
 // import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
 // import Note from "../components/widgets/note/Note";
@@ -38,6 +39,8 @@ export default function Board() {
             {/* <YorkieTldrawEditor /> */}
             {/* <Note /> */}
             {/* <Note2 /> */}
+            <BoardHeader />
+
             <div css={{
                 width: '100%',
                 height: '100vh',
