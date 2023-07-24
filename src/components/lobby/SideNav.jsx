@@ -4,6 +4,7 @@ import muji from '../../images/muji.jpg';
 import { kakaoUnlink,kakaoInfo } from '../../utils/apis';
 import { useCookies } from 'react-cookie';
 import {useNavigate} from 'react-router-dom';
+import WorkSpaceModal from './WorkSpaceModal';
 
 export default function SideNav() {
     const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
@@ -131,6 +132,7 @@ export default function SideNav() {
             <p>pintos_study</p>
             <p>프론트엔드 스터디</p>
             <p>정글 2기</p>
+            <WorkSpaceModal />
             </div>
         </div>
     );

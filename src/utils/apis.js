@@ -20,32 +20,61 @@ export async function kakaoLogin(code) {
         console.error(e);
     }
 }
-export async function kakaoUnlink(cookie){
+export async function kakaoUnlink(cookie) {
 
     const SERVER_URL = '/api/member/unlink';
-  
 
-    try{
+
+    try {
         const response = await axios.get(SERVER_URL,
-        {
-            headers: {Token: cookie.accessToken},
-        }
-    )
-    return response;
-    }catch(e){
+            {
+                headers: { Token: cookie.accessToken },
+            }
+        )
+        return response;
+    } catch (e) {
         console.error(e);
     }
 }
-export async function kakaoInfo(cookie){
+export async function kakaoInfo(cookie) {
     const SERVER_URL = '/api/member/info';
-    try{
+    try {
         const response = await axios.get(SERVER_URL,
-        {
-            headers: {Token: cookie.accessToken},
-        }
-    )
-    return response;
-    }catch(e){
+            {
+                headers: { Token: cookie.accessToken },
+            }
+        )
+        return response;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+export async function boardCreate(cookie, image, workspaceId, boardName, boardImage) {
+    const url = '/api/board';
+    const header = {
+        Token: cookie.accessToken,
+        "Content-Type": "multipart/form-data",
+    }
+    const info = {
+        'workspaceId': workspaceId,
+        'boardName': boardName,
+        'boardImage': boardImage,
+    }
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(info)], { type: "application/json" })
+    formData.append('file', image);
+    formData.append("info", blob);
+
+    try {
+        const response = await axios({
+            method: "POST",
+            url: url,
+            headers: header,
+            data: formData,
+        })
+        return response.data;
+    } catch (e) {
         console.error(e);
     }
 }
