@@ -1,8 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled'
 import ModalHeader from "./ModalHeader";
+import { useRecoilValue } from "recoil";
+import { showModalState } from "../../routes/Board";
 
 export default function WidgetAddModal() {
+    const modal = useRecoilValue(showModalState);
     const WidgetBox = styled.div`
         width: 200px;
         height: 175px;
@@ -10,6 +13,7 @@ export default function WidgetAddModal() {
         text-align: center;
         background-color: #D9D9D9;
         font-size: 18px;
+        border-radius: 6px;
     `;
 
     return (
@@ -22,7 +26,7 @@ export default function WidgetAddModal() {
                 top: 0,
                 width: '100%',
                 height: '100%',
-                display: 'flex',
+                display: modal ? 'flex' : 'none',
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: '15px',
@@ -35,6 +39,7 @@ export default function WidgetAddModal() {
                     padding: '15px 40px 35px',
                     margin: '0 auto',
                     border: '1px solid #777',
+                    boxShadow: '0 8px 32px 0 rgba(0,0,0,0.25)',
                     backgroundColor: '#fff',
                     borderRadius: '16px',
                 }}

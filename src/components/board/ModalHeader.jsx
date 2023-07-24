@@ -1,6 +1,9 @@
 /** @jsxImportSource @emotion/react */
+import { useRecoilState } from "recoil";
+import { showModalState } from "../../routes/Board";
 
 export default function ModalHeader() {
+  const [showModal, setShowModal] = useRecoilState(showModalState);
   return (
     <div css={{display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
         <p css={{fontSize: 20, fontWeight: 500}}>Widget</p> 
@@ -14,6 +17,7 @@ export default function ModalHeader() {
                 fontSize: '26px',
                 cursor: 'pointer',
             }}
+            onClick={() => setShowModal(!showModal)}
         >
           &times;
         </span>
