@@ -16,14 +16,13 @@ export default function Cards() {
         headers: { Token: cookie.accessToken }
       }
     )
-
     console.log(response);
     setBoardList(response.data.data);
   };
 
   useEffect(() => {
     fetchData();
-  });
+  },[]);
 
   return (
     <div className="cards">
