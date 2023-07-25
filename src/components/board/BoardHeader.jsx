@@ -9,6 +9,10 @@ export default function BoardHeader() {
      <div css={{
         position: 'fixed',
         width: '100%',
+        overflow: 'hidden',
+        backgroundColor: 'white',
+        paddingBottom: 24,
+        zIndex: 1,
      }}>
         <div css={{
             display: 'flex',
