@@ -7,6 +7,7 @@ import WidgetAddModal from "../components/board/WidgetAddModal";
 // import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
 // import Note from "../components/widgets/note/Note";
 // import Note2 from "../components/widgets/note/Note2";
+import Note3 from "../widgets/note/Note3";
 
 export default function Board() {
     const navigate = useNavigate();
@@ -38,11 +39,12 @@ export default function Board() {
             <div css={{marginBottom: 20}}> Board </div>
             <button css={{width: '5%'}}> + </button>
 
-            <WidgetAddModal />
+            {/* <WidgetAddModal /> */}
 
             {/* <YorkieTldrawEditor /> */}
             {/* <Note /> */}
             {/* <Note2 /> */}
+            <Note3 />
         </div>
     )
 }
