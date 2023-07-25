@@ -17,6 +17,11 @@ export const showModalState = atom({
     default: false,      
 });                              
 
+export const showNavState = atom({
+    key: 'showNavState',  
+    default: true,      
+});
+
 export default function Board() {
     const navigate = useNavigate();
     const [cookie] = useCookies(['cookie']);

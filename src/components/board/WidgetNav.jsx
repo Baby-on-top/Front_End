@@ -2,34 +2,62 @@
 import styled from '@emotion/styled'
 import plus_green from '../../assets/plus_green.png';
 import arrow_left from '../../assets/arrow_left.png';
+import arrow_right from '../../assets/arrow_right.png';
 import { colors } from '../../utils/colors';
 
 import { useRecoilState } from "recoil";
 import { showModalState } from "../../routes/Board";
+import { showNavState } from "../../routes/Board";
 
+const SpreadNavWrapper = styled.div`
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.2);
+    @media (max-width: 800px) {
+        display: none;
+    }
+`;
+const FoldNavWrapper = styled.div`
+    position: fixed;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.2);
+    border-radius: 45px;
+    padding: 6px 4px;
+`;
+const WidgetListItem = styled.div`
+    margin: 2px 0px;
+    padding: 8px 16px;
+    font-size: 16px;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+        background-color: ${colors.overlay_grey};
+    }
+`;
+
+/// main
 export default function WidgetNav() {
     const [showModal, setShowModal] = useRecoilState(showModalState);
-    const WidgetListItem = styled.div`
-        margin: 2px 0px;
-        padding: 8px 16px;
-        font-size: 16px;
-        align-items: center;
-        cursor: pointer;
-        &:hover {
-            background-color: ${colors.overlay_grey};
-        }
-    `;
+    const [showNav, setShowNav] = useRecoilState(showNavState);
+
+    if (showNav) {
+        return WidgetNavSpread(showModal, setShowModal, showNav, setShowNav);
+    } else {
+        return WidgetNavFold(showModal, setShowModal, showNav, setShowNav);
+    }
+}
+
+/// nav 펼침
+export function WidgetNavSpread(showModal, setShowModal, showNav, setShowNav) 
+{   
     return (
-        <div id='widget-nav-wrap'
-            css={{
-                position: 'fixed',
-                left: 20,
-                top: '50%',
-                transform: 'translateY(-50%)',
-                borderRadius: '6px',
-                boxShadow: '0px 0px 8px 2px rgba(0,0,0,0.2)',
-            }}
-        >
+        <SpreadNavWrapper>
             <div id='widget-nav-header' 
                 css={{
                     display: 'flex', 
@@ -58,16 +86,19 @@ export default function WidgetNav() {
                     >
                         <img src={plus_green} alt='plus_green' css={{width: 24, height: 24}} />
                     </div>
-                    <div css={{
-                        width: 33, 
-                        height: 33, 
-                        textAlign: 'center', 
-                        padding: 6, 
-                        borderRadius: '50%',
-                        cursor: 'pointer', 
-                        ":hover": {backgroundColor: colors.overlay_grey}, 
-                        marginLeft: 4
-                    }}>
+                    <div 
+                        onClick={() => setShowNav(!showNav)}
+                        css={{
+                            width: 33, 
+                            height: 33, 
+                            textAlign: 'center', 
+                            padding: 6, 
+                            borderRadius: '50%',
+                            cursor: 'pointer', 
+                            ":hover": {backgroundColor: colors.overlay_grey}, 
+                            marginLeft: 4
+                        }}
+                    >
                         <img src={arrow_left} alt='arrow_left' css={{width: 16, height: 16 }} />
                     </div>
                 </div>
@@ -92,14 +123,42 @@ export default function WidgetNav() {
                 {/* <WidgetListItem>untitled4</WidgetListItem>
                 <WidgetListItem>untitled5</WidgetListItem> */}
             </div>
-        </div>
+        </SpreadNavWrapper>
     )
 }
 
-/// nav 펼침
-function WidgetNavSpreadOut() {
-    
+/// nav 접음
+export function WidgetNavFold(showModal, setShowModal, showNav, setShowNav) {
+    return (
+        <FoldNavWrapper>
+            <div 
+                onClick={() => setShowModal(!showModal)} 
+                css={{
+                    width: 36, 
+                    height: 36, 
+                    textAlign: 'center', 
+                    borderRadius: '50%',
+                    padding: 6, 
+                    cursor: 'pointer', 
+                    ":hover": {backgroundColor: colors.overlay_grey}, 
+                }}
+            >
+                <img src={plus_green} alt='plus_green' css={{width: 24, height: 24}} />
+            </div>
+            <div 
+                onClick={() => setShowNav(!showNav)}
+                css={{
+                    width: 36, 
+                    height: 36, 
+                    textAlign: 'center', 
+                    padding: 4, 
+                    borderRadius: '50%',
+                    cursor: 'pointer', 
+                    ":hover": {backgroundColor: colors.overlay_grey}, 
+                }}
+            >
+                <img src={arrow_right} alt='arrow_right' css={{width: 28, height: 28 }} />
+            </div>
+        </FoldNavWrapper>
+    )
 }
-
-/// nav 접기
-
