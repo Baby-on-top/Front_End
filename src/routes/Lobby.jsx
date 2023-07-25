@@ -2,7 +2,7 @@
 import SideNav from '../components/lobby/SideNav';
 import Cards from '../components/lobby/Cards';
 import BoardModal from '../components/lobby/BoardModal'
-import chat from '../images/chat.png';
+import chat from '../assets/chat.png';
 
 import { Global, css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';

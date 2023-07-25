@@ -1,4 +1,8 @@
 /** @jsxImportSource @emotion/react */
+import { useRef } from "react";
+import { useInView } from "framer-motion";
+import { colors } from '../../utils/colors';
+import IntroduceWidgetTabView from "../../components/login/IntroduceWidgetTabView";
 
 export default function Login() {
     const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
@@ -9,34 +13,75 @@ export default function Login() {
       window.location.href = link;
     };
 
-    return (
-      <div css={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}>
-        <div css={{
-          fontSize: '80px',
-          fontWeight: 'bold',
-        }}> 
-          리그닌 
-        </div>
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true });
 
-        <div 
-          onClick={loginHandler}
+    return (
+      <div>
+        <section ref={ref} 
           css={{
-            display: 'block',
-            marginTop: '100px',
-            width: '300px',
-            height: '73px',
-            cursor: 'pointer',
-            ":hover": {color: 'grey', opacity: 0.7}
-          }}
+            boxSizing: 'border-box',
+            width: '100%',
+            height: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            overflow: 'hidden',
+            padding: '50px',
+            background: colors.main_green,
+          }}  
         >
-          <img src={process.env.PUBLIC_URL + '/assets/kakao_login.png'} alt="login" />
-        </div>
+          <span css={{
+              transform: isInView ? "none" : "translateX(-200px)",
+              opacity: isInView ? 1 : 0,
+              transition: "all 1.5s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+              fontSize: 64,
+              color: 'white',
+              fontWeight: 700,
+              letterSpacing: '2px',
+          }}>
+            Lignin
+          </span>
+
+          <span css={{
+              transform: isInView ? "none" : "translateX(-200px)",
+              opacity: isInView ? 1 : 0,
+              transition: "all 1.5s cubic-bezier(0.17, 0.55, 0.55, 1) 1.5s",
+              fontSize: 24,
+              color: 'white',
+              fontWeight: 500,
+              marginTop: '12px',
+              marginBottom: '24px',
+          }}>
+            팀별 협업 관리 화이트 보드
+          </span>
+
+          <div css={{ 
+            transform: isInView ? "none" : "translateY(300px)",
+            opacity: isInView ? 1 : 0,
+            transition: "all 1.5s cubic-bezier(0.17, 0.55, 0.55, 1) 0.5s",
+            margin: 'auto',
+          }}>
+            <IntroduceWidgetTabView />
+          </div>
+
+          <div 
+            onClick={loginHandler}
+            css={{
+              transform: isInView ? "none" : "translateY(300px)",
+              opacity: isInView ? 1 : 0,
+              transition: "all 1.5s cubic-bezier(0.17, 0.55, 0.55, 1) 1.5s",
+              width: '300px',
+              height: '73px',
+              cursor: 'pointer',
+              margin: 'auto',
+              marginBottom: 0,
+            }}
+          >
+            <img src={process.env.PUBLIC_URL + '/assets/kakao_login.png'} alt="login" />
+          </div>
+        </section>
       </div>
     );
 }
+

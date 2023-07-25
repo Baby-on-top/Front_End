@@ -2,12 +2,26 @@
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
+import { atom } from "recoil";
 import WidgetAddModal from "../components/board/WidgetAddModal";
+import BoardHeader from '../components/board/BoardHeader';
+import WidgetNav from '../components/board/WidgetNav';
 
 // import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
 // import Note from "../components/widgets/note/Note";
 // import Note2 from "../components/widgets/note/Note2";
 import Note3 from "../widgets/note/Note3";
+
+/// 위젯 추가 모달 상태 atom으로 board 전역에서 관리
+export const showModalState = atom({
+    key: 'showModalState',  
+    default: false,      
+});                              
+
+export const showNavState = atom({
+    key: 'showNavState',  
+    default: true,      
+});
 
 export default function Board() {
     const navigate = useNavigate();

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from 'react';
-import muji from '../../images/muji.jpg';
+import muji from '../../assets/muji.jpg';
 import { kakaoUnlink,kakaoInfo } from '../../utils/apis';
 import { useCookies } from 'react-cookie';
 import {useNavigate} from 'react-router-dom';
