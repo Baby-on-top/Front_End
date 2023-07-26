@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Urls } from './urls';
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_CHAT_TEST_API_ADDR;
 
 // export function getCookies() {
 //     const [cookies] = useCookies(['cookies']);
@@ -89,5 +90,23 @@ export async function inviteWorkspace(accessToken, workspaceId){
         return response;
     } catch(e) {
         console.error("fail : "+ e);
+    }
+}
+
+export async function createRoom(roomName){
+    const url = '/api/chat/room';
+    const info = {
+        name: roomName
+    }
+
+    try {
+        const response = await axios({
+            method: "POST",
+            url: url,
+            data: info
+        })
+        return response;
+    } catch(e) {
+        console.log("fail : " + e);
     }
 }
