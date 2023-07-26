@@ -1,15 +1,20 @@
+/** @jsxImportSource @emotion/react */
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-/** @jsxImportSource @emotion/react */
+import { recoilBoardList, saveCheck } from '../../utils/atom';
+import { useRecoilState } from 'recoil';
 
 const SERVER_URL = '/api/board'
 
 export default function Cards() {
-  const [boardList, setBoardList] = useState([]);
+  const [boardList, setBoardList] = useRecoilState(recoilBoardList);
+
   const [cookie] = useCookies(['cookies']);
 
+  const [chk, setChk] = useRecoilState(saveCheck);
   const fetchData = async () => {
+    console.log("여기")
     const response = await axios.get(SERVER_URL,
       {
         params: { workspaceId: 1, searchKeyword: "" },
@@ -17,13 +22,19 @@ export default function Cards() {
       }
     )
 
-    console.log(response);
+    console.log("함수실행됨");
+    console.log(response.data.data);
     setBoardList(response.data.data);
   };
 
   useEffect(() => {
+    // if (chk === []) {
+
+    //   fetchData();
+    // }
     fetchData();
-  });
+
+  }, [chk]);
 
   return (
     <div className="cards">

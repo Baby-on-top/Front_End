@@ -2,28 +2,36 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from 'react-cookie';
 import { boardCreate } from '../../utils/apis';
+import { recoilBoardList, saveCheck } from '../../utils/atom';
+import { useRecoilState } from 'recoil';
 
-export default function BoardModal() {
+export default function BoardModal({ updateCards }) {
   const [cookies] = useCookies(['cookies']);
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
+  const [chk, setChk] = useRecoilState(saveCheck);
 
   const fetchData = async () => {
     try {
       const response = await boardCreate(cookies, image, 1, title, title);
       console.log(response);
+      setChk(true);
+      return response
     } catch (e) {
       console.error(e);
     }
   };
 
-  function postInfo(e) {
+  async function postInfo(e) {
     if (e) {
       e.preventDefault();
 
     }
-    fetchData();
+    const data = await fetchData();
+    console.log("확인");
+    console.log(data);
+    return data;
   }
 
   // 모달 시작
@@ -75,6 +83,21 @@ export default function BoardModal() {
     setModal(!modal);
   };
 
+  const [boardList, setBoardList] = useRecoilState(recoilBoardList);
+
+  const addBoard = async (data) => {
+    console.log("데이타")
+    console.log(data.data)
+    console.log(boardList);
+    const newBoardList = boardList.concat(data.data)
+    console.log(newBoardList)
+    setBoardList(newBoardList);
+    // setBoardList(boardList => {
+    //   const newBoardList = boardList.newBoardList.concat(boardList.value)
+    //   return { newBoardList }
+    // })
+  }
+
   return (
     <>
       <button onClick={toggleModal} className="title-button"
@@ -107,7 +130,16 @@ export default function BoardModal() {
             bottom: '0',
             position: 'fixed',
           }}>
-          <div onClick={handleDelete} className="overlay"></div>
+          <div onClick={handleDelete} className="overlay" css={{
+            width: '100vw',
+            height: '100vh',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            position: 'fixed',
+            background: 'rgba(49,49,49,0.8)',
+          }}></div>
           <div className="modal-content" css={{
             position: 'absolute',
             top: '40%',
@@ -136,7 +168,7 @@ export default function BoardModal() {
             </div>
             <input className="modal-title" type="text" placeholder=" Title" onChange={handletitle}
               css={{
-                width: '580px',
+                width: '545px',
                 height: '30px',
                 border: '2px solid rgba(173, 169, 169, 0.5)',
                 outline: 'none',
@@ -148,7 +180,7 @@ export default function BoardModal() {
                   <img className="modal-add-cover" src={URL.createObjectURL(image)} alt="이미지"
                     css={{
                       marginTop: '20px',
-                      width: '580px',
+                      width: '545px',
                       height: '300px',
                       border: '2px solid rgba(173, 169, 169, 0.5)',
                       outline: 'none',
@@ -158,7 +190,7 @@ export default function BoardModal() {
                   <input className="modal-add-cover" placeholder=" Add Cover"
                     css={{
                       marginTop: '20px',
-                      width: '580px',
+                      width: '545px',
                       height: '300px',
                       border: '2px solid rgba(173, 169, 169, 0.5)',
                       outline: 'none',
@@ -171,10 +203,14 @@ export default function BoardModal() {
 
 
             {
-              title && image ? <button className="modal-save-after" type="submit" onClick={() => {
-                postInfo()
+              title && image ? <button className="modal-save-after" type="submit" onClick={async () => {
+                const postData = await postInfo()
                 toggleModal()
                 handleDelete()
+                console.log("postData : ");
+                console.log(postData);
+                console.log("postData : ");
+                await addBoard(postData)
               }} css={{
                 height: '40px',
                 width: '100px',
