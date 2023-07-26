@@ -31,6 +31,7 @@ export default function WidgetAddModal() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: '15px',
+                zIndex: 2,
             }}
         >
             <div id="modal-body"

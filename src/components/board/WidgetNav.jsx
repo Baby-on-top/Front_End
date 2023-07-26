@@ -19,6 +19,9 @@ const SpreadNavWrapper = styled.div`
     @media (max-width: 800px) {
         display: none;
     }
+    overflow: hidden;
+    background-color: white;
+    z-index: 1;
 `;
 const FoldNavWrapper = styled.div`
     position: fixed;
@@ -29,6 +32,9 @@ const FoldNavWrapper = styled.div`
     box-shadow: 0px 0px 8px 2px rgba(0,0,0,0.2);
     border-radius: 45px;
     padding: 6px 4px;
+    overflow: hidden;
+    background-color: white;
+    z-index: 1;
 `;
 const WidgetListItem = styled.div`
     margin: 2px 0px;
