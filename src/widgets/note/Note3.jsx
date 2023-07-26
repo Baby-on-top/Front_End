@@ -37,7 +37,11 @@ import {
     ToggleBlockquoteButton,
     ToggleCalloutButton,
 } from '@remirror/react';
+import styled from '@emotion/styled';
 
+const Wrapper = styled.div`
+  padding: 100px 300px;
+`;
 
 const ydoc = new Y.Doc();
 // clients connected to the same room-name share document updates
@@ -72,26 +76,31 @@ const Menu = () => {
 };
   
 
-
 const Note3 = () => {
+  const params = new URLSearchParams(window.location.search);
+  const widgetName = params.get('name');
+
   const { manager, state, onChange } = useRemirror({ extensions, stringHandler: 'html', stringHandler: htmlToProsemirrorNode, core: { excludeExtensions: ['history'] } });
 
   return (
-    <ThemeProvider>
-        <WysiwygEditor placeholder='Enter text...' />
-        <Remirror manager={manager} initialContent={state} autoFocus autoRender='Enter your text'>
-            <FindReplaceComponent />
-            <EditorComponent />
-            <Toolbar>
-                <ToggleCodeButton />
-                <ToggleBoldButton />
-                <ToggleUnderlineButton/>
-                <ToggleBlockquoteButton/>
-                <ToggleCalloutButton/>
-            </Toolbar>
-            <Menu />
-        </Remirror>
-    </ThemeProvider>
+    <Wrapper>
+      <ThemeProvider>
+          {/* <WysiwygEditor placeholder='Enter text...' /> */}
+          <h1>{widgetName}</h1>
+          <Remirror manager={manager} initialContent={state} autoFocus autoRender='Enter your text'>
+              <FindReplaceComponent />
+              <EditorComponent />
+              <Toolbar>
+                  <ToggleCodeButton />
+                  <ToggleBoldButton />
+                  <ToggleUnderlineButton/>
+                  <ToggleBlockquoteButton/>
+                  <ToggleCalloutButton/>
+              </Toolbar>
+              <Menu />
+          </Remirror>
+      </ThemeProvider>
+    </Wrapper>
   );
 };
 
