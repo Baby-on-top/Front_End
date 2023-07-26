@@ -58,6 +58,8 @@ export async function boardCreate(cookie, image, workspaceId, boardName, boardIm
         'boardName': boardName,
         'boardImage': boardImage,
     }
+    console.log("image");
+    console.log(image);
     const formData = new FormData();
     const blob = new Blob([JSON.stringify(info)], { type: "application/json" })
     formData.append('file', image);
@@ -77,18 +79,18 @@ export async function boardCreate(cookie, image, workspaceId, boardName, boardIm
 }
 
 
-export async function inviteWorkspace(accessToken, workspaceId){
+export async function inviteWorkspace(accessToken, workspaceId) {
     const SERVER_URL = '/api/workspace/invite';
-    try{
+    try {
         const response = await axios.get(SERVER_URL,
             {
-                headers: {Token: accessToken},
-                params: {workspaceId : workspaceId},
+                headers: { Token: accessToken },
+                params: { workspaceId: workspaceId },
             }
         )
         return response;
-    } catch(e) {
-        console.error("fail : "+ e);
+    } catch (e) {
+        console.error("fail : " + e);
     }
 }
 
@@ -110,5 +112,44 @@ export async function inviteUrlCreate(workspaceId){
     } catch(e) {
         console.error("fail : "+ e);
     }
-
 }
+
+export async function workspaceCreate(cookie, image, workspaceName) {
+    const url = '/api/workspace';
+    const header = {
+        Token: cookie.accessToken,
+        "Content-Type": "multipart/form-data",
+    }
+    const info = {
+        'workspaceName': workspaceName,
+        
+    }
+    console.log("image");
+    console.log(image);
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(info)], { type: "application/json" })
+    formData.append("file", image);
+    formData.append("info", blob);
+
+
+    try {
+        const response = await axios({
+            method: "POST",
+            url: url,
+            headers: header,
+            data: formData,
+        })
+        return response.data;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+
+
+// message
+// : 
+// "could not execute statement [Field 'name' doesn't have a default value] [insert into workspace (create_id,workspace_image,workspace_name) values (?,?,?)]"
+// path
+// : 
+// "/api/workspace"
