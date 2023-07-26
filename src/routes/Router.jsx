@@ -8,6 +8,8 @@ import KakaoLogoutCallback from './login/KakaoLogoutCallback';
 import InviteCallback from './InviteCallback';
 
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Chat from './chat/Chat';
+import Room from './chat/Room';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -41,6 +43,16 @@ export default function Router() {
           path: '/invite-check',
           element: <InviteCallback />,
           errorElement: <ErrorPage />,
+        },
+        {
+          path: '/chat',
+          element: <Chat />,
+          errorElement: <ErrorPage />,
+        },
+        {
+          path: '/chat/:roomId',
+          element: <Room />,
+          errorElement: <ErrorPage />
         },
         {
           path: '*',
