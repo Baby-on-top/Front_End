@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { recoilBoardList, saveCheck } from '../../utils/atom';
+import { recoilBoardList, saveCheck } from '../../utils/atoms';
 import { useRecoilState } from 'recoil';
 
 const SERVER_URL = '/api/board'

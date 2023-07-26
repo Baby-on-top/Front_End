@@ -3,7 +3,7 @@ import React, { useRef, useState } from "react";
 import { useCookies } from 'react-cookie';
 import { workspaceCreate } from '../../utils/apis';
 import { useRecoilState } from 'recoil';
-import { workspaceCheck, recoilWorkspaceList } from '../../utils/atom';
+import { workspaceCheck, recoilWorkspaceList } from '../../utils/atoms';
 
 // import axios from 'axios';
 

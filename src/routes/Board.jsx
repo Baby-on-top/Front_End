@@ -2,11 +2,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
+import { atom } from "recoil";
 import WidgetAddModal from "../components/board/WidgetAddModal";
-
-// import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
-// import Note from "../components/widgets/note/Note";
-// import Note2 from "../components/widgets/note/Note2";
+import BoardHeader from '../components/board/BoardHeader';
+import WidgetNav from '../components/board/WidgetNav';
+import WidgetPlace from '../components/board/WidgetPlace';
+import ChattingButton from '../components/chat/ChattingButton';
 
 export default function Board() {
     const navigate = useNavigate();
@@ -27,22 +28,12 @@ export default function Board() {
     });
 
     return (
-        <div css={{
-            width: '100%',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <div css={{marginBottom: 20}}> Board </div>
-            <button css={{width: '5%'}}> + </button>
-
+        <div>
+            <BoardHeader />
+            <WidgetPlace />
+            <WidgetNav />
+            <ChattingButton />
             <WidgetAddModal />
-
-            {/* <YorkieTldrawEditor /> */}
-            {/* <Note /> */}
-            {/* <Note2 /> */}
         </div>
     )
 }

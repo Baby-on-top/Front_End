@@ -2,7 +2,7 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from 'react-cookie';
 import { boardCreate } from '../../utils/apis';
-import { recoilBoardList, saveCheck } from '../../utils/atom';
+import { recoilBoardList, saveCheck } from '../../utils/atoms';
 import { useRecoilState } from 'recoil';
 
 export default function BoardModal({ updateCards }) {

@@ -6,7 +6,7 @@ import { kakaoUnlink, kakaoInfo } from '../../utils/apis';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import WorkSpaceModal from './WorkSpaceModal';
-import { recoilWorkspaceList, workspaceCheck } from '../../utils/atom';
+import { recoilWorkspaceList, workspaceCheck } from '../../utils/atoms';
 import { useRecoilState } from 'recoil';
 
 
