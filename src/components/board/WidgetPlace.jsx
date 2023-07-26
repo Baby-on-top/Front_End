@@ -1,43 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useRecoilState } from "recoil";
+import { widgetListState } from "../../routes/Board";
 
 export default function WidgetPlace() {
     const constraintsRef = useRef();
     const [widgetPositions, setWidgetPositions] = useState({});  // 드래그 가능한 요소의 위치 및 크기 저장
-
-    const widgets = [
-        {
-          id: 'widget-1',
-          name: '노트 1',
-          backgroundColor: 'pink',
-        },
-        {
-          id: 'widget-2',
-          name: '노트 2',
-          backgroundColor: '#00AB59',
-        },
-        {
-          id: 'widget-3',
-          name: '노트 1',
-          backgroundColor: 'pink',
-        },
-        {
-          id: 'widget-4',
-          name: '노트 2',
-          backgroundColor: '#00AB59',
-        },
-        {
-          id: 'widget-5',
-          name: '노트 1',
-          backgroundColor: 'pink',
-        },
-        {
-          id: 'widget-6',
-          name: '노트 2',
-          backgroundColor: '#00AB59',
-        },
-    ];
+    const [widgetList, setWidgetList] = useRecoilState(widgetListState);
 
     // const handleDrag = (id, x, y, width, height) => {
         // Check for collisions before updating the position
@@ -65,7 +35,7 @@ export default function WidgetPlace() {
     //                 if (widgetIdB === currentId) continue; // Skip checking collision with itself
     //                 const widgetB = updatedPositions[widgetIdB];
             
-    //                 // Check overlap between two widgets
+    //                 // Check overlap between two widgetList
     //                 if (
     //                 widgetA && widgetB &&
     //                 widgetA.x + widgetA.width > widgetB.x &&
@@ -105,7 +75,7 @@ export default function WidgetPlace() {
                     }}
                 >
                     {
-                        widgets.map((widget) => (
+                        widgetList.map((widget) => (
                             <motion.div
                                 key={widget.id}
                                 css={{
@@ -116,6 +86,7 @@ export default function WidgetPlace() {
                                     borderRadius: '24px',
                                     lineHeight : '150px',
                                     textAlign: 'center',
+                                    overflow: 'hidden',
                                 }}
                                 drag
                                 dragConstraints={constraintsRef}  // 드래그 영역 제한

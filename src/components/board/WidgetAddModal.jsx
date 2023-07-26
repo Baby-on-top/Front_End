@@ -1,11 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import styled from '@emotion/styled'
 import ModalHeader from "./ModalHeader";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { showModalState } from "../../routes/Board";
+import { widgetListState } from "../../routes/Board";
 
 export default function WidgetAddModal() {
-    const modal = useRecoilValue(showModalState);
+    const [showModal, setShowModal] = useRecoilState(showModalState);
+    const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+
     const WidgetSelectBox = styled.div`
         width: 200px;
         height: 175px;
@@ -17,6 +20,28 @@ export default function WidgetAddModal() {
         // cursor: pointer;
     `;
 
+    const selectAddWidet = (type) => {
+        const lastWidget = widgetList[widgetList.length - 1];
+        console.log(lastWidget.id);
+
+        const newWidget = {
+          id: lastWidget.id + 1,
+          name: '노트 ' + String(lastWidget.id + 1),
+          backgroundColor: 'pink',
+        };
+        console.log(newWidget);
+
+        const updateWidgetList = [ ...widgetList, newWidget];
+        console.log(updateWidgetList);
+
+        setWidgetList(updateWidgetList);
+    }
+
+    const onClick = () => {
+        selectAddWidet(); 
+        setShowModal(!showModal);
+    }
+
     return (
         <div id="modal-wrap"
             css={{
@@ -27,7 +52,7 @@ export default function WidgetAddModal() {
                 top: 0,
                 width: '100%',
                 height: '100%',
-                display: modal ? 'flex' : 'none',
+                display: showModal ? 'flex' : 'none',
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: '15px',
@@ -56,7 +81,7 @@ export default function WidgetAddModal() {
                         columnGap: 50,
                         justifyContent: 'center',
                     }}>
-                        <WidgetSelectBox css={{cursor: 'pointer'}}>노트 📒</WidgetSelectBox>
+                        <WidgetSelectBox onClick={onClick} css={{cursor: 'pointer'}}>노트 📒</WidgetSelectBox>
                         <WidgetSelectBox>캘린더 🗓️</WidgetSelectBox>
                         <WidgetSelectBox>그림판 🎨</WidgetSelectBox>
                     </div>

@@ -21,6 +21,37 @@ export const showNavState = atom({
     default: true,      
 });
 
+export const widgetListState = atom({
+    key: 'widgetListState',  
+    default: [
+        {
+          id: 1,
+          name: '노트 1',
+          backgroundColor: '#00AB59',
+        },
+        {
+          id: 2,
+          name: '노트 2',
+          backgroundColor: 'pink',
+        },
+        {
+          id: 3,
+          name: '노트 3',
+          backgroundColor: '#00AB59',
+        },
+        {
+          id: 4,
+          name: '노트 4',
+          backgroundColor: 'pink',
+        },
+        {
+          id: 5,
+          name: '노트 5',
+          backgroundColor: '#00AB59',
+        },
+    ],      
+});
+
 export default function Board() {
     const navigate = useNavigate();
     const [cookie] = useCookies(['cookie']);
