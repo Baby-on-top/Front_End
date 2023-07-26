@@ -9,16 +9,15 @@ export default function BoardHeader() {
      <div css={{
         position: 'fixed',
         width: '100%',
-        overflow: 'hidden',
         backgroundColor: 'white',
         paddingBottom: 24,
-        zIndex: 1,
+        zIndex: 3,
      }}>
         <div css={{
-            display: 'flex',
-            alignItems: 'center',
             marginTop: 32,
             position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
             left: '50%',
             transform: 'translateX(-50%)',
         }}>
@@ -30,15 +29,16 @@ export default function BoardHeader() {
             </div>
         </div>
         <div css={{
-            position: 'relative',
-            float: 'right', 
             marginTop: 32,
+            position: 'relative',
             display: 'flex',
             alignItems: 'center',
+            float: 'right', 
+            right: 0,
         }}>
             <div id='user-profiles'>
-                <img src={dambe_pikka} alt='dambe_pikka' css={{position: 'relative', zIndex: 2, right: 28, width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
-                <img src={ddung_heart} alt='ddung_heart' css={{position: 'relative', zIndex: 1, right: 35 , width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
+                <img src={dambe_pikka} alt='dambe_pikka' css={{position: 'relative', zIndex: 4, right: 28, width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
+                <img src={ddung_heart} alt='ddung_heart' css={{position: 'relative', zIndex: 3, right: 35 , width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
                 <img src={cat} alt='cat' css={{position: 'absolute', right: 72, width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
             </div>
             <img src={history} alt='history' css={{width: 32, height: 32, marginLeft: 12, marginRight: 24 }} />

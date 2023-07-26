@@ -6,7 +6,7 @@ import { showModalState } from "../../routes/Board";
 
 export default function WidgetAddModal() {
     const modal = useRecoilValue(showModalState);
-    const WidgetBox = styled.div`
+    const WidgetSelectBox = styled.div`
         width: 200px;
         height: 175px;
         line-height : 175px;  // 가운데 정렬
@@ -14,7 +14,7 @@ export default function WidgetAddModal() {
         background-color: #D9D9D9;
         font-size: 18px;
         border-radius: 6px;
-        cursor: pointer;
+        // cursor: pointer;
     `;
 
     return (
@@ -31,7 +31,7 @@ export default function WidgetAddModal() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 padding: '15px',
-                zIndex: 2,
+                zIndex: 4,
             }}
         >
             <div id="modal-body"
@@ -56,9 +56,9 @@ export default function WidgetAddModal() {
                         columnGap: 50,
                         justifyContent: 'center',
                     }}>
-                        <WidgetBox>캘린더 🗓️</WidgetBox>
-                        <WidgetBox>노트 📒</WidgetBox>
-                        <WidgetBox>그림판 🎨</WidgetBox>
+                        <WidgetSelectBox css={{cursor: 'pointer'}}>노트 📒</WidgetSelectBox>
+                        <WidgetSelectBox>캘린더 🗓️</WidgetSelectBox>
+                        <WidgetSelectBox>그림판 🎨</WidgetSelectBox>
                     </div>
                 </div>
             </div>

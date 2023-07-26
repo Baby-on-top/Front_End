@@ -6,11 +6,9 @@ import { atom } from "recoil";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from '../components/board/BoardHeader';
 import WidgetNav from '../components/board/WidgetNav';
+import WidgetPlace from '../components/board/WidgetPlace';
+import ChattingButton from '../components/chat/ChattingButton';
 
-// import YorkieTldrawEditor from "../components/widgets/tldraw/YorkieTldrawEditor";
-// import Note from "../components/widgets/note/Note";
-// import Note2 from "../components/widgets/note/Note2";
-import Note3 from "../widgets/note/Note3";
 
 /// 위젯 추가 모달 상태 atom으로 board 전역에서 관리
 export const showModalState = atom({
@@ -42,23 +40,12 @@ export default function Board() {
     });
 
     return (
-        <div css={{
-            width: '100%',
-            height: '100vh',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-            <div css={{marginBottom: 20}}> Board </div>
-            <button css={{width: '5%'}}> + </button>
-
-            {/* <WidgetAddModal /> */}
-
-            {/* <YorkieTldrawEditor /> */}
-            {/* <Note /> */}
-            {/* <Note2 /> */}
-            <Note3 />
+        <div>
+            <BoardHeader />
+            <WidgetPlace />
+            <WidgetNav />
+            <ChattingButton />
+            <WidgetAddModal />
         </div>
     )
 }
