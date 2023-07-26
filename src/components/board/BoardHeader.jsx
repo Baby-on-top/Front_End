@@ -4,13 +4,13 @@ import ddung_heart from '../../assets/ddung_heart.jpg';
 import cat from '../../assets/cat.jpg';
 import history from '../../assets/history.png';
 
-export default function BoardHeader() {
+export default function BoardHeader({boardName, workspaceName}) {
   return (
      <div css={{
         position: 'fixed',
         width: '100%',
         backgroundColor: 'white',
-        paddingBottom: 24,
+        paddingBottom: 32,
         zIndex: 3,
      }}>
         <div css={{
@@ -22,10 +22,10 @@ export default function BoardHeader() {
             transform: 'translateX(-50%)',
         }}>
             <div css={{fontSize: 24, fontWeight: 500, color: '#9A9999'}}>
-                Jungle_Blue&nbsp;&nbsp;/
+                {workspaceName}&nbsp;&nbsp;/
             </div>
             <div css={{fontSize: 24, fontWeight: 500}}>
-                &nbsp;&nbsp;막내온탑
+                &nbsp;&nbsp;{boardName}
             </div>
         </div>
         <div css={{

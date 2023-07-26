@@ -2,7 +2,7 @@
 import SideNav from '../components/lobby/SideNav';
 import Cards from '../components/lobby/Cards';
 import BoardModal from '../components/lobby/BoardModal'
-import chat from '../assets/chat.png';
+import ChattingButton from '../components/chat/ChattingButton';
 
 import { Global, css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
@@ -82,25 +82,10 @@ export default function Lobby() {
                 </div>
                 <Cards />
             </div>
-            <div className="footer" css={{
-                bottom: '0px',
-                right: '0px',
-                position: 'fixed',
-            }}>
-                {/* <ChatModal /> */}
-            
-                <img className="chat" src={chat} alt="chat" css={{
-                    width: '140px',
-                    height: '120px',
-                    float: 'left',
-                    padding: '20px 30px',
-                    filter: 'drop-shadow(5px 5px 15px rgba(0,0,0,0.4))',
-                }} />
-                </div>
 
-            </div>
-
-        
+            {/* <ChatModal /> */}
+            <ChattingButton />
+        </div>
     )
 }
 

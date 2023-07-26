@@ -7,6 +7,7 @@ export default function ChattingButton() {
         position: 'fixed',
         right: 30,
         bottom: 20,
+        cursor: 'pointer',
     }}>
         <img className="chat" src={chat} alt="chat" css={{
             width: '60px',

@@ -69,16 +69,16 @@ export default function WidgetPlace() {
                 ref={constraintsRef}
                 css={{
                     overflow: 'hidden',
-                    marginTop: 96,
+                    marginTop: 108,
                     width: '1000px',
-                    height: '90vh',
-                    padding: ''
+                    minHeight: '90vh',
                 }}
             >
                 <div id="widget-place-grid"  
                     css={{
                         display: 'grid',
                         gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+                        rowGap: '10px',
                     }}
                 >
                     {

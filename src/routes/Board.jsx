@@ -27,9 +27,13 @@ export default function Board() {
         fetch();
     });
 
+    const params = new URLSearchParams(window.location.search);
+    const boardName = params.get('boardName');
+    const workspaceName = params.get('workspaceName');
+
     return (
         <div>
-            <BoardHeader />
+            <BoardHeader boardName={boardName} workspaceName={workspaceName} />
             <WidgetPlace />
             <WidgetNav />
             <ChattingButton />

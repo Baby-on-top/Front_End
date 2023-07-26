@@ -36,10 +36,15 @@ export default function Cards() {
 
   }, [chk]);
 
+  const clickCard = (boardName) => {
+    const workspaceName = 'jungle_blue';
+    window.location.href = `http://localhost:3000/board?workspaceName=${workspaceName}&boardName=${boardName}`;
+  }
+
   return (
     <div className="cards">
       {boardList.map((board) => (
-        <div key={board.boardId}>
+        <div key={board.boardId} onClick={() => clickCard(board.boardName)}>
           <div className="card" css={{
             width: '30%',
             height: '300px',
@@ -49,6 +54,7 @@ export default function Cards() {
             marginRight: '30px',
             marginBottom: '30px',
             borderRadius: '10px',
+            cursor: 'pointer',
           }}>
             <div className="card-head"
               css={{
@@ -75,7 +81,6 @@ export default function Cards() {
                 width: '60%',
                 display: 'inline-block',
               }}>{board.createAt}</div>
-
           </div>
 
         </div>
