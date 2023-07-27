@@ -36,6 +36,9 @@ export default function Room() {
     const [roomName] = useState(
         location.state?.roomName
     );
+    const [userName] = useState(
+        location.state?.userName
+    )
     
     const [messageList, setMessageList] = useState([]);
     const [message, setMessage] = useState('');
@@ -71,7 +74,8 @@ export default function Room() {
             destination: '/pub/chat/message',
             body: JSON.stringify({
                 roomId: roomId,
-                message: message
+                message: message,
+                sender: userName
             }),
         });
         setMessage('');

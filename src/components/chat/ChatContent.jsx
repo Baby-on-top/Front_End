@@ -18,7 +18,8 @@ export default function ChatContent({isSave, setIsSave}) {
     const roomHandler = (roomId, roomName) => {
         navigate(`/chat/${roomId}`, {
             state: {
-                roomName: roomName
+                roomName: roomName,
+                userName: Math.random().toString(36).substr(2, 16)
             }
         });
     }
