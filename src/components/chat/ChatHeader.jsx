@@ -1,5 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import { createRoom } from "../../utils/apis";
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 
 export default function ChatHeader({isSave,setIsSave}) {
     const [roomName, setRoomName] = useState();
@@ -22,13 +24,48 @@ export default function ChatHeader({isSave,setIsSave}) {
         fetchRoomData();
     }
     return (
-        <div>
-            <div>Chat</div>
-            <input type="text" placeholder="채팅방 이름" onChange={handleRoomName}></input>
-            <button type="submit" onClick={()=>{
-                // TODO: Search 이벤트로 수정(MVP 용으로 채팅방 생성으로 해둠)
-                postRoom()
-            }}>저장</button>
+        <div
+            css={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding:"0px 20px",
+                paddingTop: "20px",
+                paddingBottom: "5px"
+            
+            }}>
+            <div
+                css={{
+                    fontSize: 'x-large',
+                    fontWeight: 'bold'
+                }}>Chats</div>
+            <div
+                css={{
+                    display: 'flex',
+                    alignItems: 'center'
+                }}>
+                <input 
+                    type="text" 
+                    css={{
+                        border: 0,
+                        backgroundColor: 'rgb(233, 233, 233)',
+                        borderRadius: '10px',
+                        fontSize: '16px',
+                        outline: 'none',
+                        height: '28px',
+                        padding: '10px 4px',
+                        marginRight: '4px'
+                    }} 
+                    onChange={handleRoomName}></input>
+                <MagnifyingGlassIcon
+                    type="submit"
+                    css={{
+                        color: '#AFAFAF',
+                        width: '24px'
+                    }}
+                    onClick={()=>{
+                        postRoom()                        
+                    }}/>
+            </div>
         </div>
     )
 }
