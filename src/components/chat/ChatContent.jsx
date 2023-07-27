@@ -22,6 +22,10 @@ export default function ChatContent({isSave, setIsSave}) {
                 userName: Math.random().toString(36).substr(2, 16)
             }
         });
+    };
+
+    function getImageSrc(number) {
+        return `//source.unsplash.com/500x${number}`;
     }
 
     useEffect(() => {
