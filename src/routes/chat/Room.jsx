@@ -95,6 +95,7 @@ export default function Room() {
 
     function sendMessage() {
         publish(message);
+        setMessage("");
     }
 
     return(
