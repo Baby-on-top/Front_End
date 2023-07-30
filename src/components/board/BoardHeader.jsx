@@ -7,34 +7,36 @@ import history from '../../assets/history.png';
 export default function BoardHeader({boardName, workspaceName}) {
   return (
      <div css={{
-        position: 'fixed',
-        width: '100%',
-        backgroundColor: 'white',
-        paddingBottom: 32,
-        zIndex: 3,
+        // position: 'fixed',
+        // width: '100%',
+        // backgroundColor: 'white',
+        // paddingBottom: 32,
+        // zIndex: 3,
      }}>
         <div css={{
             marginTop: 32,
-            position: 'absolute',
+            position: 'fixed',
             display: 'flex',
             alignItems: 'center',
             left: '50%',
             transform: 'translateX(-50%)',
+            zIndex: 3,
         }}>
-            <div css={{fontSize: 24, fontWeight: 500, color: '#9A9999'}}>
+            <div css={{fontSize: 24, fontWeight: 500, color: '#9A9999', cursor: 'pointer', width: 156, height: 36}}>
                 {workspaceName}&nbsp;&nbsp;/
             </div>
-            <div css={{fontSize: 24, fontWeight: 500}}>
+            <div css={{fontSize: 24, fontWeight: 500, cursor: 'pointer', width: 122, height: 33 }}>
                 &nbsp;&nbsp;{boardName}
             </div>
         </div>
         <div css={{
             marginTop: 32,
-            position: 'relative',
+            position: 'fixed',
             display: 'flex',
             alignItems: 'center',
             float: 'right', 
             right: 0,
+            zIndex: 3,
         }}>
             <div id='user-profiles'>
                 <img src={dambe_pikka} alt='dambe_pikka' css={{position: 'relative', zIndex: 4, right: 28, width: 36, height: 36, borderRadius: '50%', objectFit: 'cover' }} />
