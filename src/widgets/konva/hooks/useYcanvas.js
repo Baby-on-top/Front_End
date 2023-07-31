@@ -2,21 +2,49 @@ import { useState, useCallback, useEffect } from 'react';
 import * as Y from 'yjs';
 
 const generateShapes = () =>
-  [...Array(1000)].map((_, i) => ({
+  [...Array(5)].map((_, i) => ({
     id: i.toString(),
-    // x: Math.random() * window.innerWidth,
-    // y: Math.random() * window.innerHeight,
-    x: i * 10,
-    y: i * 10,
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    // x: 100 + i * 70,
+    // y: 100 + i * 70,
     height: 50,
     width: 50,
   }));
 
+// text editor  
+const generateText = () =>
+  [...Array(2)].map((_, i) => ({
+    id: (i+5).toString(),
+    text: "Some text here",
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    fontSize: 30,
+    draggable: true,
+    width: 200,
+  }));
+
+// editable text editor
+const generateTextEditor = () =>
+  [...Array(2)].map((_, i) => ({
+    id: (i+7).toString(),
+    text: "Editable Text",
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    fontSize: 20,
+    draggable: true,
+    width: 200,
+  }))  
+
 const INITIAL_STATE = generateShapes();
+const INITIAL_TEXT_STATE = generateText();
+const INITIAL_EDITABLE_TEXT_STATE = generateTextEditor();
 
 export const useYcanvas = (yRootMap) => {
   const ydoc = yRootMap.doc;
   const [rects, setRects] = useState(INITIAL_STATE);
+  const [texts, setTexts] = useState(INITIAL_TEXT_STATE);
+  const [editableTexts, setEditableTexts] = useState(INITIAL_EDITABLE_TEXT_STATE);
 
   const dragStartCanvas = useCallback((target) => {
     const id = target.id();
@@ -25,6 +53,16 @@ export const useYcanvas = (yRootMap) => {
         ...rect,
         isDragging: rect.id === id,
       }))
+    );
+  }, []);
+
+  const dragStartText = useCallback((target) => {
+    const id = target.id();
+    setTexts((texts) =>
+      texts.map((text) => ({
+        ...text,
+        isDragging: text.id === id,
+      }))  
     );
   }, []);
 
@@ -39,11 +77,26 @@ export const useYcanvas = (yRootMap) => {
     }, 'move-rect')
   }
 
+  const updateYText = (target) => {
+    ydoc?.transact(() => {
+      const yTexts = yRootMap.get('texts')
+      const newTexts = yTexts.map((text) =>
+        text.id === target.id() ? { ...text, x: target.x(), y: target.y()} : text
+      )
+      yTexts.delete(0, yTexts.length)
+      yTexts.push(newTexts)
+    }, 'move-text')
+  }
+
   const dragMove = useCallback(updateYRect, [yRootMap, ydoc]);
+  const dragTMove = useCallback(updateYText, [yRootMap, ydoc]);
 
   const dragEndCanvas = useCallback(updateYRect, [yRootMap, ydoc]);
+  const dragTEndCanvas = useCallback(updateYText, [yRootMap, ydoc]);
 
   const hasChangeRects = (event) => event.path.join() === 'rects'
+
+  const hasChangeTexts = (event) => event.path.join() === 'texts'
 
   yRootMap.observeDeep((events) => {
     events.forEach((event) => {
@@ -53,12 +106,25 @@ export const useYcanvas = (yRootMap) => {
     })
   });
 
+  yRootMap.observeDeep((events) => {
+    events.forEach((event) => {
+      if ((event.target instanceof Y.Array) && hasChangeTexts(event)) {
+        setTexts(event.target.toArray());
+      }
+    })
+  });
+
   useEffect(() => {
     const yRects = new Y.Array();
-
+    const yTexts = new Y.Array();
+    const yEditableTexts = new Y.Array();
     yRootMap.set('rects', yRects);
+    yRootMap.set('texts', yTexts);
+    yRootMap.set('editableTexts', yEditableTexts);
     yRects.push(INITIAL_STATE)
+    yTexts.push(INITIAL_TEXT_STATE)
+    yEditableTexts.push(INITIAL_EDITABLE_TEXT_STATE);
   }, [yRootMap]);
 
-  return { rects, dragStartCanvas, dragMove, dragEndCanvas };
+  return { rects, dragStartCanvas, dragMove, dragEndCanvas, texts, dragTMove, dragTEndCanvas, dragStartText, editableTexts };
 };

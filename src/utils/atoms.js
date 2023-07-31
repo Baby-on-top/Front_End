@@ -30,7 +30,7 @@ export const showModalState = atom({
 
 export const showNavState = atom({
   key: 'showNavState',  
-  default: true,      
+  default: false,      
 });
 
 export const widgetListState = atom({
