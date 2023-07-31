@@ -10,6 +10,9 @@ import InviteCallback from './InviteCallback';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Chat from './chat/Chat';
 import Room from './chat/Room';
+import Test from './Test';
+import Konva from './Konva';
+import Konva2 from './Konva2';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -53,6 +56,21 @@ export default function Router() {
           path: '/chat/:roomId',
           element: <Room />,
           errorElement: <ErrorPage />
+        },
+        {
+          path: '/test',
+          element: <Test />,
+          errorElement: <NotFoundErrorPage />
+        },
+        {
+          path: '/konva',
+          element: <Konva />,
+          errorElement: <NotFoundErrorPage/>
+        },
+        {
+          path: '/konva2',
+          element: <Konva2 />,
+          errorElement: <NotFoundErrorPage/>
         },
         {
           path: '*',

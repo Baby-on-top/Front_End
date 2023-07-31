@@ -122,14 +122,14 @@ export default function Room() {
             <div css={{flex:'1',padding:'20px',fontSize: 'x-large',
                     fontWeight: 'bold'}}>{roomName}</div>
             <div  css={{flex:'10',overflow:'scroll',     padding: "10px 20px"}}>
-                {messageList.map((chatMessage,idx) => 
+                {messageList.map((chatMessage) => 
                    {
                     if(chatMessage.sender !== userName){
                         return(
                             // 받는 쪽
                             <div css={{paddingBottom: "8px"}}>
                                 <div>{chatMessage.sender}</div>
-                                <div css={{backgroundColor:"lightgray",padding:"10px 0px"}}>{chatMessage.message}</div>
+                                <div css={{backgroundColor:"#DEFCD7",padding:"10px 0px"}}>{chatMessage.message}</div>
                             </div>
                         )
                     }else{
@@ -137,7 +137,7 @@ export default function Room() {
                             // 보내는 쪽
                             <div css={{paddingBottom: "8px"}}>
                                 <div css={{display: 'flex', justifyContent: 'flex-end'}}>{chatMessage.sender}</div>
-                                <div css={{display:'flex',backgroundColor:"gray", justifyContent:'flex-end',padding:"10px 0px"}}>{chatMessage.message}</div>
+                                <div css={{display:'flex',backgroundColor:"#FADFD3", justifyContent:'flex-end',padding:"10px 0px"}}>{chatMessage.message}</div>
                             </div>
                         )
                     }
