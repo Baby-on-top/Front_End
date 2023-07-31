@@ -8,6 +8,7 @@ import BoardHeader from '../components/board/BoardHeader';
 import WidgetNav from '../components/board/WidgetNav';
 import WidgetPlace from '../components/board/WidgetPlace';
 import ChattingButton from '../components/chat/ChattingButton';
+import Tldraw2 from '../widgets/tldraw2/Tldraw2';
 
 export default function Board() {
     const navigate = useNavigate();
@@ -33,8 +34,8 @@ export default function Board() {
 
     return (
         <div>
-            <BoardHeader boardName={boardName} workspaceName={workspaceName} />
-            <WidgetPlace />
+            {/* <BoardHeader boardName={boardName} workspaceName={workspaceName} /> */}
+            <Tldraw2 />
             <WidgetNav />
             <ChattingButton />
             <WidgetAddModal />
