@@ -10,6 +10,12 @@ import { Cursor } from './Cursor';
 import KonvaEditableText  from '../../widgets/text/KonvaEditableText';
 // import KonvaEditText from './components/KonvaAddImage';
 import KonvaAddImage from '../../widgets/image/KonvaAddImage';
+import { Drawing } from "./Drawing";
+
+
+let history = [[]];
+let historyStep = 0;
+const mapSize = 500;
 
 const MemoRect = memo((props) => <Rect {...props} />);
 const MemoText = memo((props) => <Text {...props} />);
@@ -26,7 +32,45 @@ export default function KonvaWidget() {
   const { rects, dragStartCanvas, dragMove, dragEndCanvas, texts, dragTMove, dragTEndCanvas, dragStartText, editableTexts } = useYcanvas(yRootMap);
 
   const { cursors, moveCursor } = useYcursor(yRootMap);
-  const handleMouseMove = (e) => moveCursor(e.evt.x, e.evt.y);
+    
+  // Kenny -----
+
+  const [lines, setLines] = useState([]);
+  const [drawing, setDrawing] = useState(false);
+  const [color, setColor] = useState("red")
+  const handleMouseDown = () => {
+    setDrawing(true);
+    // add line
+    setLines([...lines, []]);
+  };
+
+
+  const handleMouseMove = e => {
+    // no drawing - skipping
+    moveCursor(e.evt.x, e.evt.y);
+    if (!drawing) {
+      return;
+    }
+    const stage = stageRef.current.getStage();
+    const point = stage.getPointerPosition();
+
+    let lastLine = lines[lines.length - 1];
+    // add point
+    let newLines = lastLine.concat([point.x, point.y]);
+    newLines.storke = color;
+    // replace last
+    lines.splice(lines.length - 1, 1, newLines);
+    setLines(lines.concat());
+  };
+
+  const handleMouseUp = () => {
+    //add to history
+    history.push(lines);
+    historyStep += 1;
+
+    setDrawing(false);
+  };
+  // Kenny
 
   const handleDragStart = useCallback(
     (e) => {
@@ -99,6 +143,8 @@ export default function KonvaWidget() {
       width={window.innerWidth}
       height={window.innerHeight}
       onMouseMove={handleMouseMove}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
     >
       <Layer>
         <Text text="Try to drag a rect" />
@@ -153,6 +199,9 @@ export default function KonvaWidget() {
           y={100}          
           text="Try to drag a rect~~~~~" />
       </Layer>
+
+      {/* 드로잉 캔버스 추가 */}
+      <Drawing mapSize={mapSize} lines={lines} storke={color} />
     </Stage>
     // <div>
     //   <KonvaEditableText/>
