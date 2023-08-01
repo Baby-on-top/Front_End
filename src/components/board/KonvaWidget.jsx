@@ -7,9 +7,9 @@ import { useYdoc } from './hooks/useYdoc';
 import { useYcursor } from './hooks/useYcursor';
 import { useYcanvas } from './hooks/useYcanvas';
 import { Cursor } from './Cursor';
-import KonvaEditableText  from './KonvaEditableText';
+import KonvaEditableText  from '../../widgets/text/KonvaEditableText';
 // import KonvaEditText from './components/KonvaAddImage';
-import KonvaAddImage from './components/KonvaAddImage';
+import KonvaAddImage from '../../widgets/image/KonvaAddImage';
 
 const MemoRect = memo((props) => <Rect {...props} />);
 const MemoText = memo((props) => <Text {...props} />);

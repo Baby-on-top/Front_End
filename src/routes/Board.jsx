@@ -6,7 +6,7 @@ import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from '../components/board/BoardHeader';
 import WidgetNav from '../components/board/WidgetNav';
 import ChattingButton from '../components/chat/ChattingButton';
-import KonvaWidget from '../widgets/konva/KonvaWidget';
+import KonvaWidget from '../components/board/KonvaWidget';
 
 export default function Board() {
     const navigate = useNavigate();
