@@ -118,12 +118,15 @@ export const useYcanvas = (yRootMap) => {
     const yRects = new Y.Array();
     const yTexts = new Y.Array();
     const yEditableTexts = new Y.Array();
+    const yDraw = new Y.Array();
     yRootMap.set('rects', yRects);
     yRootMap.set('texts', yTexts);
     yRootMap.set('editableTexts', yEditableTexts);
+    yRootMap.set('lines',yDraw);
     yRects.push(INITIAL_STATE)
     yTexts.push(INITIAL_TEXT_STATE)
     yEditableTexts.push(INITIAL_EDITABLE_TEXT_STATE);
+    yDraw.push([]);
   }, [yRootMap]);
 
   return { rects, dragStartCanvas, dragMove, dragEndCanvas, texts, dragTMove, dragTEndCanvas, dragStartText, editableTexts };

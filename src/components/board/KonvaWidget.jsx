@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useRef, useEffect, memo, useCallback } from 'react';
+import { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { Stage, Layer, Rect, Text } from 'react-konva';
 import { Shape } from 'konva/lib/Shape';
 import * as Y from 'yjs';
@@ -11,11 +11,26 @@ import KonvaEditableText  from '../../widgets/text/KonvaEditableText';
 // import KonvaEditText from './components/KonvaAddImage';
 import KonvaAddImage from '../../widgets/image/KonvaAddImage';
 import { Drawing } from "./Drawing";
+import { useLines } from "./hooks/useLines";
 
 
 let history = [[]];
 let historyStep = 0;
 const mapSize = 500;
+
+const date = new Date();
+
+date.setUTCHours(0, 0, 0, 0);
+
+const START_TIME = date.getTime();
+
+// function getYOffset() {
+//   return (Date.now() - START_TIME) / 80;
+// }
+
+function getPoint(x, y) {
+  return [x, y];
+}
 
 const MemoRect = memo((props) => <Rect {...props} />);
 const MemoText = memo((props) => <Text {...props} />);
@@ -33,9 +48,63 @@ export default function KonvaWidget() {
 
   const { cursors, moveCursor } = useYcursor(yRootMap);
     
-  // Kenny -----
+  // 🚨Kenny -----
+ 
+  const {
+    lines,
+    isSynced,
+    startLine,
+    addPointToLine,
+    completeLine,
+    clearAllLines,
+    undoLine,
+    redoLine
+  } = useLines(ydoc);
 
-  const [lines, setLines] = useState([]);
+  useEffect(()=>{
+    //console.log("lines");
+    //console.log(lines);
+    
+    
+  },[lines])
+
+  const handlePointerDown = useCallback(
+    (e) => {
+      e.currentTarget.setPointerCapture(e.pointerId);
+      console.log("📌📌📌📌",e);
+      startLine(getPoint(e.evt.clientX, e.evt.clientY));
+    },
+    [startLine]
+  );
+
+  // On pointer move, update awareness and (if down) update the current line
+  const handlePointerMove = useCallback(
+    (e) => {
+
+      const point = getPoint(e.evt.clientX, e.evt.clientY);
+
+      //updateUserPoint(point);
+
+      if (e.currentTarget.hasPointerCapture(e.pointerId)) {
+        addPointToLine(point);
+      }
+    },
+    [addPointToLine]
+  );
+
+  // On pointer up, complete the current line
+  const handlePointerUp = useCallback(
+    (e) => {
+      //e.currentTarget.releasePointerCapture(e.pointerId);
+
+      completeLine();
+    },
+    [completeLine]
+  );
+
+
+  // 🚨Drawing only
+  const [liness, setLines] = useState([]);
   const [drawing, setDrawing] = useState(false);
   const [color, setColor] = useState("red")
   const handleMouseDown = () => {
@@ -142,9 +211,9 @@ export default function KonvaWidget() {
       ref={stageRef}
       width={window.innerWidth}
       height={window.innerHeight}
-      onMouseMove={handleMouseMove}
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
+      onMouseMove={handlePointerMove}
+      onMouseDown={handlePointerDown}
+      onMouseUp={handlePointerUp}
     >
       <Layer>
         <Text text="Try to drag a rect" />
