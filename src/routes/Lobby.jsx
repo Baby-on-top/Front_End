@@ -1,98 +1,140 @@
 /** @jsxImportSource @emotion/react */
-import SideNav from '../components/lobby/SideNav';
-import Cards from '../components/lobby/Cards';
-import BoardModal from '../components/lobby/BoardModal'
-import ChattingButton from '../components/chat/ChattingButton';
-import WorkspaceDropdown from '../components/lobby/WorkspaceDropdown';
+import SideNav from "../components/lobby/SideNav";
+import Cards from "../components/lobby/Cards";
+import BoardModal from "../components/lobby/BoardModal";
+import WorkspaceDropdown from "../components/lobby/WorkspaceDropdown";
 
-import { SelectedWsName, SelectedWsIdx } from '../utils/atoms';
-import { useRecoilState } from 'recoil';
+import { SelectedWsName, SelectedWsIdx } from "../utils/atoms";
+import { useRecoilState } from "recoil";
 
-import { Global, css } from '@emotion/react';
-import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { useEffect, useState } from 'react';
+import { Global, css } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useEffect, useState } from "react";
+import { isChatModalOpened } from "../utils/atoms";
+import chat from "../assets/chat.png";
+import ChatModal from "../components/chat/ChatModal";
+import ModalPortal from "../components/chat/ModalPortal";
 
 export default function Lobby() {
-    const navigate = useNavigate();
-    const [cookie] = useCookies(['cookie']);
+  const navigate = useNavigate();
+  const [cookie] = useCookies(["cookie"]);
+  const [isChatModal, setIsChatModal] = useRecoilState(isChatModalOpened);
 
-    // 페이지에 들어올때 쿠키로 사용자 체크
-    const loginCheck = () => {
-        const token = cookie.accessToken;
-        if (!token) { // 토큰이 없다면 로그인 화면으로 라우팅
-            navigate('/login');
-        }
+  // 페이지에 들어올때 쿠키로 사용자 체크
+  const loginCheck = () => {
+    const token = cookie.accessToken;
+    if (!token) {
+      // 토큰이 없다면 로그인 화면으로 라우팅
+      navigate("/login");
     }
-    // updateCards
-    // const [count, setCount] = useState(0);
-    // const updateCards = () => {
-    //     console.log(count)
-    //     setCount(count + 1);
-    //     console.log(count)
-    // };
+  };
+  // updateCards
+  // const [count, setCount] = useState(0);
+  // const updateCards = () => {
+  //     console.log(count)
+  //     setCount(count + 1);
+  //     console.log(count)
+  // };
 
-    const [myCard, upCards] = useState(false);
-    // const [myWorkspace, upWorkspace] = useState(false);
-    // const updateCards = upCallback(() => upCards({}), []);
-    const updateCards = () => {
-        upCards(!myCard);
-    }
+  const [myCard, upCards] = useState(false);
+  // const [myWorkspace, upWorkspace] = useState(false);
+  // const updateCards = upCallback(() => upCards({}), []);
+  const updateCards = () => {
+    upCards(!myCard);
+  };
 
-    // const updateWorkspaces = () => {
-    //     upWorkspace(!myWorkspace);
-    // }
+  // const updateWorkspaces = () => {
+  //     upWorkspace(!myWorkspace);
+  // }
 
-    useEffect(() => {
-        const fetch = async () => {
-            await loginCheck();
-        }
-        fetch();
-        console.log(myCard);
-    }, [myCard]);
-    // },[myCard, myWorkspace]);
-    const [ wsName, setWsName ] = useRecoilState(SelectedWsName)
-    const [ wsIdx, setWsIdx ] = useRecoilState(SelectedWsIdx);
+  useEffect(() => {
+    const fetch = async () => {
+      await loginCheck();
+    };
+    fetch();
+    console.log(myCard);
+  }, [myCard]);
+  // },[myCard, myWorkspace]);
+  const [wsName, setWsName] = useRecoilState(SelectedWsName);
+  const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
+  const handleOpen = () => {
+    setIsChatModal(!isChatModal);
+  };
+  return (
+    <div>
+      <Global
+        styles={css`
+          .some-class: {
+            width: 100%;
+            height: 100vh;
+            float: left;
+          }
+        `}
+      />
+      <SideNav />
+      {/* <SideNav updateWorkspaces={updateWorkspaces}/> */}
 
-    return (
-        <div>
-            <Global
-                styles={css
-                    `.some-class: {
-                width: 100%;
-                height: 100vh;
-                float: left;               
-            }`} />
-            <SideNav />
-            {/* <SideNav updateWorkspaces={updateWorkspaces}/> */}
-
-            <div className="main"
-                css={{
-                    marginLeft: '270px',
-                    fontSize: '25px',
-                    fontWeight: 'bold',
-                }}>
-                <div className="header"
-                    css={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        width: '100%',
-                    }}>
-                    <p className="title"
-                        css={{
-                            display: 'inline-block',
-                            fontSize: '40px',
-                            marginTop: '30px',
-                        }}>{wsName}</p>
-                    <WorkspaceDropdown id={wsIdx} />
-                    <BoardModal updateCards={updateCards} />
-                </div>
-                <Cards />
-            </div>
-
-            {/* <ChatModal /> */}
-            <ChattingButton />
+      <div
+        className="main"
+        css={{
+          marginLeft: "270px",
+          fontSize: "25px",
+          fontWeight: "bold",
+        }}
+      >
+        <div
+          className="header"
+          css={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <p
+            className="title"
+            css={{
+              display: "inline-block",
+              fontSize: "40px",
+              marginTop: "30px",
+            }}
+          >
+            {wsName}
+          </p>
+          <WorkspaceDropdown id={wsIdx} />
+          <BoardModal updateCards={updateCards} />
         </div>
-    )
-}
+        <Cards />
+      </div>
 
+      {/* <ChatModal /> */}
+      {/* <ChattingButton /> */}
+      <div
+        onClick={handleOpen}
+        css={{
+          position: "fixed",
+          right: 30,
+          bottom: 20,
+          cursor: "pointer",
+        }}
+      >
+        <img
+          className="chat"
+          alt="chat"
+          src={chat}
+          css={{
+            width: "60px",
+            height: "60px",
+            filter: "drop-shadow(0px 0px 8px rgba(0,0,0,0.25))",
+          }}
+        ></img>
+      </div>
+      {isChatModal && (
+        <ModalPortal>
+          <ChatModal />
+        </ModalPortal>
+      )}
+      <div id="chat-root-modal"></div>
+    </div>
+  );
+}
