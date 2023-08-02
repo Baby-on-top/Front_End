@@ -33,7 +33,7 @@ function Info() {
   );
 }
 
-export default function App() {
+export default function TldrawEditor() {
   return (
     <div className="tldraw">
       <Info />

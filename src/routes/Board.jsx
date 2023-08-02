@@ -5,10 +5,9 @@ import { useEffect } from 'react';
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from '../components/board/BoardHeader';
 import WidgetNav from '../components/board/WidgetNav';
-import WidgetPlace from '../components/board/WidgetPlace';
 import ChattingButton from '../components/chat/ChattingButton';
-import TldrawEditor from '../widgets/tldraw/TldrawEditor';
-import Tldraw2 from '../widgets/tldraw2/Tldraw2';
+import TldrawEditor from '../components/tldraw/TldrawEditor';
+
 
 export default function Board() {
     const navigate = useNavigate();
@@ -35,8 +34,7 @@ export default function Board() {
     return (
         <div>
             <BoardHeader boardName={boardName} workspaceName={workspaceName} />
-            {/* <TldrawEditor /> */}
-            <Tldraw2 />
+            <TldrawEditor />
             <WidgetNav />
             <ChattingButton />
             <WidgetAddModal />
