@@ -16,6 +16,17 @@ export const workspaceCheck = atom({
   default: false, 
 });
 
+export const isChatModalOpened = atom({
+  key: "isChatModalOpened",
+  default: false,
+  // TODO: 테스트를 위한 true, false로 수정 필요
+});
+
+export const isChatRoomOpened = atom({
+  key: "isChatRoom",
+  default: false,
+});
+
 export const recoilWorkspaceList = atom({
   key: "recoilWorkspaceList",
   default: [], 
