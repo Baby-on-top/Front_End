@@ -31,13 +31,10 @@ export default function Board() {
     const boardName = params.get('boardName');
     const workspaceName = params.get('workspaceName');
 
-    return (
-        <div>
-            <BoardHeader boardName={boardName} workspaceName={workspaceName} />
-            <TldrawEditor />
-            <WidgetNav />
-            <ChattingButton />
-            <WidgetAddModal />
-        </div>
-    )
+      {modalOpened && (
+        <ModalPortal closePortal={handleClose}>
+          <ChatModal />
+        </ModalPortal>
+      )}
+      <div id="chat-root-modal"></div>
 }
