@@ -1,6 +1,4 @@
-import { TDBinding, TDShape, TDUser, TldrawApp } from "@tldraw/tldraw";
-import { useCallback, useEffect, useRef, useMemo } from "react";
-import { readContentJSON } from "yjs/dist/src/internals";
+import { useCallback, useEffect, useRef } from "react";
 import throttle from "lodash.throttle";
 import {
   awareness,
@@ -11,11 +9,11 @@ import {
   yShapes
 } from "../store";
 
-export function useMultiplayerState(roomId: string) {
-  const tldrawRef = useRef<TldrawApp>();
+export function useMultiplayerState(roomId) {
+  const tldrawRef = useRef();
 
   const onMount = useCallback(
-    (app: TldrawApp) => {
+    (app) => {
       app.loadRoom(roomId);
       app.pause();
       tldrawRef.current = app;
@@ -30,7 +28,7 @@ export function useMultiplayerState(roomId: string) {
   );
 
   const onChange = useCallback(
-    throttle((app: TldrawApp, reason: string | undefined) => {
+    throttle((app, reason) => {
       if (
         reason &&
         reason.includes("user") &&
@@ -63,14 +61,14 @@ export function useMultiplayerState(roomId: string) {
       const keys = shapes.reduce((keys, shape) => {
         keys.add(shape.id);
         return keys;
-      }, new Set<string>());
+      }, new Set());
 
-      Array.from(yShapes.keys()).forEach((id: string) => {
+      Array.from(yShapes.keys()).forEach((id) => {
         if (!keys.has(id)) {
           yShapes.delete(id);
         }
       });
-    }, 200),
+    }, 50),
     []
   );
 
@@ -82,7 +80,7 @@ export function useMultiplayerState(roomId: string) {
     undoManager.redo();
   }, []);
 
-  const onChangePresence = useCallback((app: TldrawApp, user: TDUser) => {
+  const onChangePresence = useCallback((app, user) => {
     awareness.setLocalStateField("tdUser", user);
   }, []);
 
@@ -97,7 +95,7 @@ export function useMultiplayerState(roomId: string) {
         .map(([_, state]) => state)
         .filter((user) => user.tdUser !== undefined);
 
-      const ids = others.map((other) => other.tdUser.id as string);
+      const ids = others.map((other) => other.tdUser.id);
 
       Object.values(tldraw.room.users).forEach((user) => {
         if (user && !ids.includes(user.id) && user.id !== tldraw.room?.userId) {
@@ -106,7 +104,7 @@ export function useMultiplayerState(roomId: string) {
       });
 
       tldraw.updateUsers(others.map((other) => other.tdUser).filter(Boolean));
-    }, 200);
+    }, 50);
 
     awareness.on("change", onChangeAwareness);
 
@@ -124,7 +122,7 @@ export function useMultiplayerState(roomId: string) {
         Object.fromEntries(yBindings.entries()),
         {}
       );
-    }, 100);
+    }, 25);
 
     yShapes.observeDeep(handleChanges);
 

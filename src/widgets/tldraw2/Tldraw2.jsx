@@ -4,7 +4,7 @@ import { useMultiplayerState } from "./hooks/useMultiplayerState";
 import "./styles.css";
 import { awareness, roomID } from "./store";
 
-function Editor({ roomId }: { roomId: string }) {
+function Editor({ roomId }) {
   const fileSystemEvents = useFileSystem();
   const { onMount, ...events } = useMultiplayerState(roomId);
 
@@ -13,7 +13,6 @@ function Editor({ roomId }: { roomId: string }) {
       showMenu={false}
       showZoom={false}
       autofocus
-      disableAssets
       showPages={false}
       onMount={onMount}
       {...fileSystemEvents}
