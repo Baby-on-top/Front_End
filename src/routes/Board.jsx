@@ -2,12 +2,12 @@
 import { useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
-import { atom } from "recoil";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from '../components/board/BoardHeader';
 import WidgetNav from '../components/board/WidgetNav';
 import WidgetPlace from '../components/board/WidgetPlace';
 import ChattingButton from '../components/chat/ChattingButton';
+import TldrawEditor from '../widgets/tldraw/TldrawEditor';
 
 export default function Board() {
     const navigate = useNavigate();
@@ -34,7 +34,7 @@ export default function Board() {
     return (
         <div>
             <BoardHeader boardName={boardName} workspaceName={workspaceName} />
-            <WidgetPlace />
+            <TldrawEditor />
             <WidgetNav />
             <ChattingButton />
             <WidgetAddModal />
