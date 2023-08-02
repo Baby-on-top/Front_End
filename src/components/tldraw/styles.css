@@ -1,18 +1,10 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+:root {
+  --colors-selected: #00AB59;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
 }
 
 .tldraw {
@@ -37,13 +29,27 @@ a {
   justify-content: space-between;
 }
 
-.color-dodgerblue {
-  color: dodgerblue;
-}
-
 .absolute {
   position: absolute;
   z-index: 100;
   left: 0;
   top: 0;
+}
+
+.c-yILjc,
+#TD-Tools-Dots {
+  display: none;
+}
+
+.c-QTiTL.c-QTiTL-jvfJsl-side-right {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 0px;
+}
+
+.c-hSIOJC {
+  font-family: 'Noto Sans KR', sans-serif;
 }
