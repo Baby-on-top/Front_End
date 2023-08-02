@@ -2,7 +2,6 @@
 import SideNav from "../components/lobby/SideNav";
 import Cards from "../components/lobby/Cards";
 import BoardModal from "../components/lobby/BoardModal";
-import ChattingButton from "../components/chat/ChattingButton";
 import WorkspaceDropdown from "../components/lobby/WorkspaceDropdown";
 
 import { SelectedWsName, SelectedWsIdx } from "../utils/atoms";
@@ -12,10 +11,15 @@ import { Global, css } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect, useState } from "react";
+import { isChatModalOpened } from "../utils/atoms";
+import chat from "../assets/chat.png";
+import ChatModal from "../components/chat/ChatModal";
+import ModalPortal from "../components/chat/ModalPortal";
 
 export default function Lobby() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
+  const [isChatModal, setIsChatModal] = useRecoilState(isChatModalOpened);
 
   // 페이지에 들어올때 쿠키로 사용자 체크
   const loginCheck = () => {
@@ -54,7 +58,9 @@ export default function Lobby() {
   // },[myCard, myWorkspace]);
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
-
+  const handleOpen = () => {
+    setIsChatModal(!isChatModal);
+  };
   return (
     <div>
       <Global
@@ -72,7 +78,7 @@ export default function Lobby() {
       <div
         className="main"
         css={{
-          marginLeft: "350px",
+          marginLeft: "270px",
           fontSize: "25px",
           fontWeight: "bold",
         }}
@@ -100,9 +106,32 @@ export default function Lobby() {
         </div>
         <Cards />
       </div>
-
-      {/* <ChatModal /> */}
-      <ChattingButton />
+      <div
+        onClick={handleOpen}
+        css={{
+          position: "fixed",
+          right: 30,
+          bottom: 20,
+          cursor: "pointer",
+        }}
+      >
+        <img
+          className="chat"
+          alt="chat"
+          src={chat}
+          css={{
+            width: "60px",
+            height: "60px",
+            filter: "drop-shadow(0px 0px 8px rgba(0,0,0,0.25))",
+          }}
+        ></img>
+      </div>
+      {isChatModal && (
+        <ModalPortal>
+          <ChatModal />
+        </ModalPortal>
+      )}
+      <div id="chat-root-modal"></div>
     </div>
   );
 }

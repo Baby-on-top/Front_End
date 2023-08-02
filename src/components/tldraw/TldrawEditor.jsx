@@ -17,6 +17,7 @@ function Editor({ roomId }) {
       onMount={onMount}
       {...fileSystemEvents}
       {...events}
+      darkMode={false}
     />
   );
 }
