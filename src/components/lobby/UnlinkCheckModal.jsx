@@ -4,18 +4,7 @@ import { inviteUrlCreate } from "../../utils/apis";
 import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-const InviteModal = ({ open, close, workspaceId }) => {
-  const [url, setUrl] = useState("");
-
-  async function getUrl(workspaceId) {
-    const response = await inviteUrlCreate(workspaceId);
-    setUrl(process.env.REACT_APP_API_URL + "/" + response.data.data);
-  }
-
-  useEffect(() => {
-    getUrl(workspaceId);
-  }, []);
-
+const UnlinkCheckModal = ({ setIsUnlink, unlink }) => {
   return (
     <div
       css={{
@@ -71,9 +60,15 @@ const InviteModal = ({ open, close, workspaceId }) => {
             }}
           >
             <div css={{ fontFamily: "Noto Sans KR", fontSize: "24px" }}>
-              멤버 초대하기
+              탈퇴
             </div>
-            <XMarkIcon onClick={close} width={30} height={30}></XMarkIcon>
+            <XMarkIcon
+              onClick={() => {
+                setIsUnlink(false);
+              }}
+              width={30}
+              height={30}
+            ></XMarkIcon>
           </div>
 
           {/* 설명 */}
@@ -86,27 +81,18 @@ const InviteModal = ({ open, close, workspaceId }) => {
               margin: "25px 0px",
             }}
           >
-            생성된 초대 링크로 워크스페이스에 멤버를 초대합니다
+            정말 탈퇴하시겠습니까??
           </div>
           {/* 링크 및 복사 버튼 */}
           <div
             css={{
               display: "flex",
               flex: "1",
-              backgroundColor: "#F5F5F5",
               justifyContent: "space-between",
               alignItems: "center",
               padding: "15px 20px",
             }}
           >
-            <div
-              css={{
-                flex: "7",
-                color: "gray",
-              }}
-            >
-              {url}
-            </div>
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{
@@ -114,20 +100,42 @@ const InviteModal = ({ open, close, workspaceId }) => {
                 borderRadius: "10%",
               }}
               css={{
-                flex: "2",
-                width: "100px",
+                flex: "1",
+                width: "90px",
                 height: "40px",
-                backgroundColor: "#00AB59",
+                margin: "0px 20px",
+                backgroundColor: "#ec5b5b",
                 borderWidth: "0px",
                 borderRadius: "5px",
                 fontSize: "16px",
                 color: "white",
               }}
+              onClick={unlink}
+            >
+              예
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{
+                scale: 0.9,
+                borderRadius: "10%",
+              }}
+              css={{
+                flex: "1",
+                width: "90px",
+                height: "40px",
+                margin: "0px 20px",
+                backgroundColor: "#ebf0ee",
+                borderWidth: "0px",
+                borderRadius: "5px",
+                fontSize: "16px",
+                color: "black",
+              }}
               onClick={() => {
-                navigator.clipboard.writeText(url);
+                setIsUnlink(false);
               }}
             >
-              복사
+              아니요
             </motion.button>
           </div>
         </motion.div>
@@ -136,4 +144,4 @@ const InviteModal = ({ open, close, workspaceId }) => {
   );
 };
 
-export default InviteModal;
+export default UnlinkCheckModal;

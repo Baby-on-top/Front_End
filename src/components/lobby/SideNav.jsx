@@ -6,16 +6,18 @@ import { kakaoUnlink, kakaoInfo } from "../../utils/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import WorkSpaceModal from "./WorkSpaceModal";
-import {
-  recoilWorkspaceList,
-  workspaceCheck,
-  SelectedWsIdx,
-  SelectedWsName,
-} from "../../utils/atoms";
+import { SelectedWsIdx, SelectedWsName } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
-import { motion } from "framer-motion";
+import { motion, useAnimate, stagger } from "framer-motion";
 import InviteModal from "./InviteModal";
+import UnlinkCheckModal from "./UnlinkCheckModal";
 import useModal from "../hooks/useModal";
+import {
+  ArrowRightOnRectangleIcon,
+  EllipsisVerticalIcon,
+  PlusIcon,
+  PowerIcon,
+} from "@heroicons/react/24/solid";
 
 export default function SideNav() {
   const { modalOpen, close, open } = useModal();
@@ -28,8 +30,31 @@ export default function SideNav() {
   const [name, setName] = useState();
   const [workspaceList, setWorkspaceList] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isUnlink, setIsUnlink] = useState(false);
 
   const navigate = useNavigate();
+
+  const subMenuAnimate = {
+    enter: {
+      opacity: 1,
+      rotateX: 0,
+      transition: {
+        duration: 0.5,
+      },
+      display: "block",
+    },
+    exit: {
+      opacity: 0,
+      rotateX: -15,
+      transition: {
+        duration: 0.5,
+        delay: 0.3,
+      },
+      transitionEnd: {
+        display: "none",
+      },
+    },
+  };
 
   async function getUserInfo() {
     const response = await kakaoInfo(cookies);
@@ -68,6 +93,7 @@ export default function SideNav() {
 
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
+  const [isMenu, setIsMenu] = useState(false);
   const selIdx = (idx) => {
     setWsName(refs.current[idx].innerText);
     setWsIdx(idx);
@@ -79,6 +105,13 @@ export default function SideNav() {
   //     console.log(refs.current)
   //     console.log(wsIdx)
   // },[wsIdx])
+
+  const unlink = async () => {
+    const response = await kakaoUnlink(cookies);
+    if (response.status === 200) {
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     getUserInfo();
@@ -93,7 +126,7 @@ export default function SideNav() {
     <div
       className="side-nav"
       css={{
-        width: "250px",
+        width: "300px",
         height: "100%",
         background: "white",
         position: "fixed",
@@ -101,89 +134,96 @@ export default function SideNav() {
         borderRight: "1px solid black",
       }}
     >
+      {/* 프로필 컨테이너 */}
       <div
-        className="side-nav-top"
         css={{
-          height: "100px",
-          borderBottom: "1px solid black",
+          display: "flex",
+          height: "150px",
+          borderBottom: "3px solid #cacaca",
         }}
       >
-        <img
-          className="muji"
-          src={profile ?? muji}
-          alt="얼굴"
-          css={{
-            width: "100px",
-            height: "100px",
-            float: "left",
-          }}
-        />
+        {/* 사진 */}
         <div
           css={{
-            flex: 1,
-            flexDirection: "row",
-            height: "100px",
+            display: "flex",
+            flex: "3",
             justifyContent: "center",
             alignItems: "center",
           }}
         >
-          <div
-            className="name"
+          <img
+            className="muji"
+            src={profile ?? muji}
+            alt="얼굴"
             css={{
-              fontSize: "30px",
-              paddingLeft: "150px",
-              paddingTop: "10px",
+              width: "80px",
+              height: "80px",
+              float: "left",
+              borderRadius: "50px",
+            }}
+          />
+        </div>
+
+        {/* 정보 */}
+        <div
+          css={{
+            display: "flex",
+            flex: "4",
+          }}
+        >
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              flex: "1",
+              marginTop: "30px",
             }}
           >
-            {name}
-          </div>
-          <div css={{ paddingLeft: "135px" }}>
-            <button
-              onClick={() => {
-                window.location.href = logoutLink;
-              }}
+            <div
+              className="name"
               css={{
-                flex: 1,
-                height: "30px",
-                marginTop: "5px",
-                marginRight: "5px",
-                color: "white",
-                fontSize: "15px",
-                fontWeight: "bold",
-                paddingLeft: "15px",
-                paddingRight: "15px",
-                backgroundColor: "green",
-                border: "none",
-                borderRadius: "10px",
+                fontSize: "30px",
+                display: "flex",
+                flex: "1",
+                paddingLeft: "25px",
               }}
             >
-              +
-            </button>
-
-            <button
-              onClick={async () => {
-                const response = await kakaoUnlink(cookies);
-                if (response.status === 200) {
-                  navigate("/login");
-                }
-              }}
+              {name}
+            </div>
+            <div
               css={{
-                flex: 1,
-                height: "30px",
-                marginTop: "5px",
-                marginRight: "5px",
-                color: "white",
-                fontSize: "15px",
-                fontWeight: "bold",
-                paddingLeft: "15px",
-                paddingRight: "15px",
-                backgroundColor: "red",
-                border: "none",
-                borderRadius: "10px",
+                flex: "1",
+                display: "flex",
+                padding: "0px 10px",
+                marginRight: "40px",
+                justifyContent: "space-around",
               }}
             >
-              x
-            </button>
+              <ArrowRightOnRectangleIcon
+                onClick={() => {
+                  window.location.href = logoutLink;
+                }}
+                width={40}
+                height={40}
+                css={{
+                  backgroundColor: "#cbcbcb",
+                  borderRadius: "10px",
+                  padding: "5px 5px",
+                }}
+              ></ArrowRightOnRectangleIcon>
+              <PowerIcon
+                onClick={() => {
+                  setIsUnlink(true);
+                }}
+                width={40}
+                height={40}
+                css={{
+                  backgroundColor: "#efa8a8",
+                  borderRadius: "10px",
+                  padding: "5px 5px",
+                }}
+              ></PowerIcon>
+            </div>
           </div>
         </div>
       </div>
@@ -203,23 +243,32 @@ export default function SideNav() {
       <motion.div
         className="side-nav-end"
         css={{
-          padding: "0px 10px",
           fontSize: "20px",
         }}
       >
-        {workspaceList.map((Workspace) => (
+        {workspaceList.map((Workspace, id) => (
           <motion.div
+            initial={{ backgroundColor: "#FFFFFF" }}
+            animate={{
+              backgroundColor:
+                Workspace.workspaceId == wsIdx ? "#DEFED9" : "#FFFFFF",
+            }}
             key={Workspace.workspaceId}
+            whileHover={{
+              backgroundColor:
+                Workspace.workspaceId == wsIdx ? "#DEFED9" : "#acacac",
+            }}
             ref={(el) => (refs.current[Workspace.workspaceId] = el)}
             onClick={() => selIdx(Workspace.workspaceId)}
             css={{
               display: "flex",
               alignItems: "center",
-              borderRadius: "15px",
-              margin: "10px 0px",
+              padding: "10px 20px",
+              backgroundColor:
+                Workspace.workspaceId == wsIdx ? "#DEFED9" : "#FFFFFF",
             }}
           >
-            <motion.img
+            <img
               className="side-nav-end-image"
               src={Workspace.workspaceImage}
               alt="얼굴"
@@ -236,10 +285,8 @@ export default function SideNav() {
             />
             <motion.div
               css={{
-                backgroundColor: "#E3F4F4",
-                borderRadius: "15px",
                 margin: "5px 0px",
-                width: "160px",
+                width: "210px",
                 display: "flex",
                 alignItems: "center",
               }}
@@ -302,6 +349,9 @@ export default function SideNav() {
             close={close}
             workspaceId={wsIdx}
           />
+        )}
+        {isUnlink && (
+          <UnlinkCheckModal setIsUnlink={setIsUnlink} unlink={unlink} />
         )}
 
         <WorkSpaceModal isUpdate={isUpdate} setIsUpdate={setIsUpdate} />
