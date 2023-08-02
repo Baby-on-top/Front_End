@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
-const ModalPortal = ({ children, closePortal }) => {
+const ModalPortal = ({ children }) => {
   const ref = useRef();
   const [mounted, setMounted] = useState(false);
 
@@ -18,7 +18,7 @@ const ModalPortal = ({ children, closePortal }) => {
   if (ref.current && mounted) {
     return createPortal(
       <div className="modal-container">
-        <div role="presentation" onClick={closePortal} />
+        <div role="presentation" />
         {children}
       </div>,
       ref.current
