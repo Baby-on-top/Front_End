@@ -9,14 +9,9 @@ const doc = new Y.Doc();
 const roomID = `y-tldraw-${VERSION}`;
 
 // Create a websocket provider
-const provider = new WebsocketProvider(
-  "ws://localhost:1234",
-  roomID,
-  doc,
-  {
-    connect: true
-  }
-);
+const provider = new WebsocketProvider("ws://localhost:1234", roomID, doc, {
+  connect: true,
+});
 
 // Export the provider's awareness API
 const awareness = provider.awareness;
@@ -33,5 +28,5 @@ module.exports = {
   awareness,
   yShapes,
   yBindings,
-  undoManager
+  undoManager,
 };
