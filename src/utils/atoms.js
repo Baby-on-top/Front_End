@@ -37,6 +37,10 @@ export const SelectedWsIdx = atom({
   key: "SelectedWsIdx",
   default: 0,
 });
+export const SelectedWsCreateId = atom({
+  key: "SelectedWsCreateId",
+  default: 0,
+});
 
 export const SelectedWsName = atom({
   key: "SelectedWsName",

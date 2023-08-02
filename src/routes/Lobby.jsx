@@ -4,7 +4,11 @@ import Cards from "../components/lobby/Cards";
 import BoardModal from "../components/lobby/BoardModal";
 import WorkspaceDropdown from "../components/lobby/WorkspaceDropdown";
 
-import { SelectedWsName, SelectedWsIdx } from "../utils/atoms";
+import {
+  SelectedWsName,
+  SelectedWsIdx,
+  SelectedWsCreateId,
+} from "../utils/atoms";
 import { useRecoilState } from "recoil";
 
 import { Global, css } from "@emotion/react";
@@ -47,7 +51,9 @@ export default function Lobby() {
   // const updateWorkspaces = () => {
   //     upWorkspace(!myWorkspace);
   // }
-
+  const handleOpen = () => {
+    setIsChatModal(!isChatModal);
+  };
   useEffect(() => {
     const fetch = async () => {
       await loginCheck();
@@ -58,9 +64,8 @@ export default function Lobby() {
   // },[myCard, myWorkspace]);
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
-  const handleOpen = () => {
-    setIsChatModal(!isChatModal);
-  };
+  const [wsCreateId, setCreateId] = useRecoilState(SelectedWsCreateId);
+
   return (
     <div>
       <Global
@@ -78,7 +83,7 @@ export default function Lobby() {
       <div
         className="main"
         css={{
-          marginLeft: "350px",
+          marginLeft: "270px",
           fontSize: "25px",
           fontWeight: "bold",
         }}
@@ -101,11 +106,12 @@ export default function Lobby() {
           >
             {wsName}
           </p>
-          <WorkspaceDropdown id={wsIdx} />
+          <WorkspaceDropdown id={wsIdx} createId={wsCreateId} />
           <BoardModal updateCards={updateCards} />
         </div>
         <Cards />
       </div>
+
       <div
         onClick={handleOpen}
         css={{
