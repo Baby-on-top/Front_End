@@ -5,7 +5,7 @@ import BoardModal from '../components/lobby/BoardModal'
 import ChattingButton from '../components/chat/ChattingButton';
 import WorkspaceDropdown from '../components/lobby/WorkspaceDropdown';
 
-import { SelectedWsName, SelectedWsIdx } from '../utils/atoms';
+import { SelectedWsName, SelectedWsIdx, SelectedWsCreateId } from '../utils/atoms';
 import { useRecoilState } from 'recoil';
 
 import { Global, css } from '@emotion/react';
@@ -51,8 +51,9 @@ export default function Lobby() {
         console.log(myCard);
     }, [myCard]);
     // },[myCard, myWorkspace]);
-    const [ wsName, setWsName ] = useRecoilState(SelectedWsName)
-    const [ wsIdx, setWsIdx ] = useRecoilState(SelectedWsIdx);
+    const [wsName, setWsName] = useRecoilState(SelectedWsName)
+    const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
+    const [wsCreateId, setCreateId] = useRecoilState(SelectedWsCreateId);
 
     return (
         <div>
@@ -84,7 +85,7 @@ export default function Lobby() {
                             fontSize: '40px',
                             marginTop: '30px',
                         }}>{wsName}</p>
-                    <WorkspaceDropdown id={wsIdx} />
+                    <WorkspaceDropdown id={wsIdx} createId={wsCreateId} />
                     <BoardModal updateCards={updateCards} />
                 </div>
                 <Cards />

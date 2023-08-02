@@ -236,4 +236,78 @@ export async function workspaceDelete(workspaceIdx) {
 }
 
 
+export async function workspaceLeave(cookie, workspaceIdx) {
+    const url = '/api/workspace/unlink';
+    const header = {
+        Token: cookie.accessToken,
+    }
+    const info = {
+        'workspaceId': workspaceIdx,
+    }
 
+    try {
+        const response = await axios({
+            method: "POST",
+            url: url,
+            headers: header,
+            data: info,
+        })
+        return response.data;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+
+
+
+export async function boardLeave(cookie, boardIdx) {
+    const url = '/api/board/invite';   
+
+    try {
+        const response = await axios.delete(url,
+            {
+                headers: { Token: cookie.accessToken },
+                data: { boardId: boardIdx },
+            }
+        )
+        return response.data;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+
+// 보드 초대
+export async function boardInvite(boardIdx, memberIdx) {
+    const url = '/api/board/invite';   
+
+    try {
+        const response = await axios.post(url,
+            {
+                boardId: boardIdx,
+                memberId: memberIdx,
+            }
+        )
+        return response.data;
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+// 워크스페이스 사용자정보 조회
+export async function boardJoin(workspaceIdx) {
+    const url = '/api/workspace/join';
+
+    try {
+        const response = await axios.get(url,
+            {
+                params : { workspaceId : workspaceIdx,
+                },
+            }
+        )
+        return response.data;
+    } catch (e) {
+        console.error(e);
+    }
+}
