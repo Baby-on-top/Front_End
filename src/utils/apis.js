@@ -3,11 +3,6 @@ import { Urls } from "./urls";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-// export function getCookies() {
-//     const [cookies] = useCookies(['cookies']);
-//     return cookies;
-// }
-
 ///User
 export async function kakaoLogin(code) {
   try {

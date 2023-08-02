@@ -106,9 +106,6 @@ export default function Lobby() {
         </div>
         <Cards />
       </div>
-
-      {/* <ChatModal /> */}
-      {/* <ChattingButton /> */}
       <div
         onClick={handleOpen}
         css={{
