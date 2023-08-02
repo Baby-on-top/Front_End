@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import muji from '../../assets/muji.jpg';
 import { kakaoUnlink, kakaoInfo } from '../../utils/apis';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import WorkSpaceModal from './WorkSpaceModal';
-import { recoilWorkspaceList, workspaceCheck } from '../../utils/atoms';
+import { recoilWorkspaceList, workspaceCheck, SelectedWsIdx, SelectedWsName } from '../../utils/atoms';
 import { useRecoilState } from 'recoil';
 
 
@@ -23,6 +23,7 @@ export default function SideNav() {
     const navigate = useNavigate();
 
 
+
     async function getUserInfo() {
         const response = await kakaoInfo(cookies);
         setName(response.data.data.name);
@@ -32,9 +33,10 @@ export default function SideNav() {
 
     const fetchData = async () => {
         // const response = await axios.get(SERVER_URL)
+        console.log("aaaa");
+        console.log(cookies.accessToken);
         const response = await axios.get(SERVER_URL,
             {
-
                 headers: { Token: cookies.accessToken },
             })
 
@@ -56,7 +58,22 @@ export default function SideNav() {
     };
     // hover 끝
 
+    // ref
+    const refs = useRef([]);
 
+    const [ wsIdx, setWsIdx ] = useRecoilState(SelectedWsIdx);
+    const [ wsName, setWsName ] = useRecoilState(SelectedWsName);
+    const selIdx = (idx) => {
+        setWsName(refs.current[idx].innerText)
+        setWsIdx(idx)
+    }
+
+    // useEffect(()=> {
+    //     console.log('refs')
+    //     console.log(refs)
+    //     console.log(refs.current)
+    //     console.log(wsIdx)
+    // },[wsIdx])
 
     useEffect(() => {
         getUserInfo();
@@ -66,6 +83,7 @@ export default function SideNav() {
     useEffect(() => {
         fetchData();
     }, [isUpdate])
+
 
     return (
         <div className="side-nav"
@@ -77,6 +95,7 @@ export default function SideNav() {
                 float: 'left',
                 borderRight: '1px solid black',
             }}>
+            
 
             <div className="side-nav-top"
                 css={{
@@ -164,13 +183,13 @@ export default function SideNav() {
                     }}>workspace</p>
             </div>
 
-            <div className="side-nav-end"
+            <div className="side-nav-end" 
                 css={{
                     marginLeft: '15px',
-                    fontSize: '20px',
+                    fontSize: '20px',                    
                 }}>
                 {workspaceList.map((Workspace) => (
-                    <div key={Workspace.workspaceId}>
+                    <div key={Workspace.workspaceId} ref={ (el) => (refs.current[Workspace.workspaceId] = el)} onClick={() => selIdx(Workspace.workspaceId)}>
                         <img className="side-nav-end-image" src={Workspace.workspaceImage} alt="얼굴"
                             css={{
                                 height: '30px',
@@ -193,15 +212,16 @@ export default function SideNav() {
                                 borderRadius: '5px',
                             }}
                         >{Workspace.workspaceName}</p>
+                        
                     </div>
                 ))
 
                 }
-                <p>baby_on_top</p>
+                {/* <p>baby_on_top</p>
                 <p>jungle_blue</p>
                 <p>pintos_study</p>
                 <p>프론트엔드 스터디</p>
-                <p>정글 2기</p>
+                <p>정글 2기</p> */}
                 <WorkSpaceModal isUpdate={isUpdate} setIsUpdate={setIsUpdate} />
             </div>
         </div>

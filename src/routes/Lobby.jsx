@@ -3,6 +3,10 @@ import SideNav from '../components/lobby/SideNav';
 import Cards from '../components/lobby/Cards';
 import BoardModal from '../components/lobby/BoardModal'
 import ChattingButton from '../components/chat/ChattingButton';
+import WorkspaceDropdown from '../components/lobby/WorkspaceDropdown';
+
+import { SelectedWsName, SelectedWsIdx } from '../utils/atoms';
+import { useRecoilState } from 'recoil';
 
 import { Global, css } from '@emotion/react';
 import { useNavigate } from 'react-router-dom';
@@ -47,6 +51,8 @@ export default function Lobby() {
         console.log(myCard);
     }, [myCard]);
     // },[myCard, myWorkspace]);
+    const [ wsName, setWsName ] = useRecoilState(SelectedWsName)
+    const [ wsIdx, setWsIdx ] = useRecoilState(SelectedWsIdx);
 
     return (
         <div>
@@ -77,7 +83,8 @@ export default function Lobby() {
                             display: 'inline-block',
                             fontSize: '40px',
                             marginTop: '30px',
-                        }}>jungle_blue</p>
+                        }}>{wsName}</p>
+                    <WorkspaceDropdown id={wsIdx} />
                     <BoardModal updateCards={updateCards} />
                 </div>
                 <Cards />

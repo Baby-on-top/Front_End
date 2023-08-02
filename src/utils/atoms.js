@@ -21,6 +21,17 @@ export const recoilWorkspaceList = atom({
   default: [], 
 });
 
+//워크스페이스 별 보드출력
+export const SelectedWsIdx = atom({
+  key: "SelectedWsIdx",
+  default: 0
+});
+
+export const SelectedWsName = atom({
+  key: "SelectedWsName",
+  default: ""
+});
+
 
 /// Board
 export const showModalState = atom({

@@ -2,8 +2,10 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from 'react-cookie';
 import { boardCreate } from '../../utils/apis';
-import { recoilBoardList, saveCheck } from '../../utils/atoms';
+import { recoilBoardList, saveCheck, SelectedWsIdx } from '../../utils/atoms';
 import { useRecoilState } from 'recoil';
+
+// import EditModal from "./EditModal";
 
 export default function BoardModal({ updateCards }) {
   const [cookies] = useCookies(['cookies']);
@@ -11,10 +13,11 @@ export default function BoardModal({ updateCards }) {
   const [image, setImage] = useState(null);
   const [title, setTitle] = useState('');
   const [chk, setChk] = useRecoilState(saveCheck);
+  const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
 
   const fetchData = async () => {
     try {
-      const response = await boardCreate(cookies, image, 1, title, title);
+      const response = await boardCreate(cookies, image, wsIdx, title, title);
       console.log(response);
       setChk(true);
       return response
@@ -47,7 +50,7 @@ export default function BoardModal({ updateCards }) {
   } else {
     document.body.classList.remove('active-modal')
   }
-  // 모달 할 때 필요하다는디 왤까? 일단 넣음.
+
 
   // 이미지 업로드 시작
 
@@ -78,7 +81,7 @@ export default function BoardModal({ updateCards }) {
   };
 
   const handleDelete = () => {
-    URL.revokeObjectURL(image);
+    URL.revokeObjectURL(image)
     setImage();
     setModal(!modal);
   };
@@ -100,23 +103,26 @@ export default function BoardModal({ updateCards }) {
 
   return (
     <>
-      <button onClick={toggleModal} className="title-button"
-        css={{
-          display: 'inline-block',
-          height: '30px',
-          marginTop: '20px',
-          marginRight: '20px',
-          color: 'white',
-          fontSize: '15px',
-          fontWeight: 'bold',
-          paddingLeft: '15px',
-          paddingRight: '15px',
-          backgroundColor: 'green',
-          border: 'none',
-          borderRadius: '10px',
-        }} >
-        + board
-      </button>
+      {
+        wsIdx != 0 &&
+        <button onClick={toggleModal} className="title-button"
+          css={{
+            display: 'inline-block',
+            height: '30px',
+            marginTop: '20px',
+            marginRight: '20px',
+            color: 'white',
+            fontSize: '15px',
+            fontWeight: 'bold',
+            paddingLeft: '15px',
+            paddingRight: '15px',
+            backgroundColor: 'green',
+            border: 'none',
+            borderRadius: '10px',
+          }} >
+          + board
+        </button>
+      }
 
       {/* if문 */}
       {modal && (

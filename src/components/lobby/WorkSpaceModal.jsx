@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import React, { useRef, useState } from "react";
 import { useCookies } from 'react-cookie';
-import { workspaceCreate } from '../../utils/apis';
+import { workspaceCreate, workspaceEdit } from '../../utils/apis';
 import { useRecoilState } from 'recoil';
-import { workspaceCheck, recoilWorkspaceList } from '../../utils/atoms';
+import { workspaceCheck, recoilWorkspaceList, SelectedWsIdx } from '../../utils/atoms';
 
 // import axios from 'axios';
 
@@ -127,10 +127,30 @@ export default function WorkSpaceModal(props) {
         props.setIsUpdate(!props.isUpdate);
     }
 
+    const editWorkspace = async () => {
+        try {
+            const response = await workspaceEdit(cookies, image, title, wsIdx);
+            console.log(response);
+            setWschk(true);
+            return response
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    const [ wsIdx, setWsIdx ] = useRecoilState(SelectedWsIdx);
+    const [nowChk, setNowChk] = useState('edit');
+
+    
+
 
     return (
         <>
-            <p className="workspace-modal" onClick={workspaceModal} >+ 워크스페이스 추가하기</p>
+            <div className="wsadd" css={{
+                position: 'absolute',
+                bottom: '0px',
+            }} >
+                <p className="workspace-modal" onClick={workspaceModal} >+ 워크스페이스 추가하기</p>
+            </div>
             {modal && (
                 <div className="modal"
                     css={{
@@ -276,6 +296,7 @@ export default function WorkSpaceModal(props) {
                                             display: 'inline-block',
                                         }}>저장</button></div>
                         }
+                       
 
                     </div>
                 </div>
