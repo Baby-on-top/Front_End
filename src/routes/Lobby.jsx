@@ -78,7 +78,7 @@ export default function Lobby() {
       <div
         className="main"
         css={{
-          marginLeft: "270px",
+          marginLeft: "350px",
           fontSize: "25px",
           fontWeight: "bold",
         }}
