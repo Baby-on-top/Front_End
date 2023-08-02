@@ -21,11 +21,14 @@ export default function BoardHeader({boardName, workspaceName}) {
             left: '50%',
             transform: 'translateX(-50%)',
             zIndex: 3,
+            // backgroundColor: 'rgb(248, 249, 250)',
+            // padding: '10px',
+            // borderRadius: '8px',
         }}>
-            <div css={{fontSize: 24, fontWeight: 500, color: '#9A9999', cursor: 'pointer', width: 156, height: 36}}>
+            <div css={{fontSize: 24, fontWeight: 500, color: '#9A9999', cursor: 'pointer', height: 36}}>
                 {workspaceName}&nbsp;&nbsp;/
             </div>
-            <div css={{fontSize: 24, fontWeight: 500, cursor: 'pointer', width: 122, height: 33 }}>
+            <div css={{fontSize: 24, fontWeight: 500, cursor: 'pointer', height: 33 }}>
                 &nbsp;&nbsp;{boardName}
             </div>
         </div>
