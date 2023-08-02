@@ -13,7 +13,7 @@ html,
     box-sizing: border-box;
 }
 
-.tldraw {
+.tldraw__editor {
   position: fixed;
   top: 0px;
   left: 0px;
