@@ -10,7 +10,7 @@ export const useYdoc = () => {
   useEffect(() => {
     if (isFirstLoad.current) {
       const provider = new WebrtcProvider('konva', ydoc, {
-        signaling: ['ws://localhost:3000'],
+        signaling: ['wss://demos.yjs.dev'],
         password: null,
         awareness: new awarenessProtocol.Awareness(ydoc),
         maxConns: 20 + Math.floor(Math.random() * 15),

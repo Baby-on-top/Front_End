@@ -34,13 +34,20 @@ export default function ToolBar() {
             boxShadow: '0px 0px 8px 1px rgba(0,0,0,0.15)',
             height: 54,
             padding: '0px 4px',
+            overflow: 'hidden',
         }}>
             <IconButton onClick={() => {console.log('asdasd')}} css={{color: colors.main_green}}>
-                <i class="fas fa-mouse-pointer fa-lg"></i>
+                <i class="fa-solid fa-arrow-pointer fa-lg"></i>
             </IconButton>
             <div css={{width: 1, height: 34, backgroundColor: '#eee', marginRight: '4px'}}></div>
             <IconButton onClick={() => {console.log('asdasd')}}>
                 <i class="fa-solid fa-pen fa-lg"></i>
+            </IconButton>
+            <IconButton onClick={() => {console.log('asdasd')}}>
+                <i class="fa-solid fa-eraser fa-lg"></i>
+            </IconButton>
+            <IconButton onClick={() => {console.log('asdasd')}}>
+                <i class="fa-solid fa-arrow-up fa-lg"></i>
             </IconButton>
             <IconButton onClick={() => {console.log('asdasd')}}>
                 <i class="fa-solid fa-t fa-lg"></i>
@@ -54,6 +61,7 @@ export default function ToolBar() {
             <IconButton onClick={() => {console.log('asdasd')}}>
                 <i class="fa-regular fa-image fa-lg"></i>
             </IconButton>
+            <div css={{width: 1, height: 34, backgroundColor: '#eee', marginRight: '4px'}}></div>
             <IconButton onClick={() => {console.log('asdasd')}}>
                 <i class="fa-solid fa-file-export fa-lg"></i>
             </IconButton>

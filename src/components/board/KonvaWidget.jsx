@@ -6,7 +6,7 @@ import * as Y from 'yjs';
 import { useYdoc } from './hooks/useYdoc';
 import { useYcursor } from './hooks/useYcursor';
 import { useYcanvas } from './hooks/useYcanvas';
-import { Cursor } from './Cursor';
+import { MultiCursorStyle } from './MultiCursorStyle';
 import KonvaEditableText  from '../../widgets/text/KonvaEditableText';
 // import KonvaEditText from './components/KonvaAddImage';
 import KonvaAddImage from '../../widgets/image/KonvaAddImage';
@@ -192,7 +192,7 @@ export default function KonvaWidget() {
           x={100}
           y={200}/>
         {cursors.map((cursor) => (
-          <Cursor key={cursor.id} x={cursor.x} y={cursor.y} id={cursor.id} />
+          <MultiCursorStyle key={cursor.id} x={cursor.x} y={cursor.y} id={cursor.id} />
         ))}
         <Text
           x={10}
