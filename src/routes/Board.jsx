@@ -7,6 +7,7 @@ import BoardHeader from '../components/board/BoardHeader';
 import WidgetNav from '../components/board/WidgetNav';
 import ChattingButton from '../components/chat/ChattingButton';
 import KonvaWidget from '../widgets/konva/KonvaWidget';
+import WidgetPlace from '../components/board/WidgetPlace';
 
 export default function Board() {
     const navigate = useNavigate();
@@ -33,7 +34,8 @@ export default function Board() {
     return (
         <div>
             <BoardHeader boardName={boardName} workspaceName={workspaceName} />
-            <KonvaWidget />
+            {/* <KonvaWidget /> */}
+            <WidgetPlace/>
             <WidgetNav />
             <ChattingButton />
             <WidgetAddModal />

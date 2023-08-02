@@ -7,38 +7,56 @@ import { useYdoc } from './hooks/useYdoc';
 import { useYcursor } from './hooks/useYcursor';
 import { useYcanvas } from './hooks/useYcanvas';
 import { Cursor } from './Cursor';
-import KonvaEditableText  from './KonvaEditableText';
-// import KonvaEditText from './components/KonvaAddImage';
 import KonvaAddImage from './components/KonvaAddImage';
+import { StickyNote } from './components/note/StickyNote';
 
-const MemoRect = memo((props) => <Rect {...props} />);
+// const MemoRect = memo((props) => <Rect {...props} />);
 const MemoText = memo((props) => <Text {...props} />);
 // const MemoEditText = memo((props) => <KonvaEditableText {...props}/>);
 
 export default function KonvaWidget() {
+  const [text, setText] = useState("Click to resize. Double click to edit.");
+  const [width, setWidth] = useState(200);
+  const [height, setHeight] = useState(200);
+  const [selected, setSelected] = useState(false);
   const { ydoc } = useYdoc();
   const yRootMap = ydoc.getMap('root');
   const undoManager = new Y.UndoManager(yRootMap, {
     trackedOrigins: new Set(['move-rect']),
   });
+ 
+  const handleText = (value) => {
+    setText(value);
+  };
 
   const stageRef = useRef(null);
-  const { rects, dragStartCanvas, dragMove, dragEndCanvas, texts, dragTMove, dragTEndCanvas, dragStartText, editableTexts } = useYcanvas(yRootMap);
+  const { rects, dragStartCanvas, dragMove, dragEndCanvas, 
+          texts, dragTMove, dragTEndCanvas, dragStartText, 
+          notes, dragStartNote, dragMoveNote, dragEndNote
+        } = useYcanvas(yRootMap);
 
   const { cursors, moveCursor } = useYcursor(yRootMap);
   const handleMouseMove = (e) => moveCursor(e.evt.x, e.evt.y);
 
   const handleDragStart = useCallback(
     (e) => {
+      // console.log("😀",e);
       if (e.target instanceof Shape) dragStartCanvas(e.target);
     },
     [dragStartCanvas]
   );
 
+  // useCallback Hook을 사용하여 생성된 함수를 보유하는 handleDragTStart라는 상수 변수를 정의한다.
+  // useCallback Hook은 함수를 메모하는데 사용되며 종속성이 변경될 때만 다시 생성되도록 한다.
   const handleDragTStart = useCallback(
+    // 끌기 시작하는 이벤트를 나타내는 이벤트 객체인 매개변수 'e'를 사용한다.
     (e) => {
+
+      // e.target이 Shape 클래스의 인스턴스라면, dragStartText 함수를 호출한다. e.target을 인수로 전달한다.
       if (e.target instanceof Shape) dragStartText(e.target);
     },
+    // handleDragTStart 함수는 dragStartText 함수가 변경되는 경우에만 메모되고 다시 생성된다.
+    // dragStartText가 변경되지 않은 경우 handleDragTStart를 사용하는 구성 요소의 불필요한 재렌더링을 방지하는데 유용하다.
     [dragStartText]
   );
 
@@ -77,7 +95,6 @@ export default function KonvaWidget() {
   );
 
   const undo = () => undoManager.undo();
-
   const redo = () => undoManager.redo();
 
   const handleKeyDown = (e) => {
@@ -103,7 +120,7 @@ export default function KonvaWidget() {
       <Layer>
         <Text text="Try to drag a rect" />
         {rects.map((rect) => (
-          <MemoRect
+          <Rect
             key={rect.id}
             id={rect.id}
             x={rect.x}
@@ -135,10 +152,6 @@ export default function KonvaWidget() {
             onDragMove={handleDragTMove}
             />
         ))}
-        {/* {editableTexts.map((editableText) => (
-          <MemoEditText/>
-        ))} */}
-        {/* 움직일 수 있는 이미지 추가 */}
         <KonvaAddImage
           url="https://dprllohwojeet.cloudfront.net/assets/images/Miniature+world+food+art+-+in+pictures.jpeg"
           width={150}
@@ -148,14 +161,35 @@ export default function KonvaWidget() {
         {cursors.map((cursor) => (
           <Cursor key={cursor.id} x={cursor.x} y={cursor.y} id={cursor.id} />
         ))}
-        <Text
-          x={10}
-          y={100}          
-          text="Try to drag a rect~~~~~" />
+        {notes.map((note) => (
+          <StickyNote
+            key={note.id}
+            id={note.id}
+            x={note.x}
+            y={note.y}
+            text={text}
+            colour="#FFDAE4"
+            onTextChange={handleText}
+            width={width}
+            height={height}
+            selected={selected}
+            onTextResize={(newWidth, newHeight) => {
+              setWidth(newWidth);
+              setHeight(newHeight);
+            }}
+            onClick={() => {
+              setSelected(!selected);
+            }}
+            onTextClick={(newSelected) => {
+              setSelected(newSelected);
+            }}
+            draggable={true}
+            onDragStart={dragStartNote}
+            onDragEnd={dragEndNote}
+            onDragMove={dragMoveNote}
+            />
+        ))}
       </Layer>
     </Stage>
-    // <div>
-    //   <KonvaEditableText/>
-    // </div>
   );
 }

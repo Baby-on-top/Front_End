@@ -42,7 +42,6 @@ export default function Router() {
           element: <KakaoLogoutCallback />,
           errorElement: <ErrorPage />,
         },
-      
         {
           path: '/invite-check',
           element: <InviteCallback />,
