@@ -25,17 +25,17 @@ export default function Router() {
       errorElement: <ErrorPage />,
     },
     {
-      path: "/widget/note/:widgetId",
+      path: "/widget/note/:widgetId/:boardId",
       element: <RemirrorNote />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/widget/drawing/:widgetId",
+      path: "/widget/drawing/:widgetId/:boardId",
       element: <TldrawEditor />,
       errorElement: <ErrorPage />,
     },
     {
-      path: "/widget/calendar/:widgetId",
+      path: "/widget/calendar/:widgetId/:boardId",
       element: <CalendarWidget />,
       errorElement: <ErrorPage />,
     },

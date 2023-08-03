@@ -5,16 +5,17 @@ import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
 import { useNavigate } from "react-router-dom";
 
-export default function WidgetPlace() {
+export default function WidgetPlace({ boardId }) {
+  console.log("boardId", boardId);
   const navigate = useNavigate();
   const constraintsRef = useRef();
   const [widgetPositions, setWidgetPositions] = useState({}); // 드래그 가능한 요소의 위치 및 크기 저장
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
   let [click, setClick] = useState(true);
 
-  const moveToWidgetDetail = (type, id) => {
+  const moveToWidgetDetail = (type, id, boardId) => {
     if (!click) return;
-    navigate(`/widget/${type}/${id}`);
+    navigate(`/widget/${type}/${id}/${boardId}`);
   };
 
   // const handleDrag = (id, x, y, width, height) => {
@@ -122,7 +123,9 @@ export default function WidgetPlace() {
                 y: widgetPositions[widget.id]?.y || 0,
                 zIndex: widgetPositions[widget.id]?.x ? 2 : 1,
               }}
-              onClick={() => moveToWidgetDetail(widget.type, widget.id)}
+              onClick={() =>
+                moveToWidgetDetail(widget.type, widget.id, boardId)
+              }
             >
               {widget.name}
             </motion.div>

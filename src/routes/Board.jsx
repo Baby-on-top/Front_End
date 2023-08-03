@@ -16,6 +16,7 @@ export default function Board() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
   const [isChatModal, setIsChatModal] = useRecoilState(isChatModalOpened);
+  const boardId = useParams().boardId;
 
   // 페이지에 들어올때 쿠키로 사용자 체크
   const loginCheck = () => {
@@ -32,10 +33,6 @@ export default function Board() {
     fetch();
   });
 
-  // const params = useParams();
-  // const workspaceName = params.workspace;
-  // const boardName = params.name;
-
   const handleOpen = () => {
     setIsChatModal(!isChatModal);
   };
@@ -43,7 +40,7 @@ export default function Board() {
   return (
     <div>
       <BoardHeader />
-      <WidgetPlace />
+      <WidgetPlace boardId={boardId} />
       <WidgetNav />
       <div
         onClick={handleOpen}
