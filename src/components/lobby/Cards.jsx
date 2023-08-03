@@ -4,15 +4,15 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { recoilBoardList, saveCheck, SelectedWsIdx } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
 import DropDown from "./DropDown";
 
 const SERVER_URL = "/api/board";
 
 export default function Cards() {
+  const navigate = useNavigate();
   const [boardList, setBoardList] = useRecoilState(recoilBoardList);
-
   const [cookie] = useCookies(["cookies"]);
-
   const [chk, setChk] = useRecoilState(saveCheck);
 
   const fetchData = async () => {
@@ -42,8 +42,8 @@ export default function Cards() {
     fetchData();
   }, [wsIdx]);
 
-  const clickCard = (boardName, workspaceName) => {
-    window.location.href = `http://localhost:3000/board?workspaceName=${workspaceName}&boardName=${boardName}`;
+  const clickCard = (id) => {
+    navigate(`/board/${id}`);
   };
 
   return (
@@ -66,10 +66,9 @@ export default function Cards() {
         >
           <div
             className="card"
-            onClick={() => clickCard(board.boardName, board.workspaceName)}
+            onClick={() => clickCard(board.boardId)}
             css={{
               flex: "1",
-              
             }}
           >
             {board.boardName}
@@ -78,7 +77,7 @@ export default function Cards() {
             className="card-img"
             src={board.boardImage}
             alt="img"
-            onClick={() => clickCard(board.boardName, board.workspaceName)}
+            onClick={() => clickCard(board.boardId)}
             css={{
               flex: "5",
               width: "100%",
@@ -91,7 +90,6 @@ export default function Cards() {
             className="card-footer"
             css={{
               flex: "1",
-              
             }}
           >
             <div
@@ -100,7 +98,7 @@ export default function Cards() {
                 fontSize: "10px",
                 display: "inline-block",
               }}
-              onClick={() => clickCard(board.boardName, board.workspaceName)}
+              onClick={() => clickCard(board.boardId)}
             >
               {board.createAt}
             </div>

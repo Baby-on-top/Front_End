@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from "../components/board/BoardHeader";
 import WidgetNav from "../components/board/WidgetNav";
-import TldrawEditor from "../components/tldraw/TldrawEditor";
 import ChatModal from "../components/chat/ChatModal";
 import chat from "../assets/chat.png";
 import ModalPortal from "../components/chat/ModalPortal";
 import { useRecoilState } from "recoil";
 import { isChatModalOpened } from "../utils/atoms";
+import WidgetPlace from "../components/board/WidgetPlace";
 
 export default function Board() {
   const navigate = useNavigate();
@@ -32,9 +32,9 @@ export default function Board() {
     fetch();
   });
 
-  const params = new URLSearchParams(window.location.search);
-  const boardName = params.get("boardName");
-  const workspaceName = params.get("workspaceName");
+  // const params = useParams();
+  // const workspaceName = params.workspace;
+  // const boardName = params.name;
 
   const handleOpen = () => {
     setIsChatModal(!isChatModal);
@@ -42,8 +42,8 @@ export default function Board() {
 
   return (
     <div>
-      <BoardHeader boardName={boardName} workspaceName={workspaceName} />
-      <TldrawEditor />
+      <BoardHeader />
+      <WidgetPlace />
       <WidgetNav />
       <div
         onClick={handleOpen}

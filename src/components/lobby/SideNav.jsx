@@ -11,7 +11,7 @@ import { useRecoilState } from "recoil";
 import { motion, useAnimate, stagger } from "framer-motion";
 import InviteModal from "./InviteModal";
 import UnlinkCheckModal from "./UnlinkCheckModal";
-import useModal from "../hooks/useModal";
+import useModal from "../modal/useModal";
 import {
   ArrowRightOnRectangleIcon,
   EllipsisVerticalIcon,

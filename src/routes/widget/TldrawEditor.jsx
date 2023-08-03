@@ -1,8 +1,8 @@
 import { Tldraw, useFileSystem } from "@tldraw/tldraw";
 import { useUsers } from "y-presence";
-import { useMultiplayerState } from "./hooks/useMultiplayerState";
-import "./styles.css";
-import { awareness, roomID } from "./store";
+import { useMultiplayerState } from "../../components/tldraw/hooks/useMultiplayerState";
+import "../../components/tldraw/styles.css";
+import { awareness, roomID } from "../../components/tldraw/store";
 
 function Editor({ roomId }) {
   const fileSystemEvents = useFileSystem();

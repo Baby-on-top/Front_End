@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { WidgetType } from "../components/board/WidgetType";
 
 /// Lobby
 export const saveCheck = atom({
@@ -63,28 +64,63 @@ export const widgetListState = atom({
   default: [
     {
       id: 1,
+      type: WidgetType.NOTE,
       name: "노트 1",
       backgroundColor: "#00AB59",
     },
     {
       id: 2,
+      type: WidgetType.NOTE,
       name: "노트 2",
       backgroundColor: "pink",
     },
     {
       id: 3,
+      type: WidgetType.NOTE,
       name: "노트 3",
       backgroundColor: "#00AB59",
     },
     {
       id: 4,
+      type: WidgetType.NOTE,
       name: "노트 4",
       backgroundColor: "pink",
     },
     {
       id: 5,
+      type: WidgetType.NOTE,
       name: "노트 5",
       backgroundColor: "#00AB59",
+    },
+    {
+      id: 6,
+      type: WidgetType.DRAWING,
+      name: "그림판 1",
+      backgroundColor: "pink",
+    },
+    {
+      id: 7,
+      type: WidgetType.DRAWING,
+      name: "그림판 2",
+      backgroundColor: "#00AB59",
+    },
+    {
+      id: 8,
+      type: WidgetType.DRAWING,
+      name: "그림판 3",
+      backgroundColor: "pink",
+    },
+    {
+      id: 9,
+      type: WidgetType.DRAWING,
+      name: "그림판 4",
+      backgroundColor: "#00AB59",
+    },
+    {
+      id: 10,
+      type: WidgetType.CALENDAR,
+      name: "캘린더 1",
+      backgroundColor: "pink",
     },
   ],
 });
