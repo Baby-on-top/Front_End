@@ -4,10 +4,15 @@ import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { widgetListState, showWidgetDetailModalState } from "../../utils/atoms";
 
-export default function WidgetPlace({ boardId, setWidgetId, setWidgetType }) {
+export default function WidgetPlace({
+  setWidgetId,
+  setWidgetType,
+  widgetsRef,
+}) {
   const constraintsRef = useRef();
   const [widgetPositions, setWidgetPositions] = useState({}); // 드래그 가능한 요소의 위치 및 크기 저장
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+
   let [click, setClick] = useState(true);
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
@@ -36,7 +41,7 @@ export default function WidgetPlace({ boardId, setWidgetId, setWidgetType }) {
           overflow: "hidden",
           marginTop: 108,
           width: "1000px",
-          minHeight: "90vh",
+          minHeight: "150vh",
         }}
       >
         <div
@@ -50,6 +55,9 @@ export default function WidgetPlace({ boardId, setWidgetId, setWidgetType }) {
           {widgetList.map((widget) => (
             <motion.div
               key={widget.id}
+              ref={(e) => {
+                widgetsRef.current[widget.id] = e;
+              }}
               css={{
                 width: 150,
                 height: 150,

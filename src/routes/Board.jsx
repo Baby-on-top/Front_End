@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from "../components/board/BoardHeader";
 import WidgetNav from "../components/board/WidgetNav";
@@ -21,6 +21,8 @@ export default function Board() {
   const boardId = useParams().boardId;
   const [widgetId, setWidgetId] = useState(0);
   const [widgetType, setWidgetType] = useState("");
+
+  const widgetsRef = useRef([]);
 
   // 페이지에 들어올때 쿠키로 사용자 체크
   const loginCheck = () => {
@@ -45,11 +47,15 @@ export default function Board() {
     <div>
       <BoardHeader />
       <WidgetPlace
-        boardId={boardId}
+        widgetsRef={widgetsRef}
         setWidgetType={setWidgetType}
         setWidgetId={setWidgetId}
       />
-      <WidgetNav />
+      <WidgetNav
+        widgetsRef={widgetsRef}
+        setWidgetType={setWidgetType}
+        setWidgetId={setWidgetId}
+      />
 
       <div
         onClick={handleOpen}

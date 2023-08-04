@@ -7,7 +7,11 @@ import { colors } from "../../utils/colors";
 
 import { useRecoilState } from "recoil";
 import { showWidgetAddModalState } from "../../utils/atoms";
-import { showNavState } from "../../utils/atoms";
+import {
+  showNavState,
+  widgetListState,
+  showWidgetDetailModalState,
+} from "../../utils/atoms";
 
 const SpreadNavWrapper = styled.div`
   position: fixed;
@@ -36,30 +40,33 @@ const FoldNavWrapper = styled.div`
   background-color: white;
   z-index: 3;
 `;
-const WidgetListItem = styled.div`
-  margin: 2px 0px;
-  padding: 8px 16px;
-  font-size: 16px;
-  align-items: center;
-  cursor: pointer;
-  &:hover {
-    background-color: ${colors.overlay_grey};
-  }
-`;
 
 /// main
-export default function WidgetNav() {
+export default function WidgetNav({ widgetsRef, setWidgetType, setWidgetId }) {
   const [showWidgetAddModal, setShowWidgetAddModal] = useRecoilState(
     showWidgetAddModalState
   );
   const [showNav, setShowNav] = useRecoilState(showNavState);
+  const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
+    showWidgetDetailModalState
+  );
+
+  const moveToWidgetDetail = (type, id) => {
+    widgetsRef.current[id].scrollIntoView();
+    setShowWidgetDetailModal(!showWidgetDetailModal);
+    setWidgetType(type);
+    setWidgetId(id);
+  };
 
   if (showNav) {
     return WidgetNavSpread(
+      widgetList,
       showWidgetAddModal,
       setShowWidgetAddModal,
       showNav,
-      setShowNav
+      setShowNav,
+      moveToWidgetDetail
     );
   } else {
     return WidgetNavFold(
@@ -73,10 +80,12 @@ export default function WidgetNav() {
 
 /// nav 펼침
 export function WidgetNavSpread(
+  widgetList,
   showWidgetAddModal,
   setShowWidgetAddModal,
   showNav,
-  setShowNav
+  setShowNav,
+  moveToWidgetDetail
 ) {
   return (
     <SpreadNavWrapper>
@@ -142,16 +151,21 @@ export function WidgetNavSpread(
           overflow: "scroll",
         }}
       >
-        <WidgetListItem>공지사항</WidgetListItem>
-        <WidgetListItem>캘린더</WidgetListItem>
-        <WidgetListItem>문서 1</WidgetListItem>
-        <WidgetListItem>테스트 코드 작성 규칙</WidgetListItem>
-        <WidgetListItem>그림 메모</WidgetListItem>
-        <WidgetListItem>untitled1</WidgetListItem>
-        <WidgetListItem>untitled2</WidgetListItem>
-        <WidgetListItem>untitled3</WidgetListItem>
-        {/* <WidgetListItem>untitled4</WidgetListItem>
-                <WidgetListItem>untitled5</WidgetListItem> */}
+        {widgetList.map((widget) => (
+          <div
+            css={{
+              margin: "2px 0px",
+              padding: "8px 16px",
+              fontSize: "16px",
+              alignItems: "center",
+              cursor: "pointer",
+              ":hover": { backgroundColor: colors.overlay_grey },
+            }}
+            onClick={() => moveToWidgetDetail(widget.type, widget.id)}
+          >
+            {widget.name}
+          </div>
+        ))}
       </div>
     </SpreadNavWrapper>
   );
