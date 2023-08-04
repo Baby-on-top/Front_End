@@ -53,7 +53,7 @@ export default function WidgetNav({ widgetsRef, setWidgetType, setWidgetId }) {
   );
 
   const moveToWidgetDetail = (type, id) => {
-    widgetsRef.current[id].scrollIntoView();
+    widgetsRef.current[id].scrollIntoView({ behavior: "smooth" });
     setShowWidgetDetailModal(!showWidgetDetailModal);
     setWidgetType(type);
     setWidgetId(id);
