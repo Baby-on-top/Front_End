@@ -35,6 +35,7 @@ function Info() {
 }
 
 export default function TldrawEditor() {
+  console.log("asdfasdf");
   return (
     <div className="tldraw">
       <Info />

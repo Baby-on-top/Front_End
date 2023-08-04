@@ -6,7 +6,7 @@ import {
   provider,
   undoManager,
   yBindings,
-  yShapes
+  yShapes,
 } from "../store";
 
 export function useMultiplayerState(roomId) {
@@ -129,20 +129,20 @@ export function useMultiplayerState(roomId) {
     return () => yShapes.unobserveDeep(handleChanges);
   }, []);
 
-  useEffect(() => {
-    function handleDisconnect() {
-      provider.disconnect();
-    }
-    window.addEventListener("beforeunload", handleDisconnect);
+  // useEffect(() => {
+  //   function handleDisconnect() {
+  //     provider.disconnect();
+  //   }
+  //   window.addEventListener("beforeunload", handleDisconnect);
 
-    return () => window.removeEventListener("beforeunload", handleDisconnect);
-  }, []);
+  //   return () => window.removeEventListener("beforeunload", handleDisconnect);
+  // }, []);
 
   return {
     onMount,
     onChange,
     onUndo,
     onRedo,
-    onChangePresence
+    onChangePresence,
   };
 }

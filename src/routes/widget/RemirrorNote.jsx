@@ -1,5 +1,7 @@
 import "remirror/styles/all.css";
 
+import { useEffect, useState, useRef } from "react";
+import { useCookies } from "react-cookie";
 import React from "react";
 import css from "refractor/lang/css.js";
 import javascript from "refractor/lang/javascript.js";
@@ -7,6 +9,7 @@ import json from "refractor/lang/json.js";
 import markdown from "refractor/lang/markdown.js";
 import typescript from "refractor/lang/typescript.js";
 import { htmlToProsemirrorNode } from "remirror";
+import { kakaoInfo } from "../../utils/apis";
 import {
   BulletListExtension,
   HardBreakExtension,
@@ -53,16 +56,42 @@ import {
   ToggleCalloutButton,
 } from "@remirror/react";
 
-const ydoc = new Y.Doc();
-// clients connected to the same room-name share document updates
-const provider = new WebsocketProvider(
-  "ws://localhost:1234",
-  "remirror-note",
-  ydoc,
-  {
-    connect: true,
-  }
-);
+const link = document.location.href;
+console.log(link);
+
+const segments = link.split("/");
+const valueAfterNote = segments[segments.length - 1];
+const widgetName = segments[segments.length - 2];
+
+console.log(widgetName);
+
+console.log(valueAfterNote);
+
+const boardId = 11;
+
+const noteId = valueAfterNote;
+
+const roomID = `y-note-${boardId}-${noteId}`;
+
+console.log(roomID);
+
+let provider; // 선언에 let을 사용하여 변수를 선언합니다.
+let awareness; // 마찬가지로 선언에 let을 사용합니다.
+
+if (widgetName === "note") {
+  console.log("note에 들어왔습니다.");
+  const ydoc = new Y.Doc();
+  // clients connected to the same room-name share document updates
+  provider = new WebsocketProvider(
+    "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+    roomID,
+    ydoc,
+    {
+      connect: true,
+    }
+  );
+  awareness = provider.awareness;
+}
 
 const extensions = () => [
   new HardBreakExtension(),
@@ -153,16 +182,56 @@ const customStyles = `
   }
 `;
 
-const RemirrorNote = () => {
+const Note = () => {
   const { manager, state, onChange } = useRemirror({
     extensions,
     stringHandler: "html",
     stringHandler: htmlToProsemirrorNode,
     core: { excludeExtensions: ["history"] },
   });
+  const [cookies] = useCookies(["cookies"]);
+  const [name, setName] = useState("");
+
+  // You can think of your own awareness information as a key-value store.
+  // We update our "user" field to propagate relevant user information.
+  awareness.setLocalStateField("user", {
+    // Define a print name that should be displayed
+    name: name,
+    // Define a color that should be associated to the user:
+    color: "#ffb61e", // should be a hex color
+  });
+
+  async function getUserInfo() {
+    const response = await kakaoInfo(cookies);
+    setName(response.data.data.name);
+  }
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
+
+  useEffect(() => {
+    awareness.on("change", () => {
+      // Map each awareness state to a dom-string
+      const strings = [];
+      awareness.getStates().forEach((state) => {
+        console.log(state);
+        if (state.user) {
+          strings.push(
+            `<div style="color:${state.user.color};">• ${state.user.name}</div>`
+          );
+        }
+        const usersElement = document.querySelector("#users");
+        if (usersElement) {
+          usersElement.innerHTML = strings.join("");
+        }
+      });
+    });
+  }, []);
 
   return (
     <ThemeProvider>
+      <div id="users"></div>
       <style>{customStyles}</style>
       <Remirror
         manager={manager}
@@ -193,4 +262,4 @@ const RemirrorNote = () => {
   );
 };
 
-export default RemirrorNote;
+export default Note;

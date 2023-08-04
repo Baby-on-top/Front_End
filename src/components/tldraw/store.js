@@ -1,12 +1,27 @@
 const Y = require("yjs");
 const { WebsocketProvider } = require("y-websocket");
 
-const VERSION = 2;
+var link = document.location.href;
+console.log(link);
+
+var segments = link.split("/");
+var valueAfterNote = segments[segments.length - 1];
+console.log(valueAfterNote);
+
+const word = segments[segments.length - 2]; // Get the word between the second '/' and the first '/' from the right
+
+console.log(word); // Output: "drawing"
+
+const boardId = 11;
+
+const tldrawId = valueAfterNote;
+
+const roomID = `y-tldraw-${boardId}-${tldrawId}`;
+
+console.log(roomID);
 
 // Create the doc
 const doc = new Y.Doc();
-
-const roomID = `y-tldraw-${VERSION}`;
 
 // Create a websocket provider
 const provider = new WebsocketProvider("ws://localhost:1234", roomID, doc, {
