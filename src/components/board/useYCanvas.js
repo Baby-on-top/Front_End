@@ -2,10 +2,10 @@ import { useState, useCallback, useEffect } from "react";
 import * as Y from "yjs";
 
 const generateShapes = () =>
-  [...Array(5)].map((_, i) => ({
+  [...Array(3)].map((_, i) => ({
     id: i.toString(),
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
+    x: Math.random(),
+    y: Math.random(),
   }));
 
 const INITIAL_STATE = generateShapes();
@@ -28,12 +28,27 @@ export const useYcanvas = (yRootMap) => {
 
   const updateYRect = (e) => {
     console.log("🕹️🕹️🕹️🕹️🕹️🕹️");
-    console.log(e.target.id);
+    console.log(e.nativeEvent.x);
+    console.log(e.nativeEvent.y);
+
     ydoc?.transact(() => {
       const yRects = yRootMap.get("rects");
-      const newRects = yRects.map((rect) =>
-        rect.id === e.target.id ? { ...rect, x: e.x, y: e.y } : rect
-      );
+      const newRects = yRects.map((rect) => {
+        if (rect.id === e.target.id) {
+          console.log("🔥🔥🔥🔥");
+          console.log(rect.x);
+          console.log("🔥🔥");
+          console.log(rect.y);
+        }
+        console.log();
+        return rect.id === e.target.id
+          ? {
+              ...rect,
+              x: e.nativeEvent.x == 0 ? rect.x : e.nativeEvent.x,
+              y: e.nativeEvent.y == 0 ? rect.y : e.nativeEvent.y,
+            }
+          : rect;
+      });
       yRects.delete(0, yRects.length);
       console.log("💡💡💡💡");
       console.log(newRects);

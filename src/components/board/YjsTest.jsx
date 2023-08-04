@@ -1,19 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState, useCallback } from "react";
-import { motion } from "framer-motion";
-import {
-  awareness,
-  doc,
-  provider,
-  undoManager,
-  yBindings,
-  yShapes,
-} from "../tldraw/store";
+import { motion, useDragControls } from "framer-motion";
+import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvas";
 
 export default function YjsTest() {
-  const ymap = doc.getMap("rect");
-  const { rects, dragStartCanvas, dragMove, dragEndCanvas } = useYcanvas(ymap);
+  const { rects, dragStartCanvas, dragMove, dragEndCanvas } =
+    useYcanvas(yRects);
+  const constraintsRef = useRef();
+
   const handleDragStart = useCallback(
     (e) => {
       console.log("⭕️⭕️⭕️⭕️");
@@ -24,8 +19,11 @@ export default function YjsTest() {
     [dragStartCanvas]
   );
   const handleDragMove = useCallback(
-    (e, info) => {
-      console.log("❌");
+    (e) => {
+      console.log("🕹️🕹️🕹️🕹️🕹️🕹️");
+      console.log(e.nativeEvent.x);
+      console.log(e.nativeEvent.y);
+
       if (e.target instanceof HTMLDivElement) dragMove(e);
     },
     [dragMove]
@@ -39,52 +37,63 @@ export default function YjsTest() {
     [dragEndCanvas]
   );
 
-  useEffect(() => {
-    //console.log("📌");
-    //console.log(rects);
-  }, [rects]);
-
   return (
-    <div>
-      <h2>Type something:</h2>
-      {rects.map((rect) => {
-        return (
-          <motion.div
-            key={rect.id}
-            id={rect.id}
-            x={rect.x}
-            y={rect.y}
-            css={{
-              backgroundColor: "black",
-              width: "250px",
-              height: "300px",
-              borderRadius: "30px",
-              textAlign: "center",
-              color: "white",
-              position: "relative",
-            }}
-            drag
-            whileDrag={{
-              scale: 1.13,
-              boxShadow: "5px 5px 10px 8px rgba(0, 0, 0, 0.2)",
-            }}
-            dragMomentum={false} // 드래그하고 나서 움직임 없도록 설정
-            dragConstraints={0}
-            onDragStart={handleDragStart}
-            onDrag={handleDragMove}
-            onDragEnd={handleDragEnd}
-            style={{
-              x: rect?.x || 0,
-              y: rect?.y || 0,
-            }}
-            // onMouseDown={handleDragStart}
-            // onMouseMove={handleDragMove}
-            // onMouseUp={handleDragEnd}
-          >
-            text
-          </motion.div>
-        );
-      })}
+    <div
+      id="widget-place-wrapper"
+      css={{
+        display: "flex",
+        width: "100%",
+        height: "100%",
+        backgroundColor: "green",
+      }}
+    >
+      <motion.div
+        id="widget-place-container"
+        ref={constraintsRef}
+        css={{
+          overflow: "hidden",
+          marginTop: 108,
+          width: "100%",
+          height: "100%",
+          minHeight: "90vh",
+          backgroundColr: "blue",
+        }}
+      >
+        {rects.map((rect) => {
+          return (
+            <motion.div
+              key={rect.id}
+              id={rect.id}
+              x={rect.x}
+              y={rect.y}
+              css={{
+                backgroundColor: "black",
+                width: "150px",
+                height: "150px",
+                borderRadius: "30px",
+                color: "white",
+              }}
+              draggable
+              whileDrag={{
+                scale: 1.13,
+                // boxShadow: "5px 5px 10px 8px rgba(0, 0, 0, 0.2)",
+              }}
+              dragMomentum={true} // 드래그하고 나서 움직임 없도록 설정
+              dragListener={false}
+              onDragStart={handleDragStart}
+              onDragEnd={handleDragEnd}
+              onDrag={handleDragMove}
+              style={{
+                x: rect?.x || 0,
+                y: rect?.y || 0,
+                zIndex: rect?.x ? 2 : 1,
+              }}
+            >
+              text
+            </motion.div>
+          );
+        })}
+      </motion.div>
     </div>
   );
 }
