@@ -60,8 +60,8 @@ const link = document.location.href;
 console.log(link);
 
 const segments = link.split("/");
-const valueAfterNote = segments[segments.length - 1];
-const widgetName = segments[segments.length - 2];
+const valueAfterNote = segments[segments.length - 2];
+const widgetName = segments[segments.length - 3];
 
 console.log(widgetName);
 
