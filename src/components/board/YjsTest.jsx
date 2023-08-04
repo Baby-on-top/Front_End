@@ -19,7 +19,7 @@ export default function YjsTest() {
     [dragStartCanvas]
   );
   const handleDragMove = useCallback(
-    (e) => {
+    (e, info) => {
       console.log("🕹️🕹️🕹️🕹️🕹️🕹️");
       console.log(e.nativeEvent.x);
       console.log(e.nativeEvent.y);
@@ -44,7 +44,7 @@ export default function YjsTest() {
         display: "flex",
         width: "100%",
         height: "100%",
-        backgroundColor: "green",
+        backgroundColor: "red",
       }}
     >
       <motion.div
@@ -52,14 +52,14 @@ export default function YjsTest() {
         ref={constraintsRef}
         css={{
           overflow: "hidden",
-          marginTop: 108,
           width: "100%",
           height: "100%",
           minHeight: "90vh",
-          backgroundColr: "blue",
+          backgroundColor: "green",
         }}
       >
         {rects.map((rect) => {
+          console.log(rect);
           return (
             <motion.div
               key={rect.id}
@@ -72,17 +72,20 @@ export default function YjsTest() {
                 height: "150px",
                 borderRadius: "30px",
                 color: "white",
+                justifyContent: "center",
+                alignItems: "center",
+                position: "absolute",
               }}
               draggable
-              whileDrag={{
-                scale: 1.13,
-                // boxShadow: "5px 5px 10px 8px rgba(0, 0, 0, 0.2)",
-              }}
+              dragConstraints={constraintsRef} // 드래그 영역 제한
               dragMomentum={true} // 드래그하고 나서 움직임 없도록 설정
               dragListener={false}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-              onDrag={handleDragMove}
+              onDragStart={dragStartCanvas}
+              onDragEnd={dragEndCanvas}
+              onDrag={(e) => {
+                console.log(e);
+                dragMove(e);
+              }}
               style={{
                 x: rect?.x || 0,
                 y: rect?.y || 0,

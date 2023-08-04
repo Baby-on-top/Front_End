@@ -1,17 +1,26 @@
 import { useState, useCallback, useEffect } from "react";
 import * as Y from "yjs";
 
-const generateShapes = () =>
-  [...Array(3)].map((_, i) => ({
-    id: i.toString(),
-    x: Math.random(),
-    y: Math.random(),
-  }));
-
-const INITIAL_STATE = generateShapes();
 export const useYcanvas = (yRootMap) => {
   const ydoc = yRootMap.doc;
-  const [rects, setRects] = useState(INITIAL_STATE);
+  const test = [
+    {
+      id: "0",
+      x: 20,
+      y: 30,
+    },
+    {
+      id: "1",
+      x: 50,
+      y: 100,
+    },
+    {
+      id: "2",
+      x: 100,
+      y: 70,
+    },
+  ];
+  const [rects, setRects] = useState(test);
 
   const dragStartCanvas = useCallback((e) => {
     console.log("🏹🏹🏹");
@@ -28,30 +37,30 @@ export const useYcanvas = (yRootMap) => {
 
   const updateYRect = (e) => {
     console.log("🕹️🕹️🕹️🕹️🕹️🕹️");
-    console.log(e.nativeEvent.x);
-    console.log(e.nativeEvent.y);
+    console.log(e);
+    console.log(e);
 
     ydoc?.transact(() => {
       const yRects = yRootMap.get("rects");
       const newRects = yRects.map((rect) => {
         if (rect.id === e.target.id) {
           console.log("🔥🔥🔥🔥");
-          console.log(rect.x);
+          console.log(rect.id);
           console.log("🔥🔥");
-          console.log(rect.y);
+          console.log(rect.x);
         }
         console.log();
         return rect.id === e.target.id
           ? {
               ...rect,
-              x: e.nativeEvent.x == 0 ? rect.x : e.nativeEvent.x,
-              y: e.nativeEvent.y == 0 ? rect.y : e.nativeEvent.y,
+              x: e.clientX == 0 ? rect.x : e.clientX,
+              y: e.clientY == 0 ? rect.y : e.clientY,
             }
           : rect;
       });
       yRects.delete(0, yRects.length);
-      console.log("💡💡💡💡");
-      console.log(newRects);
+      //console.log("💡💡💡💡");
+      //console.log(newRects);
       yRects.push(newRects);
     }, "move-rect");
   };
@@ -78,7 +87,7 @@ export const useYcanvas = (yRootMap) => {
   useEffect(() => {
     const yRects = new Y.Array();
     yRootMap.set("rects", yRects);
-    yRects.push(INITIAL_STATE);
+    yRects.push(rects);
   }, [yRootMap]);
 
   return { rects, dragStartCanvas, dragMove, dragEndCanvas };
