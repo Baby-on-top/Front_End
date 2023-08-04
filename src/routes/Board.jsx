@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from "../components/board/BoardHeader";
 import WidgetNav from "../components/board/WidgetNav";
@@ -11,12 +11,16 @@ import ModalPortal from "../components/chat/ModalPortal";
 import { useRecoilState } from "recoil";
 import { isChatModalOpened } from "../utils/atoms";
 import WidgetPlace from "../components/board/WidgetPlace";
+import WidgetDetailModal from "../components/board/WidgetDetailModal";
 
 export default function Board() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
   const [isChatModal, setIsChatModal] = useRecoilState(isChatModalOpened);
+
   const boardId = useParams().boardId;
+  const [widgetId, setWidgetId] = useState(0);
+  const [widgetType, setWidgetType] = useState("");
 
   // 페이지에 들어올때 쿠키로 사용자 체크
   const loginCheck = () => {
@@ -40,8 +44,13 @@ export default function Board() {
   return (
     <div>
       <BoardHeader />
-      <WidgetPlace boardId={boardId} />
+      <WidgetPlace
+        boardId={boardId}
+        setWidgetType={setWidgetType}
+        setWidgetId={setWidgetId}
+      />
       <WidgetNav />
+
       <div
         onClick={handleOpen}
         css={{
@@ -68,7 +77,13 @@ export default function Board() {
         </ModalPortal>
       )}
       <div id="chat-root-modal"></div>
+
       <WidgetAddModal />
+      <WidgetDetailModal
+        widgetType={widgetType}
+        widgetId={widgetId}
+        boardId={boardId}
+      />
     </div>
   );
 }

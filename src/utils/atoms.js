@@ -49,8 +49,12 @@ export const SelectedWsName = atom({
 });
 
 /// Board
-export const showModalState = atom({
-  key: "showModalState",
+export const showWidgetAddModalState = atom({
+  key: "showWidgetAddModalState",
+  default: false,
+});
+export const showWidgetDetailModalState = atom({
+  key: "showWidgetDetailModalState",
   default: false,
 });
 

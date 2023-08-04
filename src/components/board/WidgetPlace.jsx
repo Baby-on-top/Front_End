@@ -2,63 +2,23 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
-import { widgetListState } from "../../utils/atoms";
-import { useNavigate } from "react-router-dom";
+import { widgetListState, showWidgetDetailModalState } from "../../utils/atoms";
 
-export default function WidgetPlace({ boardId }) {
-  console.log("boardId", boardId);
-  const navigate = useNavigate();
+export default function WidgetPlace({ boardId, setWidgetId, setWidgetType }) {
   const constraintsRef = useRef();
   const [widgetPositions, setWidgetPositions] = useState({}); // 드래그 가능한 요소의 위치 및 크기 저장
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
   let [click, setClick] = useState(true);
+  const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
+    showWidgetDetailModalState
+  );
 
-  const moveToWidgetDetail = (type, id, boardId) => {
+  const moveToWidgetDetail = (type, id) => {
     if (!click) return;
-    navigate(`/widget/${type}/${id}/${boardId}`);
+    setWidgetId(id);
+    setWidgetType(type);
+    setShowWidgetDetailModal(!showWidgetDetailModal);
   };
-
-  // const handleDrag = (id, x, y, width, height) => {
-  // Check for collisions before updating the position
-  // const updatedPositions = { ...widgetPositions, [id]: { x, y, width, height } };
-  // const collisions = checkCollisions(id, updatedPositions);
-
-  // If no collisions, update the position
-  // if (collisions.length === 0) {
-  //     setWidgetPositions(updatedPositions);
-  // }
-  // };
-
-  // const checkCollisions = (currentId, updatedPositions) => {
-  //     if (widgetPositions && Object.keys(widgetPositions).length > 0) {
-  //         const widgetIds = Object.keys(updatedPositions);
-  //         const collisions = [];
-
-  //         for (let i = 0; i < widgetIds.length; i++) {
-  //             const widgetIdA = widgetIds[i];
-  //             if (widgetIdA === currentId) continue; // Skip checking collision with itself
-  //             const widgetA = updatedPositions[widgetIdA];
-
-  //             for (let j = i + 1; j < widgetIds.length; j++) {
-  //                 const widgetIdB = widgetIds[j];
-  //                 if (widgetIdB === currentId) continue; // Skip checking collision with itself
-  //                 const widgetB = updatedPositions[widgetIdB];
-
-  //                 // Check overlap between two widgetList
-  //                 if (
-  //                 widgetA && widgetB &&
-  //                 widgetA.x + widgetA.width > widgetB.x &&
-  //                 widgetA.x < widgetB.x + widgetB.width &&
-  //                 widgetA.y + widgetA.height > widgetB.y &&
-  //                 widgetA.y < widgetB.y + widgetB.height
-  //                 ) {
-  //                 collisions.push([widgetIdA, widgetIdB]);
-  //                 }
-  //             }
-  //         }
-  //         return collisions;
-  //     }
-  // };
 
   return (
     <div
@@ -123,9 +83,7 @@ export default function WidgetPlace({ boardId }) {
                 y: widgetPositions[widget.id]?.y || 0,
                 zIndex: widgetPositions[widget.id]?.x ? 2 : 1,
               }}
-              onClick={() =>
-                moveToWidgetDetail(widget.type, widget.id, boardId)
-              }
+              onClick={() => moveToWidgetDetail(widget.type, widget.id)}
             >
               {widget.name}
             </motion.div>
