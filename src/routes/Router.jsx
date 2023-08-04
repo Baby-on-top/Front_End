@@ -11,6 +11,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import TldrawEditor from "./widget/TldrawEditor";
 import RemirrorNote from "./widget/RemirrorNote";
 import CalendarWidget from "./widget/CalendarWidget";
+import YjsTest from "../components/board/YjsTest";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -42,6 +43,11 @@ export default function Router() {
     {
       path: "/login",
       element: <Login />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/yjs",
+      element: <YjsTest />,
       errorElement: <ErrorPage />,
     },
     {
