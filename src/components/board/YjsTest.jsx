@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { motion, useDragControls } from "framer-motion";
-import { yRects } from "../tldraw/store";
+import { yShapes } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvas";
 
 export default function YjsTest() {
   const { rects, dragStartCanvas, dragMove, dragEndCanvas } =
-    useYcanvas(yRects);
+    useYcanvas(yShapes);
   const constraintsRef = useRef();
 
   const handleDragStart = useCallback(
@@ -44,7 +44,7 @@ export default function YjsTest() {
         display: "flex",
         width: "100%",
         height: "100%",
-        backgroundColor: "green",
+        backgroundColor: "red",
       }}
     >
       <motion.div
@@ -52,11 +52,11 @@ export default function YjsTest() {
         ref={constraintsRef}
         css={{
           overflow: "hidden",
-          marginTop: 108,
+          marginTop: 0,
           width: "100%",
           height: "100%",
           minHeight: "90vh",
-          backgroundColr: "blue",
+          backgroundColor: "green",
         }}
       >
         {rects.map((rect) => {
@@ -72,6 +72,7 @@ export default function YjsTest() {
                 height: "150px",
                 borderRadius: "30px",
                 color: "white",
+                position: "absolute",
               }}
               draggable
               whileDrag={{
@@ -84,8 +85,8 @@ export default function YjsTest() {
               onDragEnd={handleDragEnd}
               onDrag={handleDragMove}
               style={{
-                x: rect?.x || 0,
-                y: rect?.y || 0,
+                x: rect?.x - 90 || 0,
+                y: rect?.y - 90 || 0,
                 zIndex: rect?.x ? 2 : 1,
               }}
             >

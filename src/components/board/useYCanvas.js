@@ -2,10 +2,10 @@ import { useState, useCallback, useEffect } from "react";
 import * as Y from "yjs";
 
 const generateShapes = () =>
-  [...Array(3)].map((_, i) => ({
+  [...Array(10)].map((_, i) => ({
     id: i.toString(),
-    x: Math.random(),
-    y: Math.random(),
+    x: 0,
+    y: 0,
   }));
 
 const INITIAL_STATE = generateShapes();

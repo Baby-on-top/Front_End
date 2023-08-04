@@ -12,6 +12,7 @@ import TldrawEditor from "./widget/TldrawEditor";
 import RemirrorNote from "./widget/RemirrorNote";
 import CalendarWidget from "./widget/CalendarWidget";
 import YjsTest from "../components/board/YjsTest";
+import Yjs_Box_test from "../components/board/Yjs_box_test";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -48,6 +49,11 @@ export default function Router() {
     {
       path: "/yjs",
       element: <YjsTest />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/yjs2",
+      element: <Yjs_Box_test />,
       errorElement: <ErrorPage />,
     },
     {
