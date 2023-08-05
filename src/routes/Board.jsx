@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from "../components/board/BoardHeader";
 import WidgetNav from "../components/board/WidgetNav";
@@ -11,12 +11,19 @@ import ModalPortal from "../components/chat/ModalPortal";
 import { useRecoilState } from "recoil";
 import { isChatModalOpened } from "../utils/atoms";
 import WidgetPlace from "../components/board/WidgetPlace";
+import WidgetDetailModal from "../components/board/WidgetDetailModal";
 import ChatButton from "../components/chat/ChatButton";
 
 export default function Board() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
   const [isChatModal, setIsChatModal] = useRecoilState(isChatModalOpened);
+
+  const boardId = useParams().boardId;
+  const [widgetId, setWidgetId] = useState(0);
+  const [widgetType, setWidgetType] = useState("");
+
+  const widgetsRef = useRef([]);
 
   // 페이지에 들어올때 쿠키로 사용자 체크
   const loginCheck = () => {
@@ -33,10 +40,6 @@ export default function Board() {
     fetch();
   });
 
-  // const params = useParams();
-  // const workspaceName = params.workspace;
-  // const boardName = params.name;
-
   const handleOpen = () => {
     setIsChatModal(!isChatModal);
   };
@@ -48,6 +51,11 @@ export default function Board() {
       <WidgetNav />
       <ChatButton />
       <WidgetAddModal />
+      <WidgetDetailModal
+        widgetType={widgetType}
+        widgetId={widgetId}
+        boardId={boardId}
+      />
     </div>
   );
 }

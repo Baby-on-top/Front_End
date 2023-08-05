@@ -18,14 +18,18 @@ const awareness = provider.awareness;
 
 const yShapes = doc.getMap("shapes");
 const yBindings = doc.getMap("bindings");
+const yRects = doc.getMap("rect");
 
 // Create an undo manager for the shapes and binding maps
-const undoManager = new Y.UndoManager([yShapes, yBindings]);
+const undoManager = new Y.UndoManager([yShapes, yBindings, yRects], {
+  trackedOrigins: new Set(["move-rect"]),
+});
 
 module.exports = {
   doc,
   provider,
   awareness,
+  yRects,
   yShapes,
   yBindings,
   undoManager,

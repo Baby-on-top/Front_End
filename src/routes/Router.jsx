@@ -8,9 +8,6 @@ import KakaoLogoutCallback from "./login/KakaoLogoutCallback";
 import InviteCallback from "./InviteCallback";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import TldrawEditor from "./widget/TldrawEditor";
-import RemirrorNote from "./widget/RemirrorNote";
-import CalendarWidget from "./widget/CalendarWidget";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -22,21 +19,6 @@ export default function Router() {
     {
       path: "/board/:boardId",
       element: <Board />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/widget/note/:widgetId",
-      element: <RemirrorNote />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/widget/drawing/:widgetId",
-      element: <TldrawEditor />,
-      errorElement: <ErrorPage />,
-    },
-    {
-      path: "/widget/calendar/:widgetId",
-      element: <CalendarWidget />,
       errorElement: <ErrorPage />,
     },
     {
