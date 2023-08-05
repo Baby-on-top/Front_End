@@ -5,6 +5,8 @@ import CalendarWidget from "../../routes/widget/CalendarWidget";
 import RemirrorNote from "../../routes/widget/RemirrorNote";
 import TldrawEditor from "../../routes/widget/TldrawEditor";
 import { WidgetType } from "./WidgetType";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
 
 export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
@@ -12,6 +14,9 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
   );
   const isDrawing = widgetType === WidgetType.DRAWING;
   const isCalendar = widgetType === WidgetType.CALENDAR;
+
+  const ref = useRef(null);
+  const isInView = useInView(ref);
 
   function getWidget(type) {
     if (type === WidgetType.CALENDAR) {
@@ -26,6 +31,7 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
   return (
     <div
       className="modal-wrap"
+      ref={ref}
       onClick={() => {
         setShowWidgetDetailModal(!showWidgetDetailModal);
       }}
@@ -41,6 +47,8 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
         justifyContent: "center",
         alignItems: "center",
         padding: "15px",
+        opacity: isInView ? 1 : 0,
+        transition: "all 0.5s cubic-bezier(0.17, 0.55, 0.55, 1) 0.3s",
         zIndex: 100,
       }}
     >
@@ -56,8 +64,11 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
           border: "1px solid #777",
           boxShadow: "0 8px 32px 0 rgba(0,0,0,0.25)",
           backgroundColor: "#fff",
-          borderRadius: "6px",
+          borderRadius: "12px",
           overflow: "scroll",
+          transform: isInView ? "none" : "translateY(20px)",
+          opacity: isInView ? 1 : 0,
+          transition: "all 0.5s cubic-bezier(0.17, 0.55, 0.55, 1) 0.3s",
         }}
       >
         <div>

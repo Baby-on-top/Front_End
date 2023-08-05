@@ -52,11 +52,16 @@ export default function WidgetNav({ widgetsRef, setWidgetType, setWidgetId }) {
     showWidgetDetailModalState
   );
 
-  const moveToWidgetDetail = (type, id) => {
-    widgetsRef.current[id].scrollIntoView({ behavior: "smooth" });
-    setShowWidgetDetailModal(!showWidgetDetailModal);
+  const moveToWidgetDetail = async (type, id) => {
+    await widgetsRef.current[id].scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
     setWidgetType(type);
     setWidgetId(id);
+    await setTimeout(() => {
+      setShowWidgetDetailModal(!showWidgetDetailModal);
+    }, 500);
   };
 
   if (showNav) {
