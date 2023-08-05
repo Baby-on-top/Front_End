@@ -10,7 +10,7 @@ import {
   boardDelete,
   boardLeave,
 } from "../../utils/apis";
-// import { log } from "console";
+import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
 
 export default function DropDown({ id }) {
   const boardId = id;
@@ -231,22 +231,19 @@ export default function DropDown({ id }) {
 
   return (
     <>
-      <p
+      <EllipsisVerticalIcon
         onClick={handleDropdownToggle}
-        css={{
-          // display: 'inline-block',
-          float: "left",
-          width: "15%",
-          // height: '20px',
-          // verticalAlign: 'top',
-          textAlign: "right",
-          marginTop: "-20px",
-          paddingRight: "5px",
-          // marginRight: '20px',
-        }}
-      >
-        ...
-      </p>
+        width={30}
+        height={30}
+        css={
+          {
+            // display: 'inline-block',
+            // height: '20px',
+            // verticalAlign: 'top',
+            //marginTop: "-20px",
+          }
+        }
+      ></EllipsisVerticalIcon>
       {isActive && (
         <div
           onClick={handleDropdownToggle}
@@ -266,10 +263,11 @@ export default function DropDown({ id }) {
       {isActive && (
         <div
           css={{
+            position: "absolute",
             float: "right",
             border: "3px solid grey",
             borderRadius: "15px",
-            width: "35%",
+            width: "10%",
             fontsize: "1rem",
             // zIndex: '-1px',
             // padding: '0px',

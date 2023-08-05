@@ -84,9 +84,9 @@ export default function WorkSpaceModal(props) {
 
   const workspaceTitle = (event) => {
     event.preventDefault();
-    console.log(event);
+    // console.log(event);
     setTitle(event.target.value);
-    console.log(title);
+    // console.log(title);
   };
   // 타이틀 끝
 
@@ -152,6 +152,10 @@ export default function WorkSpaceModal(props) {
           alignItems: "center",
         }}
       >
+      <div onClick={workspaceModal} css={{
+        display : 'flex',
+        flexDirection: 'row',
+      }}>
         <PlusIcon
           css={{
             backgroundColor: "#D9D9D9",
@@ -165,12 +169,19 @@ export default function WorkSpaceModal(props) {
         ></PlusIcon>
 
         <div
-          css={{ fontSize: "22px", color: "#6b6b6b" }}
+          css={{
+             fontSize: "22px",
+             color: "#6b6b6b",
+            //  justifyContent : 'center',
+            //  alignItems : 'center',
+
+             }}
           className="workspace-modal"
-          onClick={workspaceModal}
+          // onClick={workspaceModal}
         >
           워크스페이스 추가하기
         </div>
+      </div>
       </div>
       {modal && (
         <div

@@ -70,15 +70,11 @@ export default function SideNav() {
   }
 
   const fetchData = async () => {
-    // const response = await axios.get(SERVER_URL)
-    console.log("aaaa");
-    console.log(cookies.accessToken);
+    // console.log("사이드네브");
+    // console.log(cookies.accessToken);
     const response = await axios.get(SERVER_URL, {
       headers: { Token: cookies.accessToken },
     });
-
-    console.log("dddd");
-    console.log(response);
     setWorkspaceList(response.data.data);
   };
 
@@ -105,13 +101,6 @@ export default function SideNav() {
     setWsIdx(idx);
   };
 
-  // useEffect(()=> {
-  //     console.log('refs')
-  //     console.log(refs)
-  //     console.log(refs.current)
-  //     console.log(wsIdx)
-  // },[wsIdx])
-
   const unlink = async () => {
     const response = await kakaoUnlink(cookies);
     if (response.status === 200) {
@@ -127,6 +116,10 @@ export default function SideNav() {
   useEffect(() => {
     fetchData();
   }, [isUpdate]);
+
+  useEffect(() => {
+    fetchData();
+  }, [wsName]);
 
   return (
     <div
@@ -252,7 +245,9 @@ export default function SideNav() {
           fontSize: "20px",
         }}
       >
-        {workspaceList.map((Workspace, id) => (
+        {
+          workspaceList.length > 0 &&
+        workspaceList.map((Workspace, id) => (
           <motion.div
             initial={{ backgroundColor: "#FFFFFF" }}
             animate={{

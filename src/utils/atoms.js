@@ -48,6 +48,12 @@ export const SelectedWsName = atom({
   default: "",
 });
 
+//보드검색
+export const SearchBoard = atom({
+  key: "SearchBoard",
+  default: "",
+});
+
 /// Board
 export const showWidgetAddModalState = atom({
   key: "showWidgetAddModalState",

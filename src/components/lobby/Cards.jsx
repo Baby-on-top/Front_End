@@ -2,10 +2,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { recoilBoardList, saveCheck, SelectedWsIdx } from "../../utils/atoms";
+import { recoilBoardList, saveCheck, SelectedWsIdx, SearchBoard } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import DropDown from "./DropDown";
+
+import dambe_pikka from "../../assets/dambe_pikka.jpg";
+import ddung_heart from "../../assets/ddung_heart.jpg";
+import cat from "../../assets/cat.jpg";
 
 const SERVER_URL = "/api/board";
 
@@ -16,27 +20,21 @@ export default function Cards() {
   const [chk, setChk] = useRecoilState(saveCheck);
 
   const fetchData = async () => {
-    console.log("여기");
+
     const response = await axios.get(SERVER_URL, {
       params: { workspaceId: wsIdx, searchKeyword: "" },
       headers: { Token: cookie.accessToken },
     });
-
-    console.log("함수실행됨");
-    console.log(response.data.data);
     setBoardList(response.data.data);
   };
 
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
-
+  
+  
   useEffect(() => {
-    // if (chk === []) {
-
-    //   fetchData();
-    // }
     fetchData();
   }, [chk]);
-
+  
   useEffect(() => {
     console.log(wsIdx);
     fetchData();
@@ -46,120 +44,161 @@ export default function Cards() {
     navigate(`/board/${id}`);
   };
 
+  // SearchBoard
+  const [searchInfo, setSearchInfo] = useRecoilState(SearchBoard)
+
+  const searched = boardList.filter((item) => item.boardName.includes(searchInfo));
+
   return (
     <div className="cards">
-      {boardList.map((board) => (
-        // <div key={board.boardId} onClick={() => clickCard(board.boardName)}>
+      {searched.map((item) => (
         <div
-          key={board.boardId}
+          key={item.boardId}
           css={{
             width: "30%",
             height: "300px",
-            float: "left",
             border: "3px solid rgb(129, 128, 128)",
             flexDirection: "column",
-            marginRight: "30px",
-            marginBottom: "20px",
             borderRadius: "10px",
             cursor: "pointer",
+            display: "flex",
+            float: "left",
+            marginRight: "30px",
+            marginBottom: "20px",
           }}
         >
-          <div
-            className="card"
-            onClick={() => clickCard(board.boardId)}
-            css={{
-              flex: "1",
-            }}
-          >
-            {board.boardName}
-          </div>
           <img
             className="card-img"
-            src={board.boardImage}
+            src={item.boardImage}
             alt="img"
-            onClick={() => clickCard(board.boardId)}
+            onClick={() => clickCard(item.boardId)}
+            width={"100%"}
+            height={100}
             css={{
-              flex: "5",
-              width: "100%",
-              height: "70%",
-              objectFit: "contain",
-              display: "flex",
+              flex: "20",
+              objectFit: "cover",
+              borderRadius: "8px 8px 0px 0px",
+              // flex: "5",
+              // width: "100%",
+              // height: "70%",
+              // objectFit: "contain",
+              // display: "flex",
             }}
           />
+          {/* bottom */}
           <div
-            className="card-footer"
             css={{
-              flex: "1",
+              display: "flex",
+              flexDirection: "row",
+              flex: "7",
             }}
           >
             <div
               css={{
-                flex: "1",
-                fontSize: "10px",
-                display: "inline-block",
+                display: "flex",
+                flex: "5",
+                flexDirection: "column",
               }}
-              onClick={() => clickCard(board.boardId)}
             >
-              {board.createAt}
-            </div>
-            <DropDown id={board.boardId} />
-          </div>
-
-          {/* <div className="card" css={{
-            width: '30%',
-            height: '300px',
-            float: 'left',
-            border: '3px solid rgb(129, 128, 128)',
-            flexDirection: 'column',
-            marginRight: '30px',
-            marginBottom: '30px',
-            borderRadius: '10px',
-            cursor: 'pointer',
-          }}> */}
-          {/* <div className="card-head"
-              css={{
-                height: '50px',
-                marginTop: '0px',
-                marginBottom: '0px',
-                marginLeft: '10px',
-                width: '100%',
-              }}>{board.boardName}</div> */}
-          {/* <img className="card-img" src={board.boardImage} alt="img"
-              css={{
-                width: '100%',
-                height: '70%',
-                objectFit: 'contain',
-                display: 'flex',
-              }} /> */}
-          {/* <div className="card-footer"
-              css={{
-                marginTop: '0px',
-                marginLeft: '10px',
-                marginRight: '0px',
-                fontSize: '10px',
-                height: '10%',
-                width: '60%',
-                display: 'inline-block',
-              }}>{board.createAt}</div> */}
-          {/* <p
-                id = {board.boardId}
-                onClick={() => dropDownModal(board.boardId)}
+              <div
+                className="card"
+                onClick={() => clickCard(item.boardId)}
                 css={{
-                  display: 'inline-block',
-                  float: 'right',
-                  marginTop: '0px',
-                  marginRight: '20px',
-                  
+                  paddingLeft: "10px",
+                  flex: "2",
                 }}
-                >...</p> */}
-          {/* <DropDown id={board.boardId} /> */}
-          {/* {
-                  boardDropDown && <DropDown id={board.boardId}/>
-                } */}
-        </div>
+              >
+                {item.boardName}
+              </div>
+              <div
+                css={{
+                  flex: "1",
+                  // fontSize: "10px",
+                  // display: "inline-block",
+                  fontSize: "10px",
+                  paddingLeft: "10px",
+                }}
+                onClick={() => clickCard(item.boardId)}
+              >
+                <p>{item.createAt}</p>
+              </div>
+            </div>
 
-        // </div>
+            <div
+              className="card-footer"
+              css={{
+                display: "flex",
+                flex: "2",
+                flexDirection: "row",
+                alignItems: "center",
+                padding: "5px 0px",
+              }}
+            >
+              <div
+                className="participants"
+                css={{
+                  flex: "1",
+                  display: "flex",
+                  // paddingLeft: "10px",
+                  alignItems: "center",
+                }}
+              >
+                {/*참여자 프로필 */}
+                <img
+                  src={dambe_pikka}
+                  alt="dambe_pikka"
+                  css={{
+                    position: "relative",
+                    zIndex: -3,
+                    left: 20,
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+                <img
+                  src={ddung_heart}
+                  alt="ddung_heart"
+                  css={{
+                    position: "relative",
+                    zIndex: -1,
+                    left: 10,
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+                <img
+                  src={cat}
+                  alt="cat"
+                  css={{
+                    zIndex: -4,
+                    position: "absolute",
+                    width: 28,
+                    height: 28,
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+              </div>
+              <div
+                className="DD"
+                css={{
+                  display: "flex",
+                  flex: "1",
+                  justifyContent: "flex-end",
+                  alignItems: "center",
+                }}
+              >
+                <DropDown id={item.boardId} />
+              </div>
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );
+
 }
