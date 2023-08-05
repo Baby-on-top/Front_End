@@ -38,13 +38,12 @@ export default function BoardHeader({ boardName, workspaceName }) {
             fontWeight: 500,
             color: "#9A9999",
             cursor: "pointer",
-            height: 36,
           }}
           onClick={() => window.history.back()}
         >
           {workspaceName}&nbsp;&nbsp;/
         </div>
-        <div css={{ fontSize: 24, fontWeight: 500, height: 33 }}>
+        <div css={{ fontSize: 24, fontWeight: 500 }}>
           &nbsp;&nbsp;{boardName}
         </div>
       </div>

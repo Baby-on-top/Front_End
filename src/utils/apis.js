@@ -250,3 +250,15 @@ export async function boardJoin(workspaceIdx) {
     console.error(e);
   }
 }
+// 보드 상세 조회
+export async function getBoardDetail(accessToken, boardId) {
+  try {
+    const response = await axios.get(Urls.BOARD_DETAIL, {
+      headers: { Token: accessToken },
+      params: { boardId: boardId },
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}

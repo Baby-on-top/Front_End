@@ -8,4 +8,5 @@ export const Urls = {
   WORKSPACE_UNLINK: "/api/workspace/unlink",
   BOARD: "/api/board",
   BOARD_INVITE: "/api/board/invite",
+  BOARD_DETAIL: "/api/board/detail",
 };

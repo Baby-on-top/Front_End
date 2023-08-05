@@ -10,6 +10,7 @@ import { isChatModalOpened } from "../utils/atoms";
 import WidgetPlace from "../components/board/WidgetPlace";
 import WidgetDetailModal from "../components/board/WidgetDetailModal";
 import ChatButton from "../components/chat/ChatButton";
+import { getBoardDetail } from "../utils/apis";
 
 export default function Board() {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ export default function Board() {
   const boardId = useParams().boardId;
   const [widgetId, setWidgetId] = useState(0);
   const [widgetType, setWidgetType] = useState("");
+
+  const [workspaceName, setWorkspaceName] = useState("");
+  const [boardName, setBoardName] = useState("");
 
   const widgetsRef = useRef([]);
 
@@ -30,6 +34,7 @@ export default function Board() {
       navigate("/login");
     }
   };
+
   useEffect(() => {
     const fetch = async () => {
       await loginCheck();
@@ -37,13 +42,19 @@ export default function Board() {
     fetch();
   });
 
-  const handleOpen = () => {
-    setIsChatModal(!isChatModal);
-  };
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await getBoardDetail(cookie.accessToken, boardId);
+      const { workspaceName, boardName } = response.data;
+      setWorkspaceName(workspaceName);
+      setBoardName(boardName);
+    };
+    fetch();
+  }, []);
 
   return (
     <div>
-      <BoardHeader />
+      <BoardHeader workspaceName={workspaceName} boardName={boardName} />
       <WidgetPlace
         widgetsRef={widgetsRef}
         setWidgetId={setWidgetId}
