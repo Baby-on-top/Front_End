@@ -59,6 +59,11 @@ export const showNavState = atom({
   default: true,
 });
 
+export const showUserInfo = atom({
+  key: "showUserInfo",
+  default: [],
+});
+
 export const widgetListState = atom({
   key: "widgetListState",
   default: [

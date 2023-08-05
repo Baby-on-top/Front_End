@@ -2,11 +2,12 @@
 import { useEffect, useRef, useState } from "react";
 import * as StompJs from "@stomp/stompjs";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
-
-export default function ChatRoom({ roomId, roomName, userName }) {
+import { showUserInfo } from "../../utils/atoms";
+import { useRecoilState } from "recoil";
+export default function ChatRoom({ roomId }) {
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
-
+  const [userInfo] = useRecoilState(showUserInfo);
   const client = useRef({});
 
   const connect = () => {
@@ -37,8 +38,10 @@ export default function ChatRoom({ roomId, roomName, userName }) {
       destination: "/pub/chat/message",
       body: JSON.stringify({
         roomId: roomId,
+        sender: userInfo.name,
         message: message,
-        sender: userName,
+        profile: userInfo.profile,
+        userId: userInfo.id,
       }),
     });
     setMessage("");
