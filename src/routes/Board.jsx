@@ -11,6 +11,7 @@ import ModalPortal from "../components/chat/ModalPortal";
 import { useRecoilState } from "recoil";
 import { isChatModalOpened } from "../utils/atoms";
 import WidgetPlace from "../components/board/WidgetPlace";
+import ChatButton from "../components/chat/ChatButton";
 
 export default function Board() {
   const navigate = useNavigate();
@@ -45,32 +46,7 @@ export default function Board() {
       <BoardHeader />
       <WidgetPlace />
       <WidgetNav />
-      <div
-        onClick={handleOpen}
-        css={{
-          position: "fixed",
-          right: 30,
-          bottom: 20,
-          cursor: "pointer",
-        }}
-      >
-        <img
-          className="chat"
-          alt="chat"
-          src={chat}
-          css={{
-            width: "60px",
-            height: "60px",
-            filter: "drop-shadow(0px 0px 8px rgba(0,0,0,0.25))",
-          }}
-        ></img>
-      </div>
-      {isChatModal && (
-        <ModalPortal>
-          <ChatModal />
-        </ModalPortal>
-      )}
-      <div id="chat-root-modal"></div>
+      <ChatButton />
       <WidgetAddModal />
     </div>
   );
