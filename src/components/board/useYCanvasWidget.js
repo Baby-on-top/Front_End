@@ -26,8 +26,8 @@ export const useYcanvas = (yRootMap) => {
           return rect.id === e.target.id
             ? {
                 ...rect,
-                x: e.clientX == 0 ? rect.x : e.clientX,
-                y: e.clientY == 0 ? rect.y : e.clientY,
+                x: e.nativeEvent.x == 0 ? rect.x : e.nativeEvent.x,
+                y: e.nativeEvent.y == 0 ? rect.y : e.nativeEvent.y,
               }
             : rect;
         });

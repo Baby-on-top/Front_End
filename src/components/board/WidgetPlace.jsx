@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
 
 import { useNavigate } from "react-router-dom";
@@ -62,6 +62,28 @@ export default function WidgetPlace() {
   //     }
   // };
 
+  const handleDragStart = useCallback(
+    (e) => {
+      //const image = new Image();
+      //e.dataTransfer.setDragImage(image, e.clientX, e.clientY);
+      if (e.target instanceof HTMLDivElement) dragStartCanvas(e);
+    },
+    [dragStartCanvas]
+  );
+  const handleDragMove = useCallback(
+    (e, info) => {
+      if (e.target instanceof HTMLDivElement) dragMove(e);
+    },
+    [dragMove]
+  );
+
+  const handleDragEnd = useCallback(
+    (e) => {
+      if (e.target instanceof HTMLDivElement) dragEndCanvas(e);
+    },
+    [dragEndCanvas]
+  );
+
   return (
     <div
       id="widget-place-wrapper"
@@ -100,22 +122,19 @@ export default function WidgetPlace() {
               }}
               draggable
               dragConstraints={constraintsRef} // 드래그 영역 제한
+              dragListener={false}
               whileDrag={{
                 scale: 1.13,
                 boxShadow: "5px 5px 10px 8px rgba(0, 0, 0, 0.2)",
               }} // 드래그 하는 동안의 이벤트 처리
               dragMomentum={false} // 드래그하고 나서 움직임 없도록 설정
               dragElastic={0} // 제한 영역 외부에서 허용되는 움직임
-              onDrag={dragMove}
-              onDragEnd={dragEndCanvas}
-              onDragStart={(e) => {
-                const image = new Image();
-                e.dataTransfer.setDragImage(image, 100, 200);
-                dragStartCanvas(e);
-              }}
+              onDrag={handleDragMove}
+              onDragEnd={handleDragEnd}
+              onDragStart={handleDragStart}
               style={{
-                x: widget?.x - 100 || 0,
-                y: widget?.y - 190 || 0,
+                x: widget?.x - 90 || 0,
+                y: widget?.y - 90 || 0,
                 zIndex: widget?.x ? 2 : 1,
               }}
               onClick={() => moveToWidgetDetail(widget.type, widget.id)}
