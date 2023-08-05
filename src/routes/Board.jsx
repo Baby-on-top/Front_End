@@ -47,8 +47,16 @@ export default function Board() {
   return (
     <div>
       <BoardHeader />
-      <WidgetPlace />
-      <WidgetNav />
+      <WidgetPlace
+        setWidgetId={setWidgetId}
+        setwidgetType={setWidgetType}
+        widgetsRef={widgetsRef}
+      />
+      <WidgetNav
+        setWidgetId={setWidgetId}
+        setwidgetType={setWidgetType}
+        widgetsRef={widgetsRef}
+      />
       <ChatButton />
       <WidgetAddModal />
       <WidgetDetailModal
