@@ -82,36 +82,78 @@ export default function ChatRoom({ roomId }) {
     <div>
       <div
         css={{
-          display: "flex",
-          flexDirection: "column",
           overflow: "scroll",
           height: "470px",
         }}
       >
         {messageList.map((chatMessage) => {
-          if (chatMessage.sender !== userName) {
+          // TODO: 테스트를 위해서 == 으로함, 다시 !=으로 수정 필요
+          if (chatMessage.userId != userInfo.id) {
             return (
               // 받는 쪽
-              <div css={{ paddingBottom: "8px" }}>
-                <div>{chatMessage.sender}</div>
-                <div css={{ backgroundColor: "#DEFCD7", padding: "10px 0px" }}>
-                  {chatMessage.message}
+              <div
+                css={{
+                  paddingBottom: "12px",
+                  display: "flex",
+                }}
+              >
+                <div
+                  css={{
+                    textAlign: "center",
+                  }}
+                >
+                  <img
+                    src={chatMessage.profile}
+                    css={{
+                      width: "28px",
+                      height: "28px",
+                      borderRadius: "14px",
+                    }}
+                  />
+                  <div
+                    css={{
+                      fontSize: "12px",
+                    }}
+                  >
+                    {chatMessage.sender}
+                  </div>
+                </div>
+                <div>
+                  <div
+                    css={{
+                      marginLeft: "10px",
+                      backgroundColor: "#8b8b8b1c",
+                      padding: "10px 12px",
+                      fontWeight: "400",
+                      borderRadius: "20px",
+                      fontSize: "14px",
+                      maxWidth: "240px",
+                    }}
+                  >
+                    {chatMessage.message}
+                  </div>
                 </div>
               </div>
             );
           } else {
             return (
               // 보내는 쪽
-              <div css={{ paddingBottom: "8px" }}>
-                <div css={{ display: "flex", justifyContent: "flex-end" }}>
-                  {chatMessage.sender}
-                </div>
+              <div
+                css={{
+                  paddingBottom: "12px",
+                  float: "right",
+                  width: "240px",
+                }}
+              >
                 <div
                   css={{
-                    display: "flex",
-                    backgroundColor: "#FADFD3",
-                    justifyContent: "flex-end",
-                    padding: "10px 0px",
+                    backgroundColor: "#008000",
+                    float: "right",
+                    padding: "10px 12px",
+                    color: "#FFFFFF",
+                    fontWeight: "400",
+                    borderRadius: "20px",
+                    fontSize: "14px",
                   }}
                 >
                   {chatMessage.message}
