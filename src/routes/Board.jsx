@@ -5,9 +5,6 @@ import { useEffect, useState, useRef } from "react";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from "../components/board/BoardHeader";
 import WidgetNav from "../components/board/WidgetNav";
-import ChatModal from "../components/chat/ChatModal";
-import chat from "../assets/chat.png";
-import ModalPortal from "../components/chat/ModalPortal";
 import { useRecoilState } from "recoil";
 import { isChatModalOpened } from "../utils/atoms";
 import WidgetPlace from "../components/board/WidgetPlace";
@@ -48,16 +45,17 @@ export default function Board() {
     <div>
       <BoardHeader />
       <WidgetPlace
-        setWidgetId={setWidgetId}
-        setwidgetType={setWidgetType}
         widgetsRef={widgetsRef}
+        setWidgetId={setWidgetId}
+        setWidgetType={setWidgetType}
       />
       <WidgetNav
-        setWidgetId={setWidgetId}
-        setwidgetType={setWidgetType}
         widgetsRef={widgetsRef}
+        setWidgetId={setWidgetId}
+        setWidgetType={setWidgetType}
       />
       <ChatButton />
+
       <WidgetAddModal />
       <WidgetDetailModal
         widgetType={widgetType}
