@@ -31,6 +31,7 @@
     "recoil": "^0.7.7",
     "remirror": "^2.0.36",
     "serve": "^14.2.0",
+    "socket.io-client": "^4.7.2",
     "tui-date-picker": "^4.3.3",
     "tui-time-picker": "^2.1.6",
     "unique-names-generator": "^4.7.1",
