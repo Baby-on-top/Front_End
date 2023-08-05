@@ -65,6 +65,16 @@ export default function ChatRoom({ roomId, roomName, userName }) {
     setMessage("");
   }
 
+  const onKeyDownHandler = (event) => {
+    if (
+      event.key === "Enter" &&
+      event.shiftKey === false &&
+      event.nativeEvent.isComposing === false
+    ) {
+      sendMessage();
+    }
+  };
+
   return (
     <div>
       <div
@@ -132,6 +142,7 @@ export default function ChatRoom({ roomId, roomName, userName }) {
           }}
           onChange={handleMessage}
           value={message}
+          onKeyDown={onKeyDownHandler}
         ></textarea>
         <PaperAirplaneIcon
           css={{
