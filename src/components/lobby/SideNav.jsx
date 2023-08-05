@@ -6,7 +6,7 @@ import { kakaoUnlink, kakaoInfo } from "../../utils/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import WorkSpaceModal from "./WorkSpaceModal";
-import { SelectedWsIdx, SelectedWsName } from "../../utils/atoms";
+import { SelectedWsIdx, SelectedWsName, showUserInfo } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { motion, useAnimate, stagger } from "framer-motion";
 import InviteModal from "./InviteModal";
@@ -31,6 +31,7 @@ export default function SideNav() {
   const [workspaceList, setWorkspaceList] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isUnlink, setIsUnlink] = useState(false);
+  const [, setUserInfo] = useRecoilState(showUserInfo);
 
   const navigate = useNavigate();
 
@@ -58,9 +59,14 @@ export default function SideNav() {
 
   async function getUserInfo() {
     const response = await kakaoInfo(cookies);
+    const data = {
+      id: response.data.data.memberId,
+      name: response.data.data.name,
+      profile: response.data.data.profile,
+    };
     setName(response.data.data.name);
     setProfile(response.data.data.profile);
-    console.log(profile);
+    setUserInfo(data);
   }
 
   const fetchData = async () => {

@@ -2,41 +2,17 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-import { isChatRoomOpened } from "../../utils/atoms";
+import { isChatRoomOpened, recoilBoardList } from "../../utils/atoms";
 
-// TODO: 수정 필요!
-const CHAT_ROOM_URL = "http://localhost:8090/api/chat/rooms";
-
-export default function ChatRoomList({
-  setRoomId,
-  setRoomName,
-  setUserName,
-  isSave,
-}) {
-  const [roomList, setRoomList] = useState([]);
+export default function ChatRoomList({ setRoomId, setRoomName, setUserName }) {
   const [isChatRoom, setIsChatRoom] = useRecoilState(isChatRoomOpened);
-
-  const fetchRoomData = async () => {
-    const response = await axios.get(CHAT_ROOM_URL);
-    console.log(response);
-    setRoomList(response.data.data);
-  };
+  const [roomList, setRoomList] = useRecoilState(recoilBoardList);
 
   const roomHandler = (roomId, roomName) => {
     setIsChatRoom(!isChatRoom);
     setRoomId(roomId);
     setRoomName(roomName);
-    // TODO: 실제 유저 이름으로 수정 필요
-    setUserName(Math.random().toString(36).substring(2, 16));
   };
-
-  function getImageSrc(number) {
-    return `//source.unsplash.com/500x${number}`;
-  }
-
-  useEffect(() => {
-    fetchRoomData();
-  }, [isSave]);
 
   return (
     <div
@@ -45,12 +21,11 @@ export default function ChatRoomList({
       }}
     >
       {roomList.map((room, idx) => {
-        const updatedAt = room.updatedAt.substr(0, 10);
         return (
           <div
             className="room-card"
             onClick={() => {
-              roomHandler(room.roomId, room.name);
+              roomHandler(room.boardId, room.boardName);
             }}
             css={{
               display: "flex",
@@ -59,7 +34,7 @@ export default function ChatRoomList({
           >
             <img
               className="card-img"
-              src={getImageSrc(idx + 500)}
+              src={room.boardImage}
               alt="img"
               css={{
                 width: 50,
@@ -83,7 +58,7 @@ export default function ChatRoomList({
                     fontWeight: "500",
                   }}
                 >
-                  {room.name}
+                  {room.boardName}
                 </div>
                 <div
                   css={{
@@ -91,7 +66,8 @@ export default function ChatRoomList({
                     color: "#AFAFAF",
                   }}
                 >
-                  {updatedAt}
+                  {/* 최신 메시지를 주고받은 시간을 보낸다. */}
+                  {/* {updatedAt} */}
                 </div>
               </div>
               <div className="room-message">
@@ -101,6 +77,7 @@ export default function ChatRoomList({
                     fontWeight: "400",
                   }}
                 >
+                  {/* TODO: 최신 메시지를 띄운다. */}
                   안녕하세요~
                 </div>
               </div>
