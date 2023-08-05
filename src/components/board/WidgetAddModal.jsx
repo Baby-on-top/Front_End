@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import ModalHeader from "../modal/ModalHeader";
 import { useRecoilState } from "recoil";
-import { showModalState } from "../../utils/atoms";
+import { showWidgetAddModalState } from "../../utils/atoms";
 import { widgetListState } from "../../utils/atoms";
 import { WidgetType } from "./WidgetType";
 
 export default function WidgetAddModal() {
-  const [showModal, setShowModal] = useRecoilState(showModalState);
+  const [showWidgetAddModal, setShowWidgetAddModal] = useRecoilState(
+    showWidgetAddModalState
+  );
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
 
   const WidgetSelectBox = styled.div`
@@ -43,12 +44,13 @@ export default function WidgetAddModal() {
 
   const onClick = (widgetType) => {
     selectAddWidet(widgetType);
-    setShowModal(!showModal);
+    setShowWidgetAddModal(!showWidgetAddModal);
   };
 
   return (
     <div
-      id="modal-wrap"
+      className="modal-wrap"
+      onClick={() => setShowWidgetAddModal(!showWidgetAddModal)}
       css={{
         backgroundColor: "rgba(0,0,0,0.4)" /* Black w/ opacity */,
         overflow: "auto" /* Enable scroll if needed */,
@@ -57,7 +59,7 @@ export default function WidgetAddModal() {
         top: 0,
         width: "100%",
         height: "100%",
-        display: showModal ? "flex" : "none",
+        display: showWidgetAddModal ? "flex" : "none",
         justifyContent: "center",
         alignItems: "center",
         padding: "15px",
@@ -65,7 +67,8 @@ export default function WidgetAddModal() {
       }}
     >
       <div
-        id="modal-body"
+        className="modal-contents"
+        onClick={(e) => e.stopPropagation()}
         css={{
           width: "100%",
           maxWidth: "800px",
@@ -77,37 +80,61 @@ export default function WidgetAddModal() {
           borderRadius: "16px",
         }}
       >
-        <div id="modal-contents">
-          <ModalHeader />
-          <div
+        <div
+          className="modal-header"
+          css={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <p css={{ fontSize: 20, fontWeight: 500 }}>Widget</p>
+          <span
+            id="close-btn"
             css={{
-              paddingTop: 20,
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-              rowGap: 30,
-              columnGap: 50,
-              justifyContent: "center",
+              width: 50,
+              height: 50,
+              textAlign: "right",
+              float: "right",
+              color: "#777",
+              fontSize: "26px",
+              cursor: "pointer",
             }}
+            onClick={() => setShowWidgetAddModal(!showWidgetAddModal)}
           >
-            <WidgetSelectBox
-              onClick={() => onClick(WidgetType.NOTE)}
-              css={{ cursor: "pointer" }}
-            >
-              노트 📒
-            </WidgetSelectBox>
-            <WidgetSelectBox
-              onClick={() => onClick(WidgetType.CALENDAR)}
-              css={{ cursor: "pointer" }}
-            >
-              캘린더 🗓️
-            </WidgetSelectBox>
-            <WidgetSelectBox
-              onClick={() => onClick(WidgetType.DRAWING)}
-              css={{ cursor: "pointer" }}
-            >
-              그림판 🎨
-            </WidgetSelectBox>
-          </div>
+            &times;
+          </span>
+        </div>
+        <div
+          className="modal-body"
+          css={{
+            paddingTop: 20,
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+            rowGap: 30,
+            columnGap: 50,
+            justifyContent: "center",
+          }}
+        >
+          <WidgetSelectBox
+            onClick={() => onClick(WidgetType.NOTE)}
+            css={{ cursor: "pointer" }}
+          >
+            노트 📒
+          </WidgetSelectBox>
+          <WidgetSelectBox
+            onClick={() => onClick(WidgetType.CALENDAR)}
+            css={{ cursor: "pointer" }}
+          >
+            캘린더 🗓️
+          </WidgetSelectBox>
+          <WidgetSelectBox
+            onClick={() => onClick(WidgetType.DRAWING)}
+            css={{ cursor: "pointer" }}
+          >
+            그림판 🎨
+          </WidgetSelectBox>
         </div>
       </div>
     </div>
