@@ -2,7 +2,8 @@
 import SideNav from "../components/lobby/SideNav";
 import Cards from "../components/lobby/Cards";
 import BoardModal from "../components/lobby/BoardModal";
-import WorkspaceDropdown from "../components/lobby/WorkspaceDropdown";
+import HeaderTitle from "../components/lobby/HeaderTitle";
+
 
 import {
   SelectedWsName,
@@ -33,24 +34,12 @@ export default function Lobby() {
       navigate("/login");
     }
   };
-  // updateCards
-  // const [count, setCount] = useState(0);
-  // const updateCards = () => {
-  //     console.log(count)
-  //     setCount(count + 1);
-  //     console.log(count)
-  // };
 
   const [myCard, upCards] = useState(false);
-  // const [myWorkspace, upWorkspace] = useState(false);
-  // const updateCards = upCallback(() => upCards({}), []);
   const updateCards = () => {
     upCards(!myCard);
   };
 
-  // const updateWorkspaces = () => {
-  //     upWorkspace(!myWorkspace);
-  // }
   const handleOpen = () => {
     setIsChatModal(!isChatModal);
   };
@@ -61,7 +50,6 @@ export default function Lobby() {
     fetch();
     console.log(myCard);
   }, [myCard]);
-  // },[myCard, myWorkspace]);
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
   const [wsCreateId, setCreateId] = useRecoilState(SelectedWsCreateId);
@@ -78,7 +66,6 @@ export default function Lobby() {
         `}
       />
       <SideNav />
-      {/* <SideNav updateWorkspaces={updateWorkspaces}/> */}
 
       <div
         className="main"
@@ -92,11 +79,13 @@ export default function Lobby() {
           className="header"
           css={{
             display: "flex",
-            justifyContent: "space-between",
+            // justifyContent: "space-between",
             width: "100%",
           }}
         >
-          <p
+          <HeaderTitle idx={wsIdx} name={wsName} createId={wsCreateId}/>
+          
+          {/* <p
             className="title"
             css={{
               display: "inline-block",
@@ -107,9 +96,10 @@ export default function Lobby() {
             {wsName}
           </p>
           <WorkspaceDropdown id={wsIdx} createId={wsCreateId} />
-          <BoardModal updateCards={updateCards} />
+          <BoardModal updateCards={updateCards} /> */}
         </div>
         <Cards />
+        
       </div>
 
       <div

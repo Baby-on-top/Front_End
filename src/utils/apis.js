@@ -133,10 +133,9 @@ export async function workspaceCreate(cookie, image, workspaceName) {
   }
 }
 
-export async function workspaceEdit(cookie, image, workspaceName, workspaceId) {
+export async function workspaceEdit(image, workspaceName, workspaceId) {
   const url = "/api/workspace";
   const header = {
-    // Token: cookie.accessToken,
     "Content-Type": "multipart/form-data",
   };
   const info = {
