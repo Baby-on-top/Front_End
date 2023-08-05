@@ -30,6 +30,7 @@
     "recoil": "^0.7.7",
     "remirror": "^2.0.36",
     "serve": "^14.2.0",
+    "socket.io-client": "^4.7.2",
     "unique-names-generator": "^4.7.1",
     "y-presence": "0.2.3",
     "y-protocols": "^1.0.5",
