@@ -16,9 +16,8 @@ export async function kakaoLogin(code) {
   }
 }
 export async function kakaoUnlink(cookie) {
-  const SERVER_URL = "/api/member/unlink";
   try {
-    const response = await axios.get(SERVER_URL, {
+    const response = await axios.get(Urls.USER_UNLINK, {
       headers: { Token: cookie.accessToken },
     });
     return response;
@@ -27,9 +26,8 @@ export async function kakaoUnlink(cookie) {
   }
 }
 export async function kakaoInfo(cookie) {
-  const SERVER_URL = "/api/member/info";
   try {
-    const response = await axios.get(SERVER_URL, {
+    const response = await axios.get(Urls.USER_INFO, {
       headers: { Token: cookie.accessToken },
     });
     return response;
@@ -38,47 +36,10 @@ export async function kakaoInfo(cookie) {
   }
 }
 
-export async function boardCreate(
-  cookie,
-  image,
-  workspaceId,
-  boardName,
-  boardImage
-) {
-  const url = "/api/board";
-  const header = {
-    Token: cookie.accessToken,
-    "Content-Type": "multipart/form-data",
-  };
-  const info = {
-    workspaceId: workspaceId,
-    boardName: boardName,
-    boardImage: boardImage,
-  };
-  console.log("image");
-  console.log(image);
-  const formData = new FormData();
-  const blob = new Blob([JSON.stringify(info)], { type: "application/json" });
-  formData.append("file", image);
-  formData.append("info", blob);
-
-  try {
-    const response = await axios({
-      method: "POST",
-      url: url,
-      headers: header,
-      data: formData,
-    });
-    return response.data;
-  } catch (e) {
-    console.error(e);
-  }
-}
-
+///Workspace
 export async function inviteWorkspace(accessToken, workspaceId) {
-  const SERVER_URL = "/api/workspace/invite";
   try {
-    const response = await axios.get(SERVER_URL, {
+    const response = await axios.get(Urls.WORKSPACE_INVITE, {
       headers: { Token: accessToken },
       params: { workspaceId: workspaceId },
     });
@@ -87,15 +48,12 @@ export async function inviteWorkspace(accessToken, workspaceId) {
     console.error("fail : " + e);
   }
 }
-
 export async function inviteUrlCreate(workspaceId) {
-  const SERVER_INVITE_URL = "/api/workspace/invite/";
-  const SERVER_URL = "/url";
   var tDate = new Date();
   tDate.setMinutes(tDate.getMinutes() + 5);
   try {
-    const response = await axios.post(SERVER_URL, {
-      longUrl: SERVER_INVITE_URL + workspaceId,
+    const response = await axios.post("/url", {
+      longUrl: `${Urls.WORKSPACE_INVITE}/${workspaceId}`,
       expiresDate: tDate,
     });
     return response;
@@ -103,9 +61,7 @@ export async function inviteUrlCreate(workspaceId) {
     console.error("fail : " + e);
   }
 }
-
 export async function workspaceCreate(cookie, image, workspaceName) {
-  const url = "/api/workspace";
   const header = {
     Token: cookie.accessToken,
     "Content-Type": "multipart/form-data",
@@ -113,8 +69,7 @@ export async function workspaceCreate(cookie, image, workspaceName) {
   const info = {
     workspaceName: workspaceName,
   };
-  console.log("image");
-  console.log(image);
+
   const formData = new FormData();
   const blob = new Blob([JSON.stringify(info)], { type: "application/json" });
   formData.append("file", image);
@@ -123,7 +78,7 @@ export async function workspaceCreate(cookie, image, workspaceName) {
   try {
     const response = await axios({
       method: "POST",
-      url: url,
+      url: Urls.WORKSPACE,
       headers: header,
       data: formData,
     });
@@ -132,9 +87,7 @@ export async function workspaceCreate(cookie, image, workspaceName) {
     console.error(e);
   }
 }
-
 export async function workspaceEdit(cookie, image, workspaceName, workspaceId) {
-  const url = "/api/workspace";
   const header = {
     // Token: cookie.accessToken,
     "Content-Type": "multipart/form-data",
@@ -143,8 +96,7 @@ export async function workspaceEdit(cookie, image, workspaceName, workspaceId) {
     workspaceName: workspaceName,
     workspaceId: workspaceId,
   };
-  console.log("image");
-  console.log(image);
+
   const formData = new FormData();
   const blob = new Blob([JSON.stringify(info)], { type: "application/json" });
   formData.append("file", image);
@@ -153,7 +105,7 @@ export async function workspaceEdit(cookie, image, workspaceName, workspaceId) {
   try {
     const response = await axios({
       method: "PUT",
-      url: url,
+      url: Urls.WORKSPACE,
       headers: header,
       data: formData,
     });
@@ -162,53 +114,9 @@ export async function workspaceEdit(cookie, image, workspaceName, workspaceId) {
     console.error(e);
   }
 }
-
-export async function boardEdit(image, boardName, boardId) {
-  const url = "/api/board";
-  const header = {
-    "Content-Type": "multipart/form-data",
-  };
-  const info = {
-    boardId: boardId,
-    boardName: boardName,
-  };
-  console.log("image");
-  console.log(image);
-  const formData = new FormData();
-  const blob = new Blob([JSON.stringify(info)], { type: "application/json" });
-  formData.append("file", image);
-  formData.append("info", blob);
-
-  try {
-    const response = await axios({
-      method: "PATCH",
-      url: url,
-      headers: header,
-      data: formData,
-    });
-    return response.data;
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-export async function boardDelete(boardIdx) {
-  const url = "/api/board";
-
-  try {
-    const response = await axios.delete(url, {
-      data: { boardId: boardIdx },
-    });
-    return response.data;
-  } catch (e) {
-    console.error(e);
-  }
-}
-
 export async function workspaceDelete(workspaceIdx) {
-  const url = "/api/workspace";
   try {
-    const response = await axios.delete(url, {
+    const response = await axios.delete(Urls.WORKSPACE, {
       params: { workspaceId: workspaceIdx },
     });
     return response.data;
@@ -216,9 +124,7 @@ export async function workspaceDelete(workspaceIdx) {
     console.error(e);
   }
 }
-
 export async function workspaceLeave(cookie, workspaceIdx) {
-  const url = "/api/workspace/unlink";
   const header = {
     Token: cookie.accessToken,
   };
@@ -229,7 +135,7 @@ export async function workspaceLeave(cookie, workspaceIdx) {
   try {
     const response = await axios({
       method: "POST",
-      url: url,
+      url: Urls.WORKSPACE_UNLINK,
       headers: header,
       data: info,
     });
@@ -239,11 +145,80 @@ export async function workspaceLeave(cookie, workspaceIdx) {
   }
 }
 
-export async function boardLeave(cookie, boardIdx) {
-  const url = "/api/board/invite";
+///Board
+export async function boardCreate(
+  cookie,
+  image,
+  workspaceId,
+  boardName,
+  boardImage
+) {
+  const header = {
+    Token: cookie.accessToken,
+    "Content-Type": "multipart/form-data",
+  };
+  const info = {
+    workspaceId: workspaceId,
+    boardName: boardName,
+    boardImage: boardImage,
+  };
+
+  const formData = new FormData();
+  const blob = new Blob([JSON.stringify(info)], { type: "application/json" });
+  formData.append("file", image);
+  formData.append("info", blob);
 
   try {
-    const response = await axios.delete(url, {
+    const response = await axios({
+      method: "POST",
+      url: Urls.BOARD,
+      headers: header,
+      data: formData,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function boardEdit(image, boardName, boardId) {
+  const header = {
+    "Content-Type": "multipart/form-data",
+  };
+  const info = {
+    boardId: boardId,
+    boardName: boardName,
+  };
+
+  const formData = new FormData();
+  const blob = new Blob([JSON.stringify(info)], { type: "application/json" });
+  formData.append("file", image);
+  formData.append("info", blob);
+
+  try {
+    const response = await axios({
+      method: "PATCH",
+      url: Urls.BOARD,
+      headers: header,
+      data: formData,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function boardDelete(boardIdx) {
+  try {
+    const response = await axios.delete(Urls.BOARD, {
+      data: { boardId: boardIdx },
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function boardLeave(cookie, boardIdx) {
+  try {
+    const response = await axios.delete(Urls.BOARD_INVITE, {
       headers: { Token: cookie.accessToken },
       data: { boardId: boardIdx },
     });
@@ -252,13 +227,10 @@ export async function boardLeave(cookie, boardIdx) {
     console.error(e);
   }
 }
-
 // 보드 초대
 export async function boardInvite(boardIdx, memberIdx) {
-  const url = "/api/board/invite";
-
   try {
-    const response = await axios.post(url, {
+    const response = await axios.post(Urls.BOARD_INVITE, {
       boardId: boardIdx,
       memberId: memberIdx,
     });
@@ -267,13 +239,10 @@ export async function boardInvite(boardIdx, memberIdx) {
     console.error(e);
   }
 }
-
 // 워크스페이스 사용자정보 조회
 export async function boardJoin(workspaceIdx) {
-  const url = "/api/workspace/join";
-
   try {
-    const response = await axios.get(url, {
+    const response = await axios.get(Urls.WORKSPACE_JOIN, {
       params: { workspaceId: workspaceIdx },
     });
     return response.data;
