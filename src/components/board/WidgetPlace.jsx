@@ -12,8 +12,7 @@ export default function WidgetPlace({
   widgetsRef,
 }) {
   const constraintsRef = useRef();
-  const { widgetList, dragStartCanvas, dragMove, dragEndCanvas } =
-    useYcanvas(yRects);
+  const { widgetList, dragStartCanvas, dragEndCanvas } = useYcanvas(yRects);
   let [click, setClick] = useState(true);
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
@@ -34,20 +33,19 @@ export default function WidgetPlace({
     },
     [dragStartCanvas]
   );
-  const handleDragMove = useCallback(
-    (e, info) => {
-      if (e.target instanceof HTMLDivElement) dragMove(e);
-    },
-    [dragMove]
-  );
 
   const handleDragEnd = useCallback(
     (e) => {
-      if (e.target instanceof HTMLDivElement) dragEndCanvas(e);
+      if (e.target instanceof HTMLDivElement) {
+        dragEndCanvas(e);
+      }
     },
     [dragEndCanvas]
   );
 
+  useEffect(() => {
+    console.log("BBBBBBB", widgetList);
+  }, []);
   return (
     <div
       id="widget-place-wrapper"
@@ -96,7 +94,6 @@ export default function WidgetPlace({
               }} // 드래그 하는 동안의 이벤트 처리
               dragMomentum={false} // 드래그하고 나서 움직임 없도록 설정
               dragElastic={0} // 제한 영역 외부에서 허용되는 움직임
-              onDrag={handleDragMove}
               onDragEnd={handleDragEnd}
               onDragStart={handleDragStart}
               style={{

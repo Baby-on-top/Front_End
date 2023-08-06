@@ -1,6 +1,6 @@
 import "remirror/styles/all.css";
 
-import React from "react";
+import React, { useEffect } from "react";
 import css from "refractor/lang/css.js";
 import javascript from "refractor/lang/javascript.js";
 import json from "refractor/lang/json.js";
@@ -28,8 +28,6 @@ import {
   wysiwygPreset,
 } from "remirror/extensions";
 import { FindExtension } from "@remirror/extension-find";
-import { WebsocketProvider } from "y-websocket";
-import * as Y from "yjs";
 import {
   EditorComponent,
   ListButtonGroup,
@@ -52,42 +50,6 @@ import {
   ToggleBlockquoteButton,
   ToggleCalloutButton,
 } from "@remirror/react";
-
-const ydoc = new Y.Doc();
-// clients connected to the same room-name share document updates
-const provider = new WebsocketProvider(
-  "ws://localhost:1234",
-  "remirror-note",
-  ydoc,
-  {
-    connect: true,
-  }
-);
-
-const extensions = () => [
-  new HardBreakExtension(),
-  new BulletListExtension(),
-  new OrderedListExtension(),
-  new TaskListExtension(),
-  new HeadingExtension(),
-  new LinkExtension(),
-  new ItalicExtension(),
-  new FontFamilyExtension(),
-  new FontSizeExtension({ defaultSize: "16", unit: "px" }),
-  // new BlockquoteExtension({ triggerKey: 'Tab' }), // Change the trigger key to 'Tab'
-  new HorizontalRuleExtension(),
-  ...wysiwygPreset(),
-  new FindExtension(),
-  new CalloutExtension(),
-  new CodeExtension(),
-  new BoldExtension(),
-  new UnderlineExtension(),
-  new PlaceholderExtension({ placeholder: "Type here..." }),
-  new YjsExtension({ getProvider: () => provider }),
-  new CodeBlockExtension({
-    supportedLanguages: [css, javascript, json, markdown, typescript],
-  }),
-];
 
 const FONT_SIZES = ["8", "10", "12", "14", "16", "18", "24", "30"];
 
@@ -154,6 +116,40 @@ const customStyles = `
 `;
 
 const RemirrorNote = () => {
+  let myModule = require("../../components/tldraw/store");
+  let provider = myModule.yjsReturn();
+  console.log("asdfasdfasfd");
+  console.log(provider);
+
+  const extensions = () => [
+    new HardBreakExtension(),
+    new BulletListExtension(),
+    new OrderedListExtension(),
+    new TaskListExtension(),
+    new HeadingExtension(),
+    new LinkExtension(),
+    new ItalicExtension(),
+    new FontFamilyExtension(),
+    new FontSizeExtension({ defaultSize: "16", unit: "px" }),
+    // new BlockquoteExtension({ triggerKey: 'Tab' }), // Change the trigger key to 'Tab'
+    new HorizontalRuleExtension(),
+    ...wysiwygPreset(),
+    new FindExtension(),
+    new CalloutExtension(),
+    new CodeExtension(),
+    new BoldExtension(),
+    new UnderlineExtension(),
+    new PlaceholderExtension({ placeholder: "Type here..." }),
+    new YjsExtension({ getProvider: () => provider }),
+    new CodeBlockExtension({
+      supportedLanguages: [css, javascript, json, markdown, typescript],
+    }),
+  ];
+
+  useEffect(() => {
+    console.log("dfadfasdf");
+  }, [provider]);
+
   const { manager, state, onChange } = useRemirror({
     extensions,
     stringHandler: "html",

@@ -5,17 +5,22 @@ import { widgetListState } from "../../utils/atoms";
 
 export const useYcanvas = (yRootMap) => {
   const ydoc = yRootMap.doc;
+
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+
+  useEffect(() => {
+    try {
+      const yRects = yRootMap.get("rects");
+      const newRects = yRects.map((rect) => {
+        return { ...rect };
+      });
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  }, []);
 
   const dragStartCanvas = useCallback((e) => {
     const id = e.target.id;
-
-    // setRects((rects) =>
-    //   rects.map((rect) => ({
-    //     ...rect,
-    //     isDragging: rect.id === id,
-    //   }))
-    // );
   }, []);
 
   const updateYRect = (e) => {
@@ -37,9 +42,18 @@ export const useYcanvas = (yRootMap) => {
     }, 10);
   };
 
-  const dragMove = useCallback(updateYRect, [yRootMap, ydoc]);
+  const addYRect = (data) => {
+    ydoc?.transact(() => {
+      const yRects = yRootMap.get("rects");
+
+      yRects.delete(0, yRects.length);
+      yRects.push(data);
+    });
+  };
 
   const dragEndCanvas = useCallback(updateYRect, [yRootMap, ydoc]);
+
+  const testYRect = useCallback(addYRect, [yRootMap, ydoc]);
 
   const hasChangeRects = (event) => event.path.join() === "rects";
 
@@ -57,5 +71,5 @@ export const useYcanvas = (yRootMap) => {
     yRects.push(widgetList);
   }, [yRootMap]);
 
-  return { widgetList, dragStartCanvas, dragMove, dragEndCanvas };
+  return { widgetList, dragStartCanvas, dragEndCanvas, testYRect };
 };

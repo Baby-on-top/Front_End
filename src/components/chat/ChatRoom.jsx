@@ -4,11 +4,15 @@ import * as StompJs from "@stomp/stompjs";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { showUserInfo } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
+import axios from "axios";
 export default function ChatRoom({ roomId }) {
   const [messageList, setMessageList] = useState([]);
   const [message, setMessage] = useState("");
   const [userInfo] = useRecoilState(showUserInfo);
   const client = useRef({});
+  const scrollRef = useRef();
+
+  const CHAT_ROOM_MESSAGE_URL = "http://localhost:8090/api/chat/room/";
 
   const connect = () => {
     client.current = new StompJs.Client({
@@ -54,9 +58,19 @@ export default function ChatRoom({ roomId }) {
     });
   };
 
+  const fetchMessageData = async () => {
+    const response = await axios.get(CHAT_ROOM_MESSAGE_URL + roomId);
+    setMessageList(response.data.data);
+  };
+
   useEffect(() => {
     connect();
+    fetchMessageData();
   }, []);
+
+  useEffect(() => {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messageList]);
 
   const handleMessage = (event) => {
     event.preventDefault();
@@ -81,7 +95,10 @@ export default function ChatRoom({ roomId }) {
   return (
     <div>
       <div
+        ref={scrollRef}
         css={{
+          display: "flex",
+          flexDirection: "column",
           overflow: "scroll",
           height: "470px",
         }}
@@ -118,7 +135,12 @@ export default function ChatRoom({ roomId }) {
                     {chatMessage.sender}
                   </div>
                 </div>
-                <div>
+                <div
+                  css={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <div
                     css={{
                       marginLeft: "10px",
@@ -138,25 +160,27 @@ export default function ChatRoom({ roomId }) {
           } else {
             return (
               // 보내는 쪽
-              <div
-                css={{
-                  paddingBottom: "12px",
-                  float: "right",
-                  width: "240px",
-                }}
-              >
+              <div>
                 <div
                   css={{
-                    backgroundColor: "#008000",
+                    paddingBottom: "12px",
                     float: "right",
-                    padding: "10px 12px",
-                    color: "#FFFFFF",
-                    fontWeight: "400",
-                    borderRadius: "20px",
-                    fontSize: "14px",
+                    width: "240px",
                   }}
                 >
-                  {chatMessage.message}
+                  <div
+                    css={{
+                      backgroundColor: "#008000",
+                      float: "right",
+                      padding: "10px 12px",
+                      color: "#FFFFFF",
+                      fontWeight: "400",
+                      borderRadius: "20px",
+                      fontSize: "14px",
+                    }}
+                  >
+                    {chatMessage.message}
+                  </div>
                 </div>
               </div>
             );
