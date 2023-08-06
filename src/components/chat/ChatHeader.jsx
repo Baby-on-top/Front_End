@@ -5,7 +5,7 @@ import { isChatModalOpened } from "../../utils/atoms";
 import { isChatRoomOpened } from "../../utils/atoms";
 import { ChevronDoubleLeftIcon } from "@heroicons/react/24/solid";
 
-export default function ChatHeader() {
+export default function ChatHeader({ roomName }) {
   const [isChatModal, setIsChatModal] = useRecoilState(isChatModalOpened);
   const [isChatRoom, setIsChatRoom] = useRecoilState(isChatRoomOpened);
 
@@ -44,6 +44,16 @@ export default function ChatHeader() {
                   display: "flex",
                 }}
               ></ChevronDoubleLeftIcon>
+            </div>
+            <div
+              css={{
+                paddingLeft: "4px",
+                fontSize: "20px",
+                fontWeight: "600",
+                alignItems: "center",
+              }}
+            >
+              {roomName}
             </div>
           </div>
         ) : (

@@ -135,7 +135,12 @@ export default function ChatRoom({ roomId }) {
                     {chatMessage.sender}
                   </div>
                 </div>
-                <div>
+                <div
+                  css={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
                   <div
                     css={{
                       marginLeft: "10px",
