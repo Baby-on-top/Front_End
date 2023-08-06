@@ -290,7 +290,6 @@ export async function widgetAdd(widget) {
 }
 
 export async function widgetXyUpdate(widget) {
-  console.log("🎶🎶🎶", widget);
   const info = {
     id: widget.id,
     x: widget.x,
@@ -309,10 +308,10 @@ export async function widgetXyUpdate(widget) {
   }
 }
 
-export async function widgetTitleUpdate(widget) {
+export async function widgetTitleUpdate(id, title) {
   const info = {
-    id: widget.id,
-    widgetTitle: widget.widgetTitle,
+    id: id,
+    widgetTitle: title,
   };
 
   try {
