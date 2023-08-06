@@ -48,6 +48,18 @@ export const SelectedWsName = atom({
   default: "",
 });
 
+//보드검색
+export const SearchBoard = atom({
+  key: "SearchBoard",
+  default: "",
+});
+
+//워크스페이스 존재할 경우 화면
+export const recoilWsList = atom({
+  key: "recoilWsList",
+  default: [],
+});
+
 /// Board
 export const showWidgetAddModalState = atom({
   key: "showWidgetAddModalState",

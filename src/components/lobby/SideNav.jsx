@@ -6,7 +6,12 @@ import { kakaoUnlink, kakaoInfo } from "../../utils/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import WorkSpaceModal from "./WorkSpaceModal";
-import { SelectedWsIdx, SelectedWsName, showUserInfo } from "../../utils/atoms";
+import {
+  SelectedWsIdx,
+  SelectedWsName,
+  showUserInfo,
+  recoilWsList,
+} from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { motion, useAnimate, stagger } from "framer-motion";
 import InviteModal from "./InviteModal";
@@ -28,7 +33,8 @@ export default function SideNav() {
   const [cookies] = useCookies(["cookies"]);
   const [profile, setProfile] = useState();
   const [name, setName] = useState();
-  const [workspaceList, setWorkspaceList] = useState([]);
+  const [workspaceList, setWorkspaceList] = useRecoilState(recoilWsList);
+  // const [workspaceList, setWorkspaceList] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isUnlink, setIsUnlink] = useState(false);
   const [, setUserInfo] = useRecoilState(showUserInfo);
@@ -58,6 +64,13 @@ export default function SideNav() {
   };
 
   async function getUserInfo() {
+    const token = cookies.accessToken;
+    if (!token) {
+      // 토큰이 없다면 로그인 화면으로 라우팅
+      navigate("/login");
+      return;
+    }
+
     const response = await kakaoInfo(cookies);
     const data = {
       id: response.data.data.memberId,
@@ -70,16 +83,20 @@ export default function SideNav() {
   }
 
   const fetchData = async () => {
-    // const response = await axios.get(SERVER_URL)
-    console.log("aaaa");
-    console.log(cookies.accessToken);
+    const token = cookies.accessToken;
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const response = await axios.get(SERVER_URL, {
       headers: { Token: cookies.accessToken },
     });
-
-    console.log("dddd");
-    console.log(response);
     setWorkspaceList(response.data.data);
+    if (wsIdx == 0 && response.data.data.length > 0) {
+      setWsIdx(response.data.data[0].workspaceId);
+      setWsName(response.data.data[0].workspaceName);
+    }
   };
 
   // hover 시작
@@ -100,17 +117,10 @@ export default function SideNav() {
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
   const [isMenu, setIsMenu] = useState(false);
-  const selIdx = (idx) => {
-    setWsName(refs.current[idx].innerText);
+  const selIdx = (name, idx) => {
+    setWsName(name);
     setWsIdx(idx);
   };
-
-  // useEffect(()=> {
-  //     console.log('refs')
-  //     console.log(refs)
-  //     console.log(refs.current)
-  //     console.log(wsIdx)
-  // },[wsIdx])
 
   const unlink = async () => {
     const response = await kakaoUnlink(cookies);
@@ -128,6 +138,10 @@ export default function SideNav() {
     fetchData();
   }, [isUpdate]);
 
+  useEffect(() => {
+    fetchData();
+  }, [wsName]);
+
   return (
     <div
       className="side-nav"
@@ -138,6 +152,8 @@ export default function SideNav() {
         position: "fixed",
         float: "left",
         borderRight: "1px solid black",
+        display: "flex",
+        flexDirection: "column",
       }}
     >
       {/* 프로필 컨테이너 */}
@@ -250,98 +266,105 @@ export default function SideNav() {
         className="side-nav-end"
         css={{
           fontSize: "20px",
+          display: "flex",
+          flexDirection: "column",
+          flex: 8,
+          overflow: "scroll",
         }}
       >
-        {workspaceList.map((Workspace, id) => (
-          <motion.div
-            initial={{ backgroundColor: "#FFFFFF" }}
-            animate={{
-              backgroundColor:
-                Workspace.workspaceId == wsIdx ? "#DEFED9" : "#FFFFFF",
-            }}
-            key={Workspace.workspaceId}
-            whileHover={{
-              backgroundColor:
-                Workspace.workspaceId == wsIdx ? "#DEFED9" : "#acacac",
-            }}
-            ref={(el) => (refs.current[Workspace.workspaceId] = el)}
-            onClick={() => selIdx(Workspace.workspaceId)}
-            css={{
-              display: "flex",
-              alignItems: "center",
-              padding: "10px 20px",
-              backgroundColor:
-                Workspace.workspaceId == wsIdx ? "#DEFED9" : "#FFFFFF",
-            }}
-          >
-            <img
-              className="side-nav-end-image"
-              src={Workspace.workspaceImage}
-              alt="얼굴"
-              height={50}
-              width={50}
-              css={{
-                float: "left",
-                marginTop: "3px",
-                marginLeft: "5px",
-                /* margin-bottom: 5px; */
-                marginRight: "10px",
-                borderRadius: "30%",
-              }}
-            />
+        {workspaceList.length > 0 &&
+          workspaceList.map((Workspace, id) => (
             <motion.div
+              initial={{ backgroundColor: "#FFFFFF" }}
+              animate={{
+                backgroundColor:
+                  Workspace.workspaceId == wsIdx ? "#DEFED9" : "#FFFFFF",
+              }}
+              key={Workspace.workspaceId}
+              whileHover={{
+                backgroundColor:
+                  Workspace.workspaceId == wsIdx ? "#DEFED9" : "#acacac",
+              }}
+              ref={(el) => (refs.current[Workspace.workspaceId] = el)}
+              onClick={() =>
+                selIdx(Workspace.workspaceName, Workspace.workspaceId)
+              }
               css={{
-                margin: "5px 0px",
-                width: "210px",
                 display: "flex",
                 alignItems: "center",
+                padding: "10px 20px",
+                backgroundColor:
+                  Workspace.workspaceId == wsIdx ? "#DEFED9" : "#FFFFFF",
               }}
             >
-              <motion.p
-                className={isHovering ? "hover" : ""}
-                onMouseOver={handleMouseOver}
-                onMouseOut={handleMouseOut}
+              <img
+                className="side-nav-end-image"
+                src={Workspace.workspaceImage}
+                alt="얼굴"
+                height={50}
+                width={50}
                 css={{
-                  marginLeft: "10px",
-                  flex: "3",
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                  whiteSpace: "nowrap",
+                  float: "left",
+                  marginTop: "3px",
+                  marginLeft: "5px",
+                  /* margin-bottom: 5px; */
+                  marginRight: "10px",
+                  borderRadius: "30%",
+                }}
+              />
+              <motion.div
+                css={{
+                  margin: "5px 0px",
+                  width: "210px",
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
-                {Workspace.workspaceName}
-              </motion.p>
-              {Workspace.workspaceId == wsIdx && (
-                <motion.button
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 20,
-                  }}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{
-                    scale: 0.8,
-                    rotate: -45,
-                    borderRadius: "100%",
-                  }}
+                <motion.p
+                  className={isHovering ? "hover" : ""}
+                  onMouseOver={handleMouseOver}
+                  onMouseOut={handleMouseOut}
                   css={{
-                    backgroundColor: "#91C8E4",
-                    borderRadius: "15px",
-                    borderWidth: "0px",
-                    marginRight: "5px",
-                    width: "55px",
-                    height: "55px",
+                    marginLeft: "10px",
+                    flex: "3",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
                   }}
-                  onClick={open}
                 >
-                  초대
-                </motion.button>
-              )}
+                  {Workspace.workspaceName}
+                </motion.p>
+                {Workspace.workspaceId == wsIdx && (
+                  <motion.button
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20,
+                    }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{
+                      scale: 0.8,
+                      rotate: -45,
+                      borderRadius: "100%",
+                    }}
+                    css={{
+                      backgroundColor: "#91C8E4",
+                      borderRadius: "15px",
+                      borderWidth: "0px",
+                      marginRight: "5px",
+                      width: "55px",
+                      height: "55px",
+                    }}
+                    onClick={open}
+                  >
+                    초대
+                  </motion.button>
+                )}
+              </motion.div>
             </motion.div>
-          </motion.div>
-        ))}
+          ))}
         {/* <p>baby_on_top</p>
                 <p>jungle_blue</p>
                 <p>pintos_study</p>
@@ -359,9 +382,10 @@ export default function SideNav() {
         {isUnlink && (
           <UnlinkCheckModal setIsUnlink={setIsUnlink} unlink={unlink} />
         )}
-
-        <WorkSpaceModal isUpdate={isUpdate} setIsUpdate={setIsUpdate} />
       </motion.div>
+      <div css={{ display: "flex", flex: 1 }}>
+        <WorkSpaceModal isUpdate={isUpdate} setIsUpdate={setIsUpdate} />
+      </div>
     </div>
   );
 }
