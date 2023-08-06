@@ -1,16 +1,45 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { widgetTitleUpdate } from "../../utils/apis";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:4000", {
+  path: "/socket.io",
+});
 
 export default function InputBox({ widget }) {
   const [text, setText] = useState(widget.widgetTitle);
   const [isMod, setIsMod] = useState(false);
 
+  const sendChanges = (id, title) => {
+    // console.log("😀", id, title);
+    socket.emit("changes", {
+      id,
+      title,
+    });
+  };
+
   const changeTitle = async (id, change) => {
+    // console.log("🏗️");
     const response = await widgetTitleUpdate(id, change);
+    sendChanges(response.data.id, response.data.widgetTitle);
+    // console.log("🌟", response);
     setIsMod(!isMod);
   };
+
+  const connect = () => {
+    socket.on("connect", () => console.log(socket));
+    // socket.on("connects", () => console.log(socket));
+  };
+
+  useEffect(() => {
+    connect();
+  }, []);
+
+  useEffect(() => {
+    socket.on("data", (data) => {});
+  }, [socket]);
 
   return (
     <div
