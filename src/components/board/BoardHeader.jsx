@@ -4,21 +4,36 @@ import ddung_heart from "../../assets/ddung_heart.jpg";
 import cat from "../../assets/cat.jpg";
 import history from "../../assets/history.png";
 import { useNavigate } from "react-router-dom";
+import { colors } from "../../utils/colors";
 
 export default function BoardHeader({ boardName, workspaceName }) {
+  const navigate = useNavigate();
   return (
-    <div
-      css={
-        {
-          // position: 'fixed',
-          // width: '100%',
-          // backgroundColor: 'white',
-          // paddingBottom: 32,
-          // zIndex: 3,
-        }
-      }
-    >
+    <>
       <div
+        className="board-header__left"
+        css={{ marginTop: 32, position: "fixed", left: 20 }}
+      >
+        <div
+          onClick={() => navigate("/")}
+          css={{
+            width: "44px",
+            height: "44px",
+            lineHeight: "44px",
+            textAlign: "center",
+            cursor: "pointer",
+            borderRadius: "50%",
+            color: "black",
+            ":hover": {
+              backgroundColor: colors.overlay_grey,
+            },
+          }}
+        >
+          <i class="fas fa-arrow-left fa-lg"></i>
+        </div>
+      </div>
+      <div
+        className="board-header__center"
         css={{
           marginTop: 32,
           position: "fixed",
@@ -28,13 +43,9 @@ export default function BoardHeader({ boardName, workspaceName }) {
           transform: "translateX(-50%)",
           padding: "10px 15px",
           borderRadius: "15px",
-
           backgroundColor: "white",
-          boxShadow: "1px 2px 5px #00AB59",
+          boxShadow: `1px 2px 5px ${colors.main_green}`,
           zIndex: 3,
-          // backgroundColor: 'rgb(248, 249, 250)',
-          // padding: '10px',
-          // borderRadius: '8px',
         }}
       >
         <div
@@ -53,6 +64,7 @@ export default function BoardHeader({ boardName, workspaceName }) {
         </div>
       </div>
       <div
+        className="board-header__right"
         css={{
           marginTop: 32,
           position: "fixed",
@@ -109,6 +121,6 @@ export default function BoardHeader({ boardName, workspaceName }) {
           css={{ width: 32, height: 32, marginLeft: 12, marginRight: 24 }}
         />
       </div>
-    </div>
+    </>
   );
 }
