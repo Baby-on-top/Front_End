@@ -47,6 +47,7 @@ export default function Board() {
         widgetsRef={widgetsRef}
         setWidgetId={setWidgetId}
         setWidgetType={setWidgetType}
+        boardId={boardId}
       />
       <WidgetNav
         widgetsRef={widgetsRef}

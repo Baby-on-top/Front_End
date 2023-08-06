@@ -5,20 +5,44 @@ import { useRecoilState } from "recoil";
 import { showWidgetDetailModalState } from "../../utils/atoms";
 import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
+import axios from "axios";
 
 import InputBox from "./InputBox";
+import ThumbnailBox from "./ThumbnailBox";
 
 export default function WidgetPlace({
   setWidgetId,
   setWidgetType,
   widgetsRef,
+  boardId,
 }) {
   const constraintsRef = useRef();
-  const { widgetList, dragStartCanvas, dragEndCanvas } = useYcanvas(yRects);
+  const { widgetList, setWidgetList, dragStartCanvas, dragEndCanvas } =
+    useYcanvas(yRects);
   let [click, setClick] = useState(true);
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
   );
+
+  async function fetch() {
+    try {
+      const response = await axios.get("/api/widget/" + boardId);
+      console.log("🚨", response.data.data);
+      const newRects = response.data.data.map((data) => {
+        return {
+          ...data,
+          id: data.id.toString(),
+        };
+      });
+
+      setWidgetList(newRects);
+    } catch (e) {
+      console.error("fail : " + e);
+    }
+  }
+  useEffect(() => {
+    fetch();
+  }, [showWidgetDetailModal]);
 
   const moveToWidgetDetail = (type, id) => {
     if (!click) return;
@@ -75,7 +99,6 @@ export default function WidgetPlace({
               css={{
                 width: 300,
                 height: 300,
-                backgroundColor: "#00AB59",
                 border: "1px solid #dcdada",
                 borderRadius: "24px",
                 position: "absolute",
@@ -132,16 +155,7 @@ export default function WidgetPlace({
                   display: "flex",
                 }}
               >
-                <img
-                  width={298}
-                  height={225}
-                  css={{
-                    flex: 1,
-                    borderBottomLeftRadius: "24px",
-                    borderBottomRightRadius: "24px",
-                  }}
-                  src={widget.widgetImage}
-                ></img>
+                <ThumbnailBox widget={widget} />
               </div>
             </motion.div>
           );
