@@ -9,7 +9,7 @@ import {
   SelectedWsIdx,
 } from "../../utils/atoms";
 import { PlusIcon } from "@heroicons/react/24/solid";
-
+import { motion } from "framer-motion";
 // import axios from 'axios';
 
 export default function WorkSpaceModal(props) {
@@ -129,8 +129,11 @@ export default function WorkSpaceModal(props) {
           flex: 1,
         }}
       >
-        <div
+        <motion.div
           onClick={workspaceModal}
+          whileHover={{
+            scale: 1.05,
+          }}
           css={{
             display: "flex",
             flexDirection: "row",
@@ -160,7 +163,7 @@ export default function WorkSpaceModal(props) {
           >
             워크스페이스 추가하기
           </div>
-        </div>
+        </motion.div>
       </div>
       {modal && (
         <div
