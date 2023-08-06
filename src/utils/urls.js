@@ -1,0 +1,17 @@
+export const Urls = {
+  LOGIN: "/api/member/login",
+  USER_UNLINK: "/api/member/unlink",
+  USER_INFO: "/api/member/info",
+  WORKSPACE: "/api/workspace",
+  WORKSPACE_JOIN: "/api/workspace/join",
+  WORKSPACE_INVITE: "/api/workspace/invite",
+  WORKSPACE_UNLINK: "/api/workspace/unlink",
+  BOARD: "/api/board",
+  BOARD_INVITE: "/api/board/invite",
+  BOARD_DETAIL: "/api/board/detail",
+  WIDGET: "/api/widget",
+  WIDGET_UPDATE_XY: "/api/widget/xy",
+  WIDGET_UPDATE_TITLE: "/api/widget/title",
+  WIDGET_UPDATE_IMAGE: "/api/widget/image",
+  IMAGE_UPLOAD: "/api/image/upload",
+};

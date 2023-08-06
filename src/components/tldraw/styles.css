@@ -1,0 +1,48 @@
+:root {
+  --colors-selected: #00ab59;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.tldraw {
+  padding-top: 10px;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.p-md {
+  padding: 12px;
+}
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+}
+
+.absolute {
+  position: absolute;
+  z-index: 100;
+  left: 0;
+  top: 0;
+}
+
+.c-yILjc,
+#TD-Tools-Dots {
+  display: none;
+}
+
+.c-QTiTL.c-QTiTL-jvfJsl-side-right {
+  margin: 4px;
+  border-radius: 6px;
+}
+
+.c-hSIOJC {
+  font-family: "Noto Sans KR", sans-serif;
+}
