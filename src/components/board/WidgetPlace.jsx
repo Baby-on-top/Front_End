@@ -142,7 +142,7 @@ export default function WidgetPlace({
                     flex: 1,
                   }}
                 >
-                  <InputBox widget={widget} />
+                  <InputBox widget={widget} fetch={fetch} />
                 </div>
               </div>
 
