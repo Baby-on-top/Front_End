@@ -48,6 +48,9 @@ export default function WidgetPlace({
     [dragEndCanvas]
   );
 
+  useEffect(() => {
+    console.log("BBBBBBB", widgetList);
+  }, []);
   return (
     <div
       id="widget-place-wrapper"

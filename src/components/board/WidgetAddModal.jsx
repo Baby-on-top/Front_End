@@ -4,12 +4,17 @@ import { useRecoilState } from "recoil";
 import { showWidgetAddModalState } from "../../utils/atoms";
 import { widgetListState } from "../../utils/atoms";
 import { WidgetType } from "./WidgetType";
+import { yRects } from "../tldraw/store";
+import { useYcanvas } from "./useYCanvasWidget";
+import { useEffect } from "react";
 
 export default function WidgetAddModal() {
   const [showWidgetAddModal, setShowWidgetAddModal] = useRecoilState(
     showWidgetAddModalState
   );
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+
+  const { testYRect } = useYcanvas(yRects);
 
   const WidgetSelectBox = styled.div`
     width: 200px;
@@ -23,6 +28,9 @@ export default function WidgetAddModal() {
   `;
 
   const selectAddWidet = (widgetType) => {
+    if (widgetList.length < 1) {
+      return;
+    }
     const lastWidget = widgetList[widgetList.length - 1];
 
     const getName = (widgetType) => {
@@ -32,14 +40,22 @@ export default function WidgetAddModal() {
     };
 
     const newWidget = {
-      id: lastWidget.id + 1,
+      id: lastWidget.id + 10,
       type: widgetType,
+      x: 150,
+      y: 150,
       name: getName(widgetType) + String(lastWidget.id + 1),
       backgroundColor: "pink",
     };
 
     const updateWidgetList = [...widgetList, newWidget];
+    console.log(updateWidgetList);
     setWidgetList(updateWidgetList);
+
+    console.log(widgetList);
+    testYRect(updateWidgetList);
+
+    console.log("11111", widgetList);
   };
 
   const onClick = (widgetType) => {

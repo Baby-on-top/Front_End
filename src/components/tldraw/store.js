@@ -3,7 +3,7 @@ const { WebsocketProvider } = require("y-websocket");
 
 let widget_id = 2;
 
-let board_id = 2;
+let board_id = 3;
 
 // Create the doc
 const doc = new Y.Doc();
@@ -16,7 +16,7 @@ let provider = new WebsocketProvider(
   roomID,
   doc,
   {
-    connect: false,
+    connect: true,
   }
 );
 
@@ -57,7 +57,19 @@ function yjsReturn() {
 
 // 변수 값을 변경하는 함수
 function yjsDisconnect() {
+  widget_id = 2;
+  board_id = 3;
   provider.disconnect();
+  provider = new WebsocketProvider(
+    "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+    `y-${widget_id}-${board_id}`,
+    doc,
+    {
+      connect: true,
+    }
+  );
+  provider.connect();
+  console.log(provider);
   window.location.reload();
 }
 
