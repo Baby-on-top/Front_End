@@ -47,7 +47,7 @@ export default function WidgetNav({ widgetsRef, setWidgetType, setWidgetId }) {
     showWidgetAddModalState
   );
   const [showNav, setShowNav] = useRecoilState(showNavState);
-  const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const [widgetList] = useRecoilState(widgetListState);
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
   );
@@ -153,6 +153,7 @@ export function WidgetNavSpread(
       >
         {widgetList.map((widget) => (
           <div
+            key={widget.id}
             css={{
               margin: "2px 0px",
               padding: "8px 16px",
@@ -163,7 +164,7 @@ export function WidgetNavSpread(
             }}
             onClick={() => moveToWidgetDetail(widget.type, widget.id)}
           >
-            {widget.name}
+            {widget.widgetTitle}
           </div>
         ))}
       </div>

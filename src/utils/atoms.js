@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 import { WidgetType } from "../components/board/WidgetType";
-
+import { recoilPersist } from "recoil-persist";
+const { persistAtom } = recoilPersist();
 /// Lobby
 export const saveCheck = atom({
   key: "saveCheck",
@@ -76,14 +77,6 @@ export const showUserInfo = atom({
 
 export const widgetListState = atom({
   key: "widgetListState",
-  default: [
-    {
-      id: "1",
-      type: WidgetType.NOTE,
-      name: "노트 1",
-      x: 200,
-      y: 340,
-      backgroundColor: "#00AB59",
-    },
-  ],
+  default: [],
+  effects_UNSTABLE: [persistAtom],
 });

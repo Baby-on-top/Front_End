@@ -2,7 +2,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { recoilBoardList, saveCheck, SelectedWsIdx, SearchBoard } from "../../utils/atoms";
+import {
+  recoilBoardList,
+  saveCheck,
+  SelectedWsIdx,
+  SearchBoard,
+} from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import DropDown from "./DropDown";
@@ -20,7 +25,6 @@ export default function Cards() {
   const [chk, setChk] = useRecoilState(saveCheck);
 
   const fetchData = async () => {
-
     const response = await axios.get(SERVER_URL, {
       params: { workspaceId: wsIdx, searchKeyword: "" },
       headers: { Token: cookie.accessToken },
@@ -29,25 +33,30 @@ export default function Cards() {
   };
 
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
-  
-  
+
   useEffect(() => {
     fetchData();
   }, [chk]);
-  
+
   useEffect(() => {
     console.log(wsIdx);
     fetchData();
   }, [wsIdx]);
 
   const clickCard = (id) => {
-    navigate(`/board/${id}`);
+    navigate("/board", {
+      state: {
+        roomId: id,
+      },
+    });
   };
 
   // SearchBoard
-  const [searchInfo, setSearchInfo] = useRecoilState(SearchBoard)
+  const [searchInfo, setSearchInfo] = useRecoilState(SearchBoard);
 
-  const searched = boardList.filter((item) => item.boardName.includes(searchInfo));
+  const searched = boardList.filter((item) =>
+    item.boardName.includes(searchInfo)
+  );
 
   return (
     <div className="cards">
@@ -200,5 +209,4 @@ export default function Cards() {
       ))}
     </div>
   );
-
 }

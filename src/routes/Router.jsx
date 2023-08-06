@@ -6,6 +6,7 @@ import NotFoundErrorPage from "./error/NotFoundErrorPage";
 import Board from "./Board";
 import KakaoLogoutCallback from "./login/KakaoLogoutCallback";
 import InviteCallback from "./InviteCallback";
+import BoardCallback from "../components/board/BoardCallback";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
@@ -14,6 +15,11 @@ export default function Router() {
     {
       path: "/",
       element: <Lobby />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/board",
+      element: <BoardCallback />,
       errorElement: <ErrorPage />,
     },
     {

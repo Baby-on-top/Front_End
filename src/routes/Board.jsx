@@ -67,7 +67,7 @@ export default function Board() {
       />
       <ChatButton />
 
-      <WidgetAddModal />
+      <WidgetAddModal boardId={boardId} />
       <WidgetDetailModal
         widgetType={widgetType}
         widgetId={widgetId}

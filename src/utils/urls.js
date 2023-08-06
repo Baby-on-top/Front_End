@@ -9,4 +9,8 @@ export const Urls = {
   BOARD: "/api/board",
   BOARD_INVITE: "/api/board/invite",
   BOARD_DETAIL: "/api/board/detail",
+  WIDGET: "/api/widget",
+  WIDGET_UPDATE_XY: "/api/widget/xy",
+  WIDGET_UPDATE_TITLE: "/api/widget/title",
+  WIDGET_UPDATE_IMAGE: "/api/widget/image",
 };

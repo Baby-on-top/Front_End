@@ -264,3 +264,85 @@ export async function getBoardDetail(accessToken, boardId) {
     console.error(e);
   }
 }
+
+//////// 🗒️Widget /////////
+
+export async function widgetAdd(widget) {
+  const info = {
+    widgetType: widget.widgetType,
+    roomId: widget.roomId,
+    x: widget.x,
+    y: widget.y,
+    widgetTitle: widget.widgetTitle,
+    widgetImage: widget.widgetImage,
+  };
+
+  console.log("🔫", info);
+
+  try {
+    const response = await axios({
+      method: "POST",
+      url: Urls.WIDGET,
+      data: info,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function widgetXyUpdate(widget) {
+  console.log("🎶🎶🎶", widget);
+  const info = {
+    id: widget.id,
+    x: widget.x,
+    y: widget.y,
+  };
+
+  try {
+    const response = await axios({
+      method: "PUT",
+      url: Urls.WIDGET_UPDATE_XY,
+      data: info,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function widgetTitleUpdate(widget) {
+  const info = {
+    id: widget.id,
+    widgetTitle: widget.widgetTitle,
+  };
+
+  try {
+    const response = await axios({
+      method: "PUT",
+      url: Urls.WIDGET_UPDATE_TITLE,
+      data: info,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function widgetImageUpdate(widget) {
+  const info = {
+    id: widget.id,
+    widgetImage: widget.widgetImage,
+  };
+
+  try {
+    const response = await axios({
+      method: "PUT",
+      url: Urls.WIDGET_UPDATE_IMAGE,
+      data: info,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
