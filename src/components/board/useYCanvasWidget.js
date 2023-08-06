@@ -66,5 +66,11 @@ export const useYcanvas = (yRootMap) => {
     yRects.push(widgetList);
   }, [yRootMap]);
 
-  return { widgetList, dragStartCanvas, dragEndCanvas, testYRect };
+  return {
+    widgetList,
+    setWidgetList,
+    dragStartCanvas,
+    dragEndCanvas,
+    testYRect,
+  };
 };

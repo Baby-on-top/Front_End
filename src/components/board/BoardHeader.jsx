@@ -44,7 +44,6 @@ export default function BoardHeader({ boardName, workspaceName }) {
           padding: "10px 15px",
           borderRadius: "15px",
           backgroundColor: "white",
-          boxShadow: `1px 2px 5px ${colors.main_green}`,
           zIndex: 3,
         }}
       >
