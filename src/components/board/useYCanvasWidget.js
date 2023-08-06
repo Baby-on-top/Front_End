@@ -4,17 +4,19 @@ import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
 
 export const useYcanvas = (yRootMap) => {
-  console.log("유즈 캔버스 시작 가즈아ㅏㅏㅏㅏ");
-
   const ydoc = yRootMap.doc;
 
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
 
-  console.log("KKKKKKKKKKKKKKKK", widgetList);
-
   useEffect(() => {
-    const yRects = yRootMap.get("rects");
-    console.log("YYYYYYYYYYYYY", yRects);
+    try {
+      const yRects = yRootMap.get("rects");
+      const newRects = yRects.map((rect) => {
+        return { ...rect };
+      });
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
   }, []);
 
   const dragStartCanvas = useCallback((e) => {
@@ -25,9 +27,7 @@ export const useYcanvas = (yRootMap) => {
     setTimeout(() => {
       ydoc?.transact(() => {
         const yRects = yRootMap.get("rects");
-        console.log("RRRRRRRRRRRRRR", yRects);
         const newRects = yRects.map((rect) => {
-          console.log("55555", rect);
           return rect.id === e.target.id
             ? {
                 ...rect,
@@ -36,11 +36,8 @@ export const useYcanvas = (yRootMap) => {
               }
             : rect;
         });
-        console.log("66666", widgetList);
         yRects.delete(0, yRects.length);
-        console.log("444444", newRects);
         yRects.push(newRects);
-        console.log("888888", widgetList);
       }, "move-rect");
     }, 10);
   };
@@ -48,15 +45,11 @@ export const useYcanvas = (yRootMap) => {
   const addYRect = (data) => {
     ydoc?.transact(() => {
       const yRects = yRootMap.get("rects");
-      console.log("AAAAA", widgetList);
 
       yRects.delete(0, yRects.length);
-      // setWidgetList(data);
       yRects.push(data);
     });
   };
-
-  const dragMove = useCallback(updateYRect, [yRootMap, ydoc]);
 
   const dragEndCanvas = useCallback(updateYRect, [yRootMap, ydoc]);
 
@@ -68,8 +61,6 @@ export const useYcanvas = (yRootMap) => {
     events.forEach((event) => {
       if (event.target instanceof Y.Array && hasChangeRects(event)) {
         setWidgetList(event.target.toArray());
-        console.log("22222222222222222");
-        console.log(widgetList);
       }
     });
   });
@@ -77,9 +68,8 @@ export const useYcanvas = (yRootMap) => {
   useEffect(() => {
     const yRects = new Y.Array();
     yRootMap.set("rects", yRects);
-    console.log("3333333333", widgetList);
     yRects.push(widgetList);
   }, [yRootMap]);
 
-  return { widgetList, dragStartCanvas, dragMove, dragEndCanvas, testYRect };
+  return { widgetList, dragStartCanvas, dragEndCanvas, testYRect };
 };

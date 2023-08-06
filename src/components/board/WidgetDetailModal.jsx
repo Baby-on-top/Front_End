@@ -32,7 +32,7 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
       onClick={() => {
         setShowWidgetDetailModal(!showWidgetDetailModal);
         const myModule = require("../tldraw/store");
-        myModule.yjsDisconnect();
+        myModule.yjsDisconnect(boardId);
       }}
       css={{
         backgroundColor: "rgba(0,0,0,0.4)" /* Black w/ opacity */,
