@@ -10,6 +10,8 @@ export default function ChatRoom({ roomId }) {
   const [message, setMessage] = useState("");
   const [userInfo] = useRecoilState(showUserInfo);
   const client = useRef({});
+  const scrollRef = useRef();
+
   const CHAT_ROOM_MESSAGE_URL = "http://localhost:8090/api/chat/room/";
 
   const connect = () => {
@@ -66,6 +68,10 @@ export default function ChatRoom({ roomId }) {
     fetchMessageData();
   }, []);
 
+  useEffect(() => {
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  }, [messageList]);
+
   const handleMessage = (event) => {
     event.preventDefault();
     setMessage(event.target.value);
@@ -89,6 +95,7 @@ export default function ChatRoom({ roomId }) {
   return (
     <div>
       <div
+        ref={scrollRef}
         css={{
           display: "flex",
           flexDirection: "column",
