@@ -39,7 +39,11 @@ export default function InputBox({ widget, fetch }) {
   }, []);
 
   useEffect(() => {
-    socket.on("data", (data) => {});
+    socket.on("data", (data) => {
+      console.log(data);
+      // fetch();
+      // window.location.reload();
+    });
   }, [socket]);
 
   return (
