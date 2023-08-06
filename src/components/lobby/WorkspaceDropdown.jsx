@@ -196,10 +196,13 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
         <div
           css={{
             // float: 'right',
-            border: "3px solid grey",
+            border: "2px solid grey",
             borderRadius: "15px",
-            width: "15%",
+            width: "12%",
             fontsize: "1rem",
+            position: "absolute",
+            top: "70px",
+            left: "550px",
             // zIndex: '-1px',
             // padding: '0px',
             // marginTop: '-25px',
