@@ -29,7 +29,7 @@ export default function BoardHeader({ boardName, workspaceName }) {
             },
           }}
         >
-          <i class="fas fa-arrow-left fa-lg"></i>
+          <i className="fas fa-arrow-left fa-lg"></i>
         </div>
       </div>
       <div
@@ -55,7 +55,7 @@ export default function BoardHeader({ boardName, workspaceName }) {
             color: "#9A9999",
             cursor: "pointer",
           }}
-          onClick={() => window.history.back()}
+          onClick={() => navigate("/")}
         >
           {workspaceName}&nbsp;&nbsp;/
         </div>

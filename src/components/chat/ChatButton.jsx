@@ -20,6 +20,7 @@ export default function ChatButton() {
           right: 30,
           bottom: 20,
           cursor: "pointer",
+          zIndex: 4,
         }}
       >
         <img

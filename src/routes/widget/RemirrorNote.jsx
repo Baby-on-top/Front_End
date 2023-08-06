@@ -119,8 +119,7 @@ const customStyles = `
 const RemirrorNote = () => {
   let myModule = require("../../components/tldraw/store");
   let provider = myModule.yjsReturn();
-  console.log("asdfasdfasfd");
-  console.log(provider);
+  // console.log(provider);
 
   const extensions = () => [
     new HardBreakExtension(),
@@ -147,9 +146,7 @@ const RemirrorNote = () => {
     }),
   ];
 
-  useEffect(() => {
-    console.log("dfadfasdf");
-  }, [provider]);
+  useEffect(() => {}, [provider]);
 
   const { manager, state, onChange } = useRemirror({
     extensions,
