@@ -1,20 +1,29 @@
 const Y = require("yjs");
 const { WebsocketProvider } = require("y-websocket");
 
-const VERSION = 2;
+let widget_id = 2;
+
+let board_id = 3;
 
 // Create the doc
 const doc = new Y.Doc();
 
-const roomID = `y-tldraw-${VERSION}`;
+const roomID = `y-${widget_id}-${board_id}`;
 
 // Create a websocket provider
-const provider = new WebsocketProvider("ws://localhost:1234", roomID, doc, {
-  connect: true,
-});
+let provider = new WebsocketProvider(
+  "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+  roomID,
+  doc,
+  {
+    connect: true,
+  }
+);
+
+console.log(provider);
 
 // Export the provider's awareness API
-const awareness = provider.awareness;
+let awareness = provider.awareness;
 
 const yShapes = doc.getMap("shapes");
 const yBindings = doc.getMap("bindings");
@@ -25,6 +34,45 @@ const undoManager = new Y.UndoManager([yShapes, yBindings, yRects], {
   trackedOrigins: new Set(["move-rect"]),
 });
 
+// 변수 값을 변경하는 함수
+function setIDs(newWidgetID, newBoardID) {
+  widget_id = newWidgetID;
+  board_id = newBoardID;
+  provider.disconnect();
+  provider = new WebsocketProvider(
+    "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+    `y-${widget_id}-${board_id}`,
+    doc,
+    {
+      connect: true,
+    }
+  );
+  provider.connect();
+  console.log(provider);
+}
+
+function yjsReturn() {
+  return provider;
+}
+
+// 변수 값을 변경하는 함수
+function yjsDisconnect() {
+  widget_id = 2;
+  board_id = 3;
+  provider.disconnect();
+  provider = new WebsocketProvider(
+    "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+    `y-${widget_id}-${board_id}`,
+    doc,
+    {
+      connect: true,
+    }
+  );
+  provider.connect();
+  console.log(provider);
+  window.location.reload();
+}
+
 module.exports = {
   doc,
   provider,
@@ -33,4 +81,7 @@ module.exports = {
   yShapes,
   yBindings,
   undoManager,
+  setIDs,
+  yjsDisconnect,
+  yjsReturn,
 };
