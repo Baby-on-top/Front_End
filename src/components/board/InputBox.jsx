@@ -3,12 +3,13 @@ import { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { widgetTitleUpdate } from "../../utils/apis";
 
-export default function InputBox({ widget }) {
+export default function InputBox({ widget, fetch }) {
   const [text, setText] = useState(widget.widgetTitle);
   const [isMod, setIsMod] = useState(false);
 
   const changeTitle = async (id, change) => {
     const response = await widgetTitleUpdate(id, change);
+    fetch();
     setIsMod(!isMod);
   };
 
