@@ -30,7 +30,7 @@ export default function BoardHeader({ boardName, workspaceName }) {
           borderRadius: "15px",
 
           backgroundColor: "white",
-          boxShadow: "1px 2px 5px #FDCA0F",
+          boxShadow: "1px 2px 5px #00AB59",
           zIndex: 3,
           // backgroundColor: 'rgb(248, 249, 250)',
           // padding: '10px',

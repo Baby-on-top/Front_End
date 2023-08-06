@@ -114,7 +114,7 @@ export default function WidgetPlace({
                     flexDirection: "row",
                     display: "flex",
                     alignItems: "center",
-                    backgroundColor: "#FDCA0F",
+                    backgroundColor: "#f7f7f5",
                     flex: 1,
                   }}
                 >
