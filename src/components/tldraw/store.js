@@ -48,10 +48,10 @@ function setIDs(newWidgetID, newBoardID) {
   provider.connect();
 
   provider.on("sync", (event) => {
-    console.log("📚📚📚📚");
-    console.log(event.status); // logs "connected" or "disconnected"
+    // console.log("📚📚📚📚");
+    // console.log(event.status); // logs "connected" or "disconnected"
   });
-  console.log(provider);
+  // console.log(provider);
 }
 
 function yjsReturn() {
