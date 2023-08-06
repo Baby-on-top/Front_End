@@ -54,6 +54,12 @@ export const SearchBoard = atom({
   default: "",
 });
 
+//워크스페이스 존재할 경우 화면
+export const recoilWsList = atom({
+  key: "recoilWsList",
+  default: [],
+});
+
 /// Board
 export const showWidgetAddModalState = atom({
   key: "showWidgetAddModalState",

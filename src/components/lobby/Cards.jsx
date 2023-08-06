@@ -2,7 +2,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { recoilBoardList, saveCheck, SelectedWsIdx, SearchBoard } from "../../utils/atoms";
+import { recoilBoardList, saveCheck, SelectedWsIdx, SearchBoard, recoilWsList } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import DropDown from "./DropDown";
@@ -16,24 +16,38 @@ const SERVER_URL = "/api/board";
 export default function Cards() {
   const navigate = useNavigate();
   const [boardList, setBoardList] = useRecoilState(recoilBoardList);
+  const [workspaceList, setWorkspaceList] = useRecoilState(recoilWsList);
   const [cookie] = useCookies(["cookies"]);
-  const [chk, setChk] = useRecoilState(saveCheck);
+  // const [chk, setChk] = useRecoilState(saveCheck);
 
   const fetchData = async () => {
+    let response = ""
+    if ((wsIdx == 0) && (workspaceList.length > 0)) {
+      response = await axios.get(SERVER_URL, {
+        params: { workspaceId: workspaceList[0].workspaceId, searchKeyword: "" },
+        headers: { Token: cookie.accessToken },
+      });
+    } else {
+      response = await axios.get(SERVER_URL, {
+        params: { workspaceId: wsIdx, searchKeyword: "" },
+        headers: { Token: cookie.accessToken },
+      });
+    }
+    await setBoardList(response.data.data);
 
-    const response = await axios.get(SERVER_URL, {
-      params: { workspaceId: wsIdx, searchKeyword: "" },
-      headers: { Token: cookie.accessToken },
-    });
-    setBoardList(response.data.data);
+    // const response = await axios.get(SERVER_URL, {
+    //   params: { workspaceId: wsIdx, searchKeyword: "" },
+    //   headers: { Token: cookie.accessToken },
+    // });
+    // setBoardList(response.data.data);
   };
 
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
   
   
-  useEffect(() => {
-    fetchData();
-  }, [chk]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [chk]);
   
   useEffect(() => {
     console.log(wsIdx);
