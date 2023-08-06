@@ -13,11 +13,14 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
   const isDrawing = widgetType === WidgetType.DRAWING;
   const isCalendar = widgetType === WidgetType.CALENDAR;
 
-  function getWidget(type) {
+  function getWidget(type, widgetId, boardId) {
+    const myModule = require("../tldraw/store");
+    myModule.setIDs(widgetId, boardId);
     if (type === WidgetType.CALENDAR) {
       return <CalendarWidget />;
     }
     if (type === WidgetType.DRAWING) {
+      console.log("tldraw gogo");
       return <TldrawEditor />;
     }
     return <RemirrorNote />;
@@ -28,6 +31,8 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
       className="modal-wrap"
       onClick={() => {
         setShowWidgetDetailModal(!showWidgetDetailModal);
+        const myModule = require("../tldraw/store");
+        myModule.yjsDisconnect(boardId);
       }}
       css={{
         backgroundColor: "rgba(0,0,0,0.4)" /* Black w/ opacity */,
@@ -64,7 +69,7 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
           {widgetType}, {widgetId}, {boardId}
         </div>
         {!isCalendar ? <h1 css={{ marginBottom: "35px" }}>제목</h1> : <div />}
-        {getWidget(widgetType)}
+        {getWidget(widgetType, widgetId, boardId)}
       </div>
     </div>
   );
