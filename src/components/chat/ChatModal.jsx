@@ -32,7 +32,7 @@ export default function ChatModal({ setModalOpened }) {
         zIndex: 999,
       }}
     >
-      <ChatHeader />
+      <ChatHeader roomName={roomName} />
       {!isChatRoom ? (
         <ChatRoomList
           setChatRoomOpened={setChatRoomOpened}
