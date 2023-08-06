@@ -5,7 +5,8 @@ import { useRecoilState } from "recoil";
 import { showWidgetDetailModalState } from "../../utils/atoms";
 import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+
+import InputBox from "./InputBox";
 
 export default function WidgetPlace({
   setWidgetId,
@@ -118,17 +119,7 @@ export default function WidgetPlace({
                     flex: 1,
                   }}
                 >
-                  <div css={{ fontWeight: "bold", flex: 5, marginLeft: 15 }}>
-                    {widget.widgetTitle}
-                  </div>
-                  <XMarkIcon
-                    width={30}
-                    height={30}
-                    css={{
-                      borderTopRightRadius: "24px",
-                      flex: 1,
-                    }}
-                  ></XMarkIcon>
+                  <InputBox widget={widget} />
                 </div>
               </div>
 
