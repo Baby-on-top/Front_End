@@ -20,8 +20,6 @@ let provider = new WebsocketProvider(
   }
 );
 
-console.log(provider);
-
 // Export the provider's awareness API
 let awareness = provider.awareness;
 
@@ -48,6 +46,11 @@ function setIDs(newWidgetID, newBoardID) {
     }
   );
   provider.connect();
+
+  provider.on("sync", (event) => {
+    console.log("📚📚📚📚");
+    console.log(event.status); // logs "connected" or "disconnected"
+  });
   console.log(provider);
 }
 

@@ -26,6 +26,11 @@ export default function BoardHeader({ boardName, workspaceName }) {
           alignItems: "center",
           left: "50%",
           transform: "translateX(-50%)",
+          padding: "10px 15px",
+          borderRadius: "15px",
+
+          backgroundColor: "white",
+          boxShadow: "1px 2px 5px #FDCA0F",
           zIndex: 3,
           // backgroundColor: 'rgb(248, 249, 250)',
           // padding: '10px',

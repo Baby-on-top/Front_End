@@ -6,9 +6,10 @@ import { widgetListState } from "../../utils/atoms";
 import { WidgetType } from "./WidgetType";
 import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
-import { useEffect } from "react";
+import { widgetAdd } from "../../utils/apis";
+import axios from "axios";
 
-export default function WidgetAddModal() {
+export default function WidgetAddModal({ boardId }) {
   const [showWidgetAddModal, setShowWidgetAddModal] = useRecoilState(
     showWidgetAddModalState
   );
@@ -27,35 +28,42 @@ export default function WidgetAddModal() {
     // cursor: pointer;
   `;
 
-  const selectAddWidet = (widgetType) => {
-    if (widgetList.length < 1) {
-      return;
+  const selectAddWidet = async (Type) => {
+    let lastWidget = [];
+    if (widgetList.length !== 0) {
+      lastWidget = widgetList[widgetList.length - 1];
     }
-    const lastWidget = widgetList[widgetList.length - 1];
 
-    const getName = (widgetType) => {
-      if (widgetType === WidgetType.NOTE) return "노트 ";
-      if (widgetType === WidgetType.DRAWING) return "그림판 ";
+    const getName = (Type) => {
+      if (Type === WidgetType.NOTE) return "노트 ";
+      if (Type === WidgetType.DRAWING) return "그림판 ";
       return "캘린더 ";
     };
-
     const newWidget = {
-      id: lastWidget.id + 10,
-      type: widgetType,
-      x: 150,
-      y: 150,
-      name: getName(widgetType) + String(lastWidget.id + 1),
-      backgroundColor: "pink",
+      widgetType: Type,
+      roomId: boardId * 1,
+      x: 400,
+      y: 200,
+      widgetTitle: getName(Type) + String(widgetList.length + 1 + ""),
+      widgetImage:
+        Type == "note"
+          ? "https://dprllohwojeet.cloudfront.net/assets/images/6f427efe-5582-4fc9-a737-f48d9fba8bd7.png"
+          : Type == "drawing"
+          ? "https://dprllohwojeet.cloudfront.net/assets/images/0b16bc66-e916-494c-9bf6-4202c5e5b84b.png"
+          : "https://dprllohwojeet.cloudfront.net/assets/images/d6a63526-b29e-4d07-83cb-77fb889cafb4.png",
     };
-
-    const updateWidgetList = [...widgetList, newWidget];
-    console.log(updateWidgetList);
-    setWidgetList(updateWidgetList);
-
-    console.log(widgetList);
-    testYRect(updateWidgetList);
-
-    console.log("11111", widgetList);
+    console.log("test");
+    // TODO: add api
+    await widgetAdd(newWidget);
+    const response = await axios.get("/api/widget/" + boardId * 1);
+    const newRects = response.data.data.map((data) => {
+      return {
+        ...data,
+        id: data.id.toString(),
+      };
+    });
+    setWidgetList(newRects);
+    testYRect(newRects);
   };
 
   const onClick = (widgetType) => {

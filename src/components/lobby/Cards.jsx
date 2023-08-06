@@ -64,7 +64,11 @@ export default function Cards() {
   }, [wsIdx]);
 
   const clickCard = (id) => {
-    navigate(`/board/${id}`);
+    navigate("/board", {
+      state: {
+        roomId: id,
+      },
+    });
   };
 
   // SearchBoard

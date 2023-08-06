@@ -5,6 +5,7 @@ import { useRecoilState } from "recoil";
 import { showWidgetDetailModalState } from "../../utils/atoms";
 import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
+import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function WidgetPlace({
   setWidgetId,
@@ -27,8 +28,6 @@ export default function WidgetPlace({
 
   const handleDragStart = useCallback(
     (e) => {
-      //const image = new Image();
-      //e.dataTransfer.setDragImage(image, e.clientX, e.clientY);
       if (e.target instanceof HTMLDivElement) dragStartCanvas(e);
     },
     [dragStartCanvas]
@@ -43,9 +42,6 @@ export default function WidgetPlace({
     [dragEndCanvas]
   );
 
-  useEffect(() => {
-    console.log("BBBBBBB", widgetList);
-  }, []);
   return (
     <div
       id="widget-place-wrapper"
@@ -76,14 +72,14 @@ export default function WidgetPlace({
               x={widget.x}
               y={widget.y}
               css={{
-                width: 150,
-                height: 150,
-                backgroundColor: widget.backgroundColor,
-                border: "1px solid #f9f9f9",
+                width: 300,
+                height: 300,
+                backgroundColor: "#00AB59",
+                border: "1px solid #dcdada",
                 borderRadius: "24px",
-                lineHeight: "150px",
-                textAlign: "center",
                 position: "absolute",
+                display: "flex",
+                flexDirection: "column",
               }}
               draggable
               dragConstraints={constraintsRef} // 드래그 영역 제한
@@ -97,13 +93,65 @@ export default function WidgetPlace({
               onDragEnd={handleDragEnd}
               onDragStart={handleDragStart}
               style={{
-                x: widget?.x - 90 || 0,
-                y: widget?.y - 90 || 0,
-                zIndex: widget?.x ? 2 : 1,
+                x: widget.x - 90 || 0,
+                y: widget.y - 90 || 0,
+                zIndex: widget.x ? 2 : 1,
               }}
-              onClick={() => moveToWidgetDetail(widget.type, widget.id)}
+              onClick={() => moveToWidgetDetail(widget.widgetType, widget.id)}
             >
-              {widget.name}
+              <div
+                css={{
+                  borderTopLeftRadius: "24px",
+                  borderTopRightRadius: "24px",
+                  flex: 1,
+                  display: "flex",
+                }}
+              >
+                <div
+                  css={{
+                    borderTopLeftRadius: "24px",
+                    borderTopRightRadius: "24px",
+                    flexDirection: "row",
+                    display: "flex",
+                    alignItems: "center",
+                    backgroundColor: "#FDCA0F",
+                    flex: 1,
+                  }}
+                >
+                  <div css={{ fontWeight: "bold", flex: 5, marginLeft: 15 }}>
+                    {widget.widgetTitle}
+                  </div>
+                  <XMarkIcon
+                    width={30}
+                    height={30}
+                    css={{
+                      borderTopRightRadius: "24px",
+                      flex: 1,
+                    }}
+                  ></XMarkIcon>
+                </div>
+              </div>
+
+              <div
+                css={{
+                  flex: 3,
+
+                  borderBottomLeftRadius: "24px",
+                  borderBottomRightRadius: "24px",
+                  display: "flex",
+                }}
+              >
+                <img
+                  width={298}
+                  height={225}
+                  css={{
+                    flex: 1,
+                    borderBottomLeftRadius: "24px",
+                    borderBottomRightRadius: "24px",
+                  }}
+                  src={widget.widgetImage}
+                ></img>
+              </div>
             </motion.div>
           );
         })}
