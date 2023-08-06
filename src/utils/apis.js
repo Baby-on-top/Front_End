@@ -326,10 +326,10 @@ export async function widgetTitleUpdate(id, title) {
   }
 }
 
-export async function widgetImageUpdate(widget) {
+export async function widgetImageUpdate(id, image) {
   const info = {
-    id: widget.id,
-    widgetImage: widget.widgetImage,
+    id: id,
+    widgetImage: image,
   };
 
   try {
@@ -338,6 +338,16 @@ export async function widgetImageUpdate(widget) {
       url: Urls.WIDGET_UPDATE_IMAGE,
       data: info,
     });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+/// 이미지 업로드 (to S3)
+export async function imageUpload(data) {
+  try {
+    const response = await axios.post(Urls.IMAGE_UPLOAD, data);
     return response.data;
   } catch (e) {
     console.error(e);

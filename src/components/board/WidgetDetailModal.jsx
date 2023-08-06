@@ -7,13 +7,13 @@ import TldrawEditor from "../../routes/widget/TldrawEditor";
 import { WidgetType } from "./WidgetType";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
+import { getThumbnail } from "./hooks/updateThumbnail";
 
 export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
   );
   const isDrawing = widgetType === WidgetType.DRAWING;
-  const isCalendar = widgetType === WidgetType.CALENDAR;
 
   const ref = useRef(null);
   const isInView = useInView(ref);
@@ -36,6 +36,7 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
       className="modal-wrap"
       ref={ref}
       onClick={() => {
+        getThumbnail(widgetType, widgetId);
         setShowWidgetDetailModal(!showWidgetDetailModal);
         const myModule = require("../tldraw/store");
         myModule.yjsDisconnect(boardId);
@@ -73,7 +74,6 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
             opacity: isInView ? 1 : 0,
             transition: "all 0.3s cubic-bezier(0.17, 0.55, 0.55, 1) 0.3s",
           }}
-          onClick={() => setShowWidgetDetailModal(!showWidgetDetailModal)}
         >
           &times;
         </div>

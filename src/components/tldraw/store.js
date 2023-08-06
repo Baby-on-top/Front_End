@@ -71,7 +71,6 @@ function yjsDisconnect(newBoardID) {
     }
   );
   provider.connect();
-  console.log(provider);
   window.location.reload();
 }
 
