@@ -2,9 +2,11 @@ import { Tldraw, useFileSystem } from "@tldraw/tldraw";
 import { useUsers } from "y-presence";
 import { useMultiplayerState } from "../../components/tldraw/hooks/useMultiplayerState";
 import "../../components/tldraw/styles.css";
-import { awareness, roomID } from "../../components/tldraw/store";
 
-function Editor({ roomId }) {
+function Editor() {
+  let myModule = require("../../components/tldraw/store");
+  let roomId = myModule.roomIdReturn();
+  console.log(roomId);
   const fileSystemEvents = useFileSystem();
   const { onMount, ...events } = useMultiplayerState(roomId);
 
@@ -23,7 +25,10 @@ function Editor({ roomId }) {
 }
 
 function Info() {
+  let myModule = require("../../components/tldraw/store");
+  let awareness = myModule.awarenessReturn();
   const users = useUsers(awareness);
+  console.log(users.size);
 
   return (
     <div className="absolute p-md">
@@ -38,7 +43,7 @@ export default function TldrawEditor() {
   return (
     <div className="tldraw">
       <Info />
-      <Editor roomId={roomID} />
+      <Editor />
     </div>
   );
 }
