@@ -56,13 +56,12 @@ function yjsReturn() {
 }
 
 // 변수 값을 변경하는 함수
-function yjsDisconnect() {
-  widget_id = 2;
-  board_id = 3;
+function yjsDisconnect(newBoardID) {
+  board_id = newBoardID;
   provider.disconnect();
   provider = new WebsocketProvider(
     "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
-    `y-${widget_id}-${board_id}`,
+    `y-${board_id}`,
     doc,
     {
       connect: true,
