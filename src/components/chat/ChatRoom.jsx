@@ -69,7 +69,9 @@ export default function ChatRoom({ roomId }) {
   }, []);
 
   useEffect(() => {
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (messageList?.length != 0) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
   }, [messageList]);
 
   const handleMessage = (event) => {
@@ -95,15 +97,16 @@ export default function ChatRoom({ roomId }) {
   return (
     <div>
       <div
-        ref={scrollRef}
+        ref={messageList?.length == 0 ? null : scrollRef}
         css={{
           display: "flex",
           flexDirection: "column",
           overflow: "scroll",
+          overflowY: "hidden",
           height: "470px",
         }}
       >
-        {messageList.map((chatMessage) => {
+        {messageList?.map((chatMessage) => {
           // TODO: 테스트를 위해서 == 으로함, 다시 !=으로 수정 필요
           if (chatMessage.userId != userInfo.id) {
             return (

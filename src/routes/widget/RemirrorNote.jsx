@@ -119,7 +119,6 @@ const customStyles = `
 const RemirrorNote = () => {
   let myModule = require("../../components/tldraw/store");
   let provider = myModule.yjsReturn();
-  // console.log(provider);
 
   const extensions = () => [
     new HardBreakExtension(),
