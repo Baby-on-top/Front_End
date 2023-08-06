@@ -46,7 +46,7 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
 
   const handletitle = (event) => {
     event.preventDefault();
-    console.log(event);
+    // console.log(event);
     setTitle(event.target.value);
   };
 
@@ -63,9 +63,9 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
       const uploadImage = e.target.files[0];
       formData.append("image", uploadImage);
       setImage(uploadImage);
-      console.log(uploadImage);
-      console.log("===useState===");
-      console.log(image);
+      // console.log(uploadImage);
+      // console.log("===useState===");
+      // console.log(image);
     }
   };
 
@@ -170,17 +170,13 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
         <EllipsisHorizontalIcon
           onClick={handleDropdownToggle}
           css={{
-            // display: 'inline-block',
-            // height: '20px',
-            // verticalAlign: 'middle',
-            // marginTop: '-20px',
-            // marginRight: '20px',
             float: 'left',
             width: '5%',
             textAlign: 'center',
             paddingLeft: '10px',
             paddingRight: '5px',
-            // paddingTop: '10px',
+            
+            
         }}>
         </EllipsisHorizontalIcon>
         // <p
@@ -207,10 +203,14 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
           <div
             css={{
               // float: 'right',
-              border: '3px solid grey',
+              border: '2px solid grey',
               borderRadius: '15px',
-              width: '15%',
+              width: '12%',
               fontsize: '1rem',
+              position : 'absolute',
+              top: '70px',
+              left: '550px',
+              
               // zIndex: '-1px',
               // padding: '0px',
               // marginTop: '-25px',
@@ -222,17 +222,18 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
               onClick={handleDropdownToggle}
               css={{
                 display: 'block',
-                marginTop: '0px',
-                marginBottom: '0px',
+                // marginTop: '0px',
+                // marginBottom: '0px',
                 textAlign: 'center',
                 listStyle: 'none',
                 // zIndex: '30px',
                 // border: '1px solid grey',
-                // borderRadius: '15px',
-                padding: '5px',
-
+                borderRadius: '15px',
+                // borderColor: "#E6E6E6",
+                // padding: '5px',
               }}
             >
+              
               
               <li
                 onClick={async () => {
@@ -240,27 +241,40 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                   await toggleModal();
                 }}
                 css={{
-                  padding: '0px',
+                  paddingLeft: '33px',
+                  borderRadius: '15px 15px 0px 0px',
+
                 }}
-              >수정하기</li>
+              >워크스페이스 수정</li>
+              <hr 
+                css={{
+                  margin: '0px',
+                }}
+              />
               <li
                 onClick={async () => {
                   await setModalActive("delete");
                   await toggleModal();
                 }}
                 css={{
-                  padding: '0px',
+                  paddingLeft: '33px',
                 }}
-              >삭제하기</li>
+              >워크스페이스 삭제</li>
+              <hr 
+                css={{
+                  margin: '0px',
+                }}
+              />
               <li
                 onClick={async () => {
                   await setModalActive("leave");
                   await toggleModal();
                 }}
                 css={{
-                  padding: '0px',
+                  paddingLeft: '33px',
+                  borderRadius: '0px 0px 15px 15px',
                 }}
-              >탈퇴하기</li>
+              >워크스페이스 탈퇴</li>
             </ul>
           </div>
 
@@ -536,7 +550,7 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                 paddingLeft: "30px",
                 paddingRight: "30px",
                 border: "2px solid",
-                backgroundColor: "rgba(255, 61, 61, 0.5)",
+                backgroundColor : "rgba(19, 192, 106, 0.5)",
                 borderRadius: "5px",
                 // float: 'right',
               }}
@@ -638,12 +652,12 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                 paddingLeft: "30px",
                 paddingRight: "30px",
                 border: "2px solid",
-                backgroundColor: "rgba(255, 61, 61, 0.5)",
+                backgroundColor : "rgba(19, 192, 106, 0.5)",
                 borderRadius: "5px",
                 // float: 'right',
               }}
             >
-              Leave
+              탈퇴
             </button>
           </div>
         </div>
@@ -652,3 +666,4 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
     </>
   )
 }
+

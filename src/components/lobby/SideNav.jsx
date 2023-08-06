@@ -138,6 +138,7 @@ export default function SideNav() {
         borderRight: "1px solid black",
         display: "flex",
         flexDirection: "column",
+        
       }}
     >
       {/* 프로필 컨테이너 */}
@@ -254,6 +255,7 @@ export default function SideNav() {
           flexDirection: "column",
           flex: 8,
           overflow: "scroll",
+          overflowX: "hidden",
         }}
       >
         {workspaceList.length > 0 &&
