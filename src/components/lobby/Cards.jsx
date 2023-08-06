@@ -2,7 +2,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { recoilBoardList, saveCheck, SelectedWsIdx, SearchBoard, recoilWsList } from "../../utils/atoms";
+import {
+  recoilBoardList,
+  saveCheck,
+  SelectedWsIdx,
+  SearchBoard,
+  recoilWsList,
+} from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import DropDown from "./DropDown";
@@ -10,8 +16,7 @@ import DropDown from "./DropDown";
 import dambe_pikka from "../../assets/dambe_pikka.jpg";
 import ddung_heart from "../../assets/ddung_heart.jpg";
 import cat from "../../assets/cat.jpg";
-
-const SERVER_URL = "/api/board";
+import { Urls } from "../../utils/urls";
 
 export default function Cards() {
   const navigate = useNavigate();
@@ -21,36 +26,40 @@ export default function Cards() {
   // const [chk, setChk] = useRecoilState(saveCheck);
 
   const fetchData = async () => {
-    let response = ""
-    if ((wsIdx == 0) && (workspaceList.length > 0)) {
-      response = await axios.get(SERVER_URL, {
-        params: { workspaceId: workspaceList[0].workspaceId, searchKeyword: "" },
-        headers: { Token: cookie.accessToken },
+    const token = cookie.accessToken;
+    if (!token) {
+      // 토큰이 없다면 로그인 화면으로 라우팅
+      navigate("/login");
+      return;
+    }
+
+    let response = "";
+    if (wsIdx == 0 && workspaceList.length > 0) {
+      response = await axios.get(Urls.BOARD, {
+        params: {
+          workspaceId: workspaceList[0].workspaceId,
+          searchKeyword: "",
+        },
+        headers: { Token: token },
       });
     } else {
-      response = await axios.get(SERVER_URL, {
+      response = await axios.get(Urls.BOARD, {
         params: { workspaceId: wsIdx, searchKeyword: "" },
-        headers: { Token: cookie.accessToken },
+        headers: { Token: token },
       });
     }
     await setBoardList(response.data.data);
 
-    // const response = await axios.get(SERVER_URL, {
+    // const response = await axios.get(Urls.BOARD, {
     //   params: { workspaceId: wsIdx, searchKeyword: "" },
-    //   headers: { Token: cookie.accessToken },
+    //   headers: { Token: token },
     // });
     // setBoardList(response.data.data);
   };
 
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
-  
-  
-  // useEffect(() => {
-  //   fetchData();
-  // }, [chk]);
-  
+
   useEffect(() => {
-    console.log(wsIdx);
     fetchData();
   }, [wsIdx]);
 
@@ -59,9 +68,11 @@ export default function Cards() {
   };
 
   // SearchBoard
-  const [searchInfo, setSearchInfo] = useRecoilState(SearchBoard)
+  const [searchInfo, setSearchInfo] = useRecoilState(SearchBoard);
 
-  const searched = boardList.filter((item) => item.boardName.includes(searchInfo));
+  const searched = boardList.filter((item) =>
+    item.boardName.includes(searchInfo)
+  );
 
   return (
     <div className="cards">
@@ -214,5 +225,4 @@ export default function Cards() {
       ))}
     </div>
   );
-
 }

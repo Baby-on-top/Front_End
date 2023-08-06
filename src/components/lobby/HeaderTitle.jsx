@@ -8,10 +8,7 @@ import { useRecoilState } from "recoil";
 export default function HeaderTitle({ idx, name, createId }) {
   const [searchInfo, setSearchInfo] = useRecoilState(SearchBoard);
   const getValue = (e) => {
-    // console.log("확인")
-    // console.log(e)
     setSearchInfo(e.target.value);
-    // console.log(userInput);
   };
 
   return (

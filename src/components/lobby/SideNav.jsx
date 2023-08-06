@@ -6,7 +6,12 @@ import { kakaoUnlink, kakaoInfo } from "../../utils/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import WorkSpaceModal from "./WorkSpaceModal";
-import { SelectedWsIdx, SelectedWsName, showUserInfo, recoilWsList } from "../../utils/atoms";
+import {
+  SelectedWsIdx,
+  SelectedWsName,
+  showUserInfo,
+  recoilWsList,
+} from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { motion, useAnimate, stagger } from "framer-motion";
 import InviteModal from "./InviteModal";
@@ -59,6 +64,13 @@ export default function SideNav() {
   };
 
   async function getUserInfo() {
+    const token = cookies.accessToken;
+    if (!token) {
+      // 토큰이 없다면 로그인 화면으로 라우팅
+      navigate("/login");
+      return;
+    }
+
     const response = await kakaoInfo(cookies);
     const data = {
       id: response.data.data.memberId,
@@ -71,15 +83,19 @@ export default function SideNav() {
   }
 
   const fetchData = async () => {
-    // console.log("사이드네브");
-    // console.log(cookies.accessToken);
+    const token = cookies.accessToken;
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
     const response = await axios.get(SERVER_URL, {
       headers: { Token: cookies.accessToken },
     });
     setWorkspaceList(response.data.data);
-    if ((wsIdx == 0) && (response.data.data.length > 0)) {
-      setWsIdx(response.data.data[0].workspaceId)
-      setWsName(response.data.data[0].workspaceName)
+    if (wsIdx == 0 && response.data.data.length > 0) {
+      setWsIdx(response.data.data[0].workspaceId);
+      setWsName(response.data.data[0].workspaceName);
     }
   };
 

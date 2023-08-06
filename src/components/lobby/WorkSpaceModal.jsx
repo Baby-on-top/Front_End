@@ -22,7 +22,6 @@ export default function WorkSpaceModal(props) {
   const fetchData = async () => {
     try {
       const response = await workspaceCreate(cookies, image, title);
-      console.log(response);
       setWschk(true);
       return response;
     } catch (e) {
@@ -36,8 +35,6 @@ export default function WorkSpaceModal(props) {
     }
     // fetchData();
     const data = await fetchData();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
@@ -60,9 +57,7 @@ export default function WorkSpaceModal(props) {
 
   const workspaceTitle = (event) => {
     event.preventDefault();
-    // console.log(event);
     setTitle(event.target.value);
-    // console.log(title);
   };
   // 타이틀 끝
 
@@ -79,9 +74,6 @@ export default function WorkSpaceModal(props) {
       const uploadImage = e.target.files[0];
       formData.append("image", uploadImage);
       setImage(uploadImage);
-      console.log(uploadImage);
-      console.log("===useState===");
-      console.log(image);
     }
   };
 
@@ -94,11 +86,7 @@ export default function WorkSpaceModal(props) {
   const [workspaceList, setWorkspaceList] = useRecoilState(recoilWorkspaceList);
 
   const addWorkspace = async (data) => {
-    console.log("데이타");
-    console.log(data);
-    console.log(workspaceList);
     const newWorkspaceList = workspaceList.concat(data.data);
-    console.log(newWorkspaceList);
     setWorkspaceList(newWorkspaceList);
     props.setIsUpdate(!props.isUpdate);
   };
@@ -106,7 +94,6 @@ export default function WorkSpaceModal(props) {
   const editWorkspace = async () => {
     try {
       const response = await workspaceEdit(cookies, image, title, wsIdx);
-      console.log(response);
       setWschk(true);
       return response;
     } catch (e) {
@@ -305,9 +292,6 @@ export default function WorkSpaceModal(props) {
                     const postData = await workspaceInfo();
                     workspaceModal();
                     handleDelete();
-                    console.log("postData : ");
-                    console.log(postData);
-                    console.log("postData : ");
                     await addWorkspace(postData);
                   }}
                   css={{

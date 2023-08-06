@@ -1,33 +1,39 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
-import { SelectedWsIdx, SelectedWsName, recoilBoardList } from "../../utils/atoms";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import {
+  SelectedWsIdx,
+  SelectedWsName,
+  recoilBoardList,
+} from "../../utils/atoms";
 import { useRecoilState } from "recoil";
-import { kakaoInfo, workspaceEdit, workspaceDelete, workspaceLeave } from '../../utils/apis';
-import { useCookies } from 'react-cookie';
+import {
+  kakaoInfo,
+  workspaceEdit,
+  workspaceDelete,
+  workspaceLeave,
+} from "../../utils/apis";
+import { useCookies } from "react-cookie";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
-
-
 
 export default function WorkspaceDropdown({ wsId, wsCreateId }) {
   const [isActive, setIsActive] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const [modalActive, setModalActive] = useState("");
-  const [cookies] = useCookies(['cookies']);
+  const [cookies] = useCookies(["cookies"]);
   const [isCreate, setIsCreate] = useState(false);
   const [myData, setMyData] = useState();
+  const navigate = useNavigate();
 
   // 모달 시작
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
-    // console.log("편집하기 클릭");
     setModal(!modal);
   };
   // 모달 끝
 
   const handleDropdownToggle = () => {
-    // console.log(wsId)
     setIsActive(!isActive);
   };
   async function getUserInfo() {
@@ -36,8 +42,15 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
   }
 
   useEffect(() => {
+    const token = cookies.accessToken;
+    if (!token) {
+      // 토큰이 없다면 로그인 화면으로 라우팅
+      navigate("/login");
+      return;
+    }
+
     getUserInfo();
-  }, [])
+  }, []);
 
   // edit 시작
   const [image, setImage] = useState(null);
@@ -46,7 +59,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
 
   const handletitle = (event) => {
     event.preventDefault();
-    console.log(event);
     setTitle(event.target.value);
   };
 
@@ -56,16 +68,12 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
 
   const handleImageChange = (e) => {
     e.preventDefault();
-    console.log(e);
     const formData = new FormData();
 
     if (e.target.files) {
       const uploadImage = e.target.files[0];
       formData.append("image", uploadImage);
       setImage(uploadImage);
-      console.log(uploadImage);
-      console.log("===useState===");
-      console.log(image);
     }
   };
 
@@ -77,11 +85,7 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
 
   const editWorkspace = async () => {
     try {
-      console.log("아이디")
-      console.log(wsId)
       const response = await workspaceEdit(image, title, wsId);
-      console.log(response);
-      //   setChk(true);
       return response;
     } catch (e) {
       console.error(e);
@@ -93,18 +97,14 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
       e.preventDefault();
     }
     const data = await editWorkspace();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
 
   const reEditWorkspace = async (data) => {
-    console.log("데이타");
-    console.log(data.data);
-    const newWsName = data.data.workspaceName
-    setWsName(newWsName)
+    const newWsName = data.data.workspaceName;
+    setWsName(newWsName);
   };
   // edit 끝
 
@@ -114,7 +114,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
   const deleteWorkspace = async () => {
     try {
       const response = await workspaceDelete(wsId);
-      console.log(response);
       return response;
     } catch (e) {
       console.error(e);
@@ -126,14 +125,12 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
       e.preventDefault();
     }
     const data = await deleteWorkspace();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
   const reDeleteWorkspace = async () => {
-    setWsName('')
-    setWsIdx(0)
+    setWsName("");
+    setWsIdx(0);
   };
   // delete 끝
 
@@ -141,7 +138,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
   const leaveWorkspace = async () => {
     try {
       const response = await workspaceLeave(cookies, wsId);
-      console.log(response);
       return response;
     } catch (e) {
       console.error(e);
@@ -153,119 +149,118 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
       e.preventDefault();
     }
     const data = await leaveWorkspace();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
   const reLeaveWorkspace = async () => {
-    setWsName('')
-    setWsIdx(0)
+    setWsName("");
+    setWsIdx(0);
   };
 
   return (
     <>
       {
-        wsIdx != 0 &&
-        <EllipsisHorizontalIcon
-          onClick={handleDropdownToggle}
-          css={{
-            // display: 'inline-block',
-            // height: '20px',
-            // verticalAlign: 'middle',
-            // marginTop: '-20px',
-            // marginRight: '20px',
-            float: 'left',
-            width: '5%',
-            textAlign: 'center',
-            paddingLeft: '10px',
-            paddingRight: '5px',
-            // paddingTop: '10px',
-        }}>
-        </EllipsisHorizontalIcon>
+        wsIdx != 0 && (
+          <EllipsisHorizontalIcon
+            onClick={handleDropdownToggle}
+            css={{
+              // display: 'inline-block',
+              // height: '20px',
+              // verticalAlign: 'middle',
+              // marginTop: '-20px',
+              // marginRight: '20px',
+              float: "left",
+              width: "5%",
+              textAlign: "center",
+              paddingLeft: "10px",
+              paddingRight: "5px",
+              // paddingTop: '10px',
+            }}
+          ></EllipsisHorizontalIcon>
+        )
         // <p
         // >...</p>
       }
-      {
-        isActive &&
-        <div onClick={handleDropdownToggle} className="overlay" css={{
-          width: '100vw',
-          height: '100vh',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          position: 'fixed',
-  
-          // background: 'rgba(49,49,49,0.8)',
-        }}></div>
+      {isActive && (
+        <div
+          onClick={handleDropdownToggle}
+          className="overlay"
+          css={{
+            width: "100vw",
+            height: "100vh",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            position: "fixed",
 
-      }
-      {
-        isActive && (
-
-          <div
+            // background: 'rgba(49,49,49,0.8)',
+          }}
+        ></div>
+      )}
+      {isActive && (
+        <div
+          css={{
+            // float: 'right',
+            border: "3px solid grey",
+            borderRadius: "15px",
+            width: "15%",
+            fontsize: "1rem",
+            // zIndex: '-1px',
+            // padding: '0px',
+            // marginTop: '-25px',
+          }}
+        >
+          <ul
+            onClick={handleDropdownToggle}
             css={{
-              // float: 'right',
-              border: '3px solid grey',
-              borderRadius: '15px',
-              width: '15%',
-              fontsize: '1rem',
-              // zIndex: '-1px',
-              // padding: '0px',
-              // marginTop: '-25px',
-
-
+              display: "block",
+              marginTop: "0px",
+              marginBottom: "0px",
+              textAlign: "center",
+              listStyle: "none",
+              // zIndex: '30px',
+              // border: '1px solid grey',
+              // borderRadius: '15px',
+              padding: "5px",
             }}
           >
-            <ul
-              onClick={handleDropdownToggle}
+            <li
+              onClick={async () => {
+                await setModalActive("edit");
+                await toggleModal();
+              }}
               css={{
-                display: 'block',
-                marginTop: '0px',
-                marginBottom: '0px',
-                textAlign: 'center',
-                listStyle: 'none',
-                // zIndex: '30px',
-                // border: '1px solid grey',
-                // borderRadius: '15px',
-                padding: '5px',
-
+                padding: "0px",
               }}
             >
-              
-              <li
-                onClick={async () => {
-                  await setModalActive("edit");
-                  await toggleModal();
-                }}
-                css={{
-                  padding: '0px',
-                }}
-              >수정하기</li>
-              <li
-                onClick={async () => {
-                  await setModalActive("delete");
-                  await toggleModal();
-                }}
-                css={{
-                  padding: '0px',
-                }}
-              >삭제하기</li>
-              <li
-                onClick={async () => {
-                  await setModalActive("leave");
-                  await toggleModal();
-                }}
-                css={{
-                  padding: '0px',
-                }}
-              >탈퇴하기</li>
-            </ul>
-          </div>
-
-        )
-      }
+              수정하기
+            </li>
+            <li
+              onClick={async () => {
+                await setModalActive("delete");
+                await toggleModal();
+              }}
+              css={{
+                padding: "0px",
+              }}
+            >
+              삭제하기
+            </li>
+            <li
+              onClick={async () => {
+                await setModalActive("leave");
+                await toggleModal();
+              }}
+              css={{
+                padding: "0px",
+              }}
+            >
+              탈퇴하기
+            </li>
+          </ul>
+        </div>
+      )}
       {modal && modalActive === "edit" && (
         <div
           className="modal"
@@ -327,7 +322,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                   marginTop: "35px",
                   float: "right",
                   display: "inline-block",
-                  
                 }}
               >
                 X
@@ -344,7 +338,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                 border: "2px solid rgba(173, 169, 169, 0.5)",
                 outline: "none",
                 borderRadius: "3px",
-                
               }}
             />
             <div onClick={handleImageClick}>
@@ -360,7 +353,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                     border: "2px solid rgba(173, 169, 169, 0.5)",
                     outline: "none",
                     borderRadius: "3px",
-                    
                   }}
                 ></img>
               ) : (
@@ -374,7 +366,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                     border: "2px solid rgba(173, 169, 169, 0.5)",
                     outline: "none",
                     borderRadius: "3px",
-                    
                   }}
                 ></input>
               )}
@@ -383,7 +374,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                 ref={inputRef}
                 onChange={handleImageChange}
                 style={{ display: "none" }}
-                
               ></input>
             </div>
 
@@ -412,7 +402,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                   backgroundColor: "rgba(19, 192, 106, 0.5)",
                   borderRadius: "5px",
                   float: "right",
-                  
                 }}
               >
                 저장
@@ -435,7 +424,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                   backgroundColor: "rgba(173, 169, 169, 0.5)",
                   borderRadius: "5px",
                   float: "right",
-                  
                 }}
               >
                 저장
@@ -648,7 +636,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
           </div>
         </div>
       )}
-
     </>
-  )
+  );
 }

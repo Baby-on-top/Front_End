@@ -27,7 +27,6 @@ export default function DropDown({ id }) {
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => {
-    console.log("편집하기 클릭");
     setModal(!modal);
   };
   // 모달 끝
@@ -64,7 +63,6 @@ export default function DropDown({ id }) {
   const inviteBoard = async () => {
     try {
       const response = await boardInvite(boardId, userId);
-      console.log(response);
 
       return response;
     } catch (e) {
@@ -89,16 +87,12 @@ export default function DropDown({ id }) {
 
   const getValue = (e) => {
     setUserInput(e.target.value);
-    console.log(userInput);
   };
 
-  console.log("test");
-  console.log(userList);
   const searched = userList.filter((item) => item.name.includes(userInput));
 
   useEffect(() => {
     search();
-    console.log("체크");
   }, []);
   // invite 끝
 
@@ -109,7 +103,6 @@ export default function DropDown({ id }) {
 
   const handletitle = (event) => {
     event.preventDefault();
-    console.log(event);
     setTitle(event.target.value);
   };
 
@@ -119,16 +112,12 @@ export default function DropDown({ id }) {
 
   const handleImageChange = (e) => {
     e.preventDefault();
-    console.log(e);
     const formData = new FormData();
 
     if (e.target.files) {
       const uploadImage = e.target.files[0];
       formData.append("image", uploadImage);
       setImage(uploadImage);
-      console.log(uploadImage);
-      console.log("===useState===");
-      console.log(image);
     }
   };
 
@@ -141,7 +130,6 @@ export default function DropDown({ id }) {
   const editBoard = async () => {
     try {
       const response = await boardEdit(image, title, boardId);
-      console.log(response);
       //   setChk(true);
       return response;
     } catch (e) {
@@ -154,16 +142,12 @@ export default function DropDown({ id }) {
       e.preventDefault();
     }
     const data = await editBoard();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
   const [boardList, setBoardList] = useRecoilState(recoilBoardList);
 
   const reEditBoard = async (data) => {
-    console.log("데이타");
-    console.log(data);
     const boardListIdx = boardList.findIndex((el) => el.boardId == boardId);
     const newBoardList = boardList
       .slice(0, boardListIdx)
@@ -177,7 +161,6 @@ export default function DropDown({ id }) {
   const deleteBoard = async () => {
     try {
       const response = await boardDelete(boardId);
-      console.log(response);
       return response;
     } catch (e) {
       console.error(e);
@@ -189,8 +172,6 @@ export default function DropDown({ id }) {
       e.preventDefault();
     }
     const data = await deleteBoard();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
@@ -206,7 +187,6 @@ export default function DropDown({ id }) {
   const leaveBoard = async () => {
     try {
       const response = await boardLeave(cookies, boardId);
-      console.log(response);
       return response;
     } catch (e) {
       console.error(e);
@@ -218,8 +198,6 @@ export default function DropDown({ id }) {
       e.preventDefault();
     }
     const data = await leaveBoard();
-    console.log("확인");
-    console.log(data);
     return data;
   }
 
@@ -404,8 +382,6 @@ export default function DropDown({ id }) {
                   ))
                 } */}
               {searched.map((item) => {
-                console.log("==================");
-                console.log(item);
                 return (
                   <div key={item.memberId}>
                     <input
