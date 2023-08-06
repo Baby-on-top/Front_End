@@ -97,9 +97,6 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
           transition: "all 0.3s cubic-bezier(0.17, 0.55, 0.55, 1) 0.3s",
         }}
       >
-        <div>
-          {widgetType}, {widgetId}, {boardId}
-        </div>
         {getWidget(widgetType, widgetId, boardId)}
       </div>
     </div>

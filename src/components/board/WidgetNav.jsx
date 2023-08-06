@@ -167,7 +167,7 @@ export function WidgetNavSpread(
               cursor: "pointer",
               ":hover": { backgroundColor: colors.overlay_grey },
             }}
-            onClick={() => moveToWidgetDetail(widget.type, widget.id)}
+            onClick={() => moveToWidgetDetail(widget.widgetType, widget.id)}
           >
             {widget.widgetTitle}
           </div>
