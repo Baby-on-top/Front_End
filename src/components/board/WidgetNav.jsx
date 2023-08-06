@@ -61,7 +61,7 @@ export default function WidgetNav({ widgetsRef, setWidgetType, setWidgetId }) {
     setWidgetId(id);
     await setTimeout(() => {
       setShowWidgetDetailModal(!showWidgetDetailModal);
-    }, 500);
+    }, 300);
   };
 
   if (showNav) {
