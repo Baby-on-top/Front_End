@@ -11,6 +11,7 @@ import {
   boardLeave,
 } from "../../utils/apis";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/solid";
+import { motion, useAnimate, stagger } from "framer-motion";
 
 export default function DropDown({ id }) {
   const boardId = id;
@@ -243,13 +244,14 @@ export default function DropDown({ id }) {
           css={{
             position: "absolute",
             float: "right",
-            border: "3px solid grey",
+            border: "2px solid grey",
             borderRadius: "15px",
-            width: "10%",
+            width: "120px",
             fontsize: "1rem",
             // zIndex: '-1px',
             // padding: '0px',
-            marginTop: "-25px",
+            marginTop: "220px",
+            // marginRight: "30px",
           }}
         >
           <ul
@@ -261,9 +263,9 @@ export default function DropDown({ id }) {
               textAlign: "center",
               listStyle: "none",
               zIndex: "30px",
-              // border: '1px solid grey',
+              // border: '3px solid white',
               // borderRadius: '15px',
-              padding: "5px",
+              // padding: "5px",
             }}
           >
             <li
@@ -272,41 +274,59 @@ export default function DropDown({ id }) {
                 await toggleModal();
               }}
               css={{
-                padding: "0px",
-                width: "100%",
+                paddingLeft: "25px",
+                borderRadius: "13px 13px 0px 0px",
               }}
             >
               보드초대
             </li>
+            <hr
+              css={{
+                margin: "0px",
+              }}
+            />
             <li
               onClick={async () => {
                 await setModalActive("second");
                 await toggleModal();
               }}
               css={{
-                padding: "0px",
+                paddingLeft: "25px",
+                borderRadius: "0px",
               }}
             >
               보드수정
             </li>
+            <hr
+              css={{
+                margin: "0px",
+              }}
+            />
             <li
               onClick={async () => {
                 await setModalActive("third");
                 await toggleModal();
               }}
               css={{
-                padding: "0px",
+                paddingLeft: "25px",
+                borderRadius: "0px",
               }}
             >
               보드삭제
             </li>
+            <hr
+              css={{
+                margin: "0px",
+              }}
+            />
             <li
               onClick={async () => {
                 await setModalActive("forth");
                 await toggleModal();
               }}
               css={{
-                padding: "0px",
+                paddingLeft: "25px",
+                borderRadius: "0px 0px 13px 13px",
               }}
             >
               보드탈퇴
@@ -359,6 +379,32 @@ export default function DropDown({ id }) {
             }}
           >
             <div className="modal-top">
+              <h3
+                css={{
+                  marginBottom: "5px",
+                  float: "left",
+                }}
+              >
+                보드 초대하기
+              </h3>
+              <p
+                className="modal-close"
+                onClick={() => {
+                  toggleModal();
+                  deleteUserId();
+                }}
+                css={{
+                  marginRight: "15px",
+                  marginTop: "35px",
+                  marginBottom: "5px",
+                  float: "right",
+                  display: "inline-block",
+                }}
+              >
+                X
+              </p>
+
+              {/* <div className="modal-top"> */}
               <input
                 className="modal-title"
                 type="text"
@@ -367,7 +413,8 @@ export default function DropDown({ id }) {
                 css={{
                   width: "545px",
                   height: "30px",
-                  border: "2px solid rgba(173, 169, 169, 0.5)",
+                  border: "2px solid",
+                  borderColor: "#D9D9D9",
                   outline: "none",
                   borderRadius: "3px",
                   marginBottom: "5px",
@@ -383,31 +430,66 @@ export default function DropDown({ id }) {
                 } */}
               {searched.map((item) => {
                 return (
-                  <div key={item.memberId}>
-                    <input
-                      type="radio"
-                      onChange={() => setUserId(item.memberId)}
-                    />
-                    {item.name}
-                  </div>
+                  // <div key={item.memberId}>
+                  //   <input
+                  //     type="radio"
+                  //     onChange={() => setUserId(item.memberId)}
+                  //   />
+                  //   {item.name}
+                  // </div>
+                  <motion.div
+                    initial={{ backgroundColor: "#FFFFFF" }}
+                    animate={{
+                      backgroundColor:
+                        item.memberId == userId ? "#DEFED9" : "#FFFFFF",
+                    }}
+                    key={item.memberId}
+                    whileHover={{
+                      backgroundColor:
+                        item.memberId == userId ? "#DEFED9" : "#acacac",
+                    }}
+                    // ref={(el) => (refs.current[Workspace.workspaceId] = el)}
+                    onClick={() => setUserId(item.memberId)}
+                    css={{
+                      // display: "flex",
+                      // alignItems: "center",
+                      padding: "10px 20px",
+
+                      backgroundColor:
+                        item.memberId == userId ? "#DEFED9" : "#FFFFFF",
+                    }}
+                  >
+                    <img
+                      className="invite-profile"
+                      src={item.profile}
+                      alt="이미지"
+                      css={{
+                        // marginTop: "10px",
+                        marginBottom: "-5px",
+                        width: "5%",
+                        maxHeight: "28px",
+                        height: "5%",
+                        // float: "left",
+                        borderRadius: "50px",
+                        // height: "300px",
+                        // outline: "none",
+                        // borderRadius: "3px",
+                      }}
+                    ></img>
+                    <p
+                      css={{
+                        display: "inline",
+                        marginLeft: "15px",
+                        marginBottom: "10px",
+                        fontSize: "20px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      {item.name + "(" + item.email + ")"}
+                    </p>
+                  </motion.div>
                 );
-                //        userList.map((item) => (
               })}
-              <p
-                className="modal-close"
-                onClick={() => {
-                  toggleModal();
-                  deleteUserId();
-                }}
-                css={{
-                  marginRight: "15px",
-                  marginTop: "35px",
-                  float: "right",
-                  display: "inline-block",
-                }}
-              >
-                X
-              </p>
             </div>
 
             {userId != "" ? (
@@ -431,12 +513,12 @@ export default function DropDown({ id }) {
                   paddingLeft: "30px",
                   paddingRight: "30px",
                   border: "2px solid",
-                  backgroundColor: "rgba(49, 177, 252, 0.5)",
+                  backgroundColor: "rgba(19, 192, 106, 0.5)",
                   borderRadius: "5px",
                   // float: 'right',
                 }}
               >
-                Invite
+                초대
               </button>
             ) : (
               <button
@@ -456,10 +538,9 @@ export default function DropDown({ id }) {
                   border: "2px solid",
                   backgroundColor: "rgba(173, 169, 169, 0.5)",
                   borderRadius: "5px",
-                  // float: 'right',
                 }}
               >
-                Invite
+                초대
               </button>
             )}
           </div>
@@ -678,7 +759,7 @@ export default function DropDown({ id }) {
             }}
           >
             <div className="modal-top">
-              <h2
+              <h3
                 className="modal-name"
                 css={{
                   display: "inline-block",
@@ -688,7 +769,7 @@ export default function DropDown({ id }) {
                 }}
               >
                 선택한 보드를 삭제하시겠습니까?
-              </h2>
+              </h3>
               <p
                 className="modal-close"
                 onClick={toggleModal}
@@ -723,7 +804,7 @@ export default function DropDown({ id }) {
                 paddingLeft: "30px",
                 paddingRight: "30px",
                 border: "2px solid",
-                backgroundColor: "rgba(255, 61, 61, 0.5)",
+                backgroundColor: "rgba(19, 192, 106, 0.5)",
                 borderRadius: "5px",
                 // float: 'right',
               }}
@@ -776,7 +857,7 @@ export default function DropDown({ id }) {
             }}
           >
             <div className="modal-top">
-              <h2
+              <h3
                 className="modal-name"
                 css={{
                   display: "inline-block",
@@ -786,7 +867,7 @@ export default function DropDown({ id }) {
                 }}
               >
                 선택한 보드에서 떠나시겠습니까?
-              </h2>
+              </h3>
               <p
                 className="modal-close"
                 onClick={toggleModal}
@@ -821,12 +902,12 @@ export default function DropDown({ id }) {
                 paddingLeft: "30px",
                 paddingRight: "30px",
                 border: "2px solid",
-                backgroundColor: "rgba(255, 61, 61, 0.5)",
+                backgroundColor: "rgba(19, 192, 106, 0.5)",
                 borderRadius: "5px",
                 // float: 'right',
               }}
             >
-              Leave
+              탈퇴
             </button>
           </div>
         </div>

@@ -8,7 +8,7 @@ const socket = io("http://localhost:4000", {
   path: "/socket.io",
 });
 
-export default function InputBox({ widget }) {
+export default function InputBox({ widget, fetch }) {
   const [text, setText] = useState(widget.widgetTitle);
   const [isMod, setIsMod] = useState(false);
 
@@ -23,6 +23,7 @@ export default function InputBox({ widget }) {
   const changeTitle = async (id, change) => {
     // console.log("🏗️");
     const response = await widgetTitleUpdate(id, change);
+    fetch();
     sendChanges(response.data.id, response.data.widgetTitle);
     // console.log("🌟", response);
     setIsMod(!isMod);

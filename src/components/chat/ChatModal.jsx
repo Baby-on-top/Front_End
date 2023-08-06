@@ -17,7 +17,8 @@ export default function ChatModal({ setModalOpened }) {
   return (
     <div
       css={{
-        position: "absolute",
+        // position: "absolute",
+        position: 'fixed',
         bottom: "24px",
         right: "24px",
         lineHeight: "1.4",

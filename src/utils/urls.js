@@ -13,4 +13,5 @@ export const Urls = {
   WIDGET_UPDATE_XY: "/api/widget/xy",
   WIDGET_UPDATE_TITLE: "/api/widget/title",
   WIDGET_UPDATE_IMAGE: "/api/widget/image",
+  IMAGE_UPLOAD: "/api/image/upload",
 };
