@@ -9,7 +9,7 @@ import {
   SelectedWsIdx,
 } from "../../utils/atoms";
 import { PlusIcon } from "@heroicons/react/24/solid";
-
+import { motion } from "framer-motion";
 // import axios from 'axios';
 
 export default function WorkSpaceModal(props) {
@@ -40,30 +40,6 @@ export default function WorkSpaceModal(props) {
     console.log(data);
     return data;
   }
-
-  //     const formData = new FormData();
-  //     formData.append('workspaceName',title)
-  //     formData.append('workspaceImage',image)
-
-  //     axios({
-  //       method:'post',
-  //       url:'/api/workspace',
-  //       headers: {Token: cookies.accessToken,
-  //         // "Content-Type": "multipart/form-data",
-  //         // "Content-Type": "application/json",
-  //       },
-  //       data: formData,
-
-  //     })
-  //     .then((result) => {
-  //       console.log("성공");
-  //       console.log(result);
-  //     })
-  //     .catch((err) => {
-  //       console.log("실패");
-  //       console.log(err);
-  //     });
-  // };
 
   // 모달 시작
   const [modal, setModal] = useState(false);
@@ -150,38 +126,44 @@ export default function WorkSpaceModal(props) {
           left: "25px",
           display: "flex",
           alignItems: "center",
+          flex: 1,
         }}
       >
-      <div onClick={workspaceModal} css={{
-        display : 'flex',
-        flexDirection: 'row',
-      }}>
-        <PlusIcon
-          css={{
-            backgroundColor: "#D9D9D9",
-            padding: "5px 5px",
-            borderRadius: "5px",
-            marginRight: "10px",
-            color: "white",
+        <motion.div
+          onClick={workspaceModal}
+          whileHover={{
+            scale: 1.05,
           }}
-          width={30}
-          height={30}
-        ></PlusIcon>
-
-        <div
           css={{
-             fontSize: "22px",
-             color: "#6b6b6b",
-            //  justifyContent : 'center',
-            //  alignItems : 'center',
-
-             }}
-          className="workspace-modal"
-          // onClick={workspaceModal}
+            display: "flex",
+            flexDirection: "row",
+          }}
         >
-          워크스페이스 추가하기
-        </div>
-      </div>
+          <PlusIcon
+            css={{
+              backgroundColor: "#D9D9D9",
+              padding: "5px 5px",
+              borderRadius: "5px",
+              marginRight: "10px",
+              color: "white",
+            }}
+            width={30}
+            height={30}
+          ></PlusIcon>
+
+          <div
+            css={{
+              fontSize: "22px",
+              color: "#6b6b6b",
+              //  justifyContent : 'center',
+              //  alignItems : 'center',
+            }}
+            className="workspace-modal"
+            // onClick={workspaceModal}
+          >
+            워크스페이스 추가하기
+          </div>
+        </motion.div>
       </div>
       {modal && (
         <div
