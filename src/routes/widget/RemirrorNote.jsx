@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import "remirror/styles/all.css";
 
 import React, { useEffect } from "react";
@@ -158,34 +159,39 @@ const RemirrorNote = () => {
   });
 
   return (
-    <ThemeProvider>
-      <style>{customStyles}</style>
-      <Remirror
-        manager={manager}
-        initialContent={state}
-        autoFocus
-        onChange={onChange}
-        autoRender="Enter your text"
-      >
-        <FindReplaceComponent />
-        <EditorComponent />
-        <Toolbar>
-          <CommandButtonGroup>
-            <DecreaseFontSizeButton />
-            <FontSizeButtons />
-            <IncreaseFontSizeButton />
-          </CommandButtonGroup>
-          <FontFamilyButtons />
-          <ToggleCodeButton />
-          <ToggleBoldButton />
-          <ToggleUnderlineButton />
-          <ToggleItalicButton />
-          <ListButtonGroup />
-          <ToggleBlockquoteButton />
-          <ToggleCalloutButton />
-        </Toolbar>
-      </Remirror>
-    </ThemeProvider>
+    <div>
+      <h1 css={{ marginBottom: "35px" }}>제목</h1>
+
+      <ThemeProvider>
+        <style>{customStyles}</style>
+        <Remirror
+          manager={manager}
+          initialContent={state}
+          autoFocus
+          onChange={onChange}
+          autoRender="Enter your text"
+        >
+          <Toolbar>
+            <CommandButtonGroup>
+              <DecreaseFontSizeButton />
+              <FontSizeButtons />
+              <IncreaseFontSizeButton />
+            </CommandButtonGroup>
+            <FontFamilyButtons />
+            <ToggleCodeButton />
+            <ToggleBoldButton />
+            <ToggleUnderlineButton />
+            <ToggleItalicButton />
+            <ListButtonGroup />
+            <ToggleBlockquoteButton />
+            <ToggleCalloutButton />
+          </Toolbar>
+          <div className="note-editor">
+            <EditorComponent />
+          </div>
+        </Remirror>
+      </ThemeProvider>
+    </div>
   );
 };
 

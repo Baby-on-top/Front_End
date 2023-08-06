@@ -89,8 +89,6 @@ export async function workspaceCreate(cookie, image, workspaceName) {
 }
 
 export async function workspaceEdit(image, workspaceName, workspaceId) {
-  const url = "/api/workspace";
-
   const header = {
     "Content-Type": "multipart/form-data",
   };

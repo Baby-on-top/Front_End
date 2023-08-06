@@ -37,7 +37,7 @@ function Info() {
 export default function TldrawEditor() {
   return (
     <div className="tldraw">
-      <Info />
+      {/* <Info /> */}
       <Editor roomId={roomID} />
     </div>
   );

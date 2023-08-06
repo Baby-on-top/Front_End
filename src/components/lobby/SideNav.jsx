@@ -23,13 +23,13 @@ import {
   PlusIcon,
   PowerIcon,
 } from "@heroicons/react/24/solid";
+import { Urls } from "../../utils/urls";
 
 export default function SideNav() {
   const { modalOpen, close, open } = useModal();
   const REST_API_KEY = process.env.REACT_APP_REST_API_KEY;
   const REDIRECT_LOGOUT_URI = process.env.REACT_APP_LOGOUT_REDIRECT_URI;
   const logoutLink = `https://kauth.kakao.com/oauth/logout?client_id=${REST_API_KEY}&logout_redirect_uri=${REDIRECT_LOGOUT_URI}`;
-  const SERVER_URL = "/api/workspace";
   const [cookies] = useCookies(["cookies"]);
   const [profile, setProfile] = useState();
   const [name, setName] = useState();
@@ -89,7 +89,7 @@ export default function SideNav() {
       return;
     }
 
-    const response = await axios.get(SERVER_URL, {
+    const response = await axios.get(Urls.WORKSPACE, {
       headers: { Token: cookies.accessToken },
     });
     setWorkspaceList(response.data.data);
