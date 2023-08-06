@@ -108,12 +108,17 @@ export default function WorkSpaceModal(props) {
       <div
         className="wsadd"
         css={{
-          position: "absolute",
-          bottom: "30px",
-          left: "25px",
+          // position: "absolute",
+          // overflow: 'hidden',
+          // position: "fixed",
+          // bottom: "30px",
+          // left: "25px",
+          padding : "30px 25px",
           display: "flex",
           alignItems: "center",
           flex: 1,
+          backgroundColor :"white",
+          
         }}
       >
         <motion.div
@@ -124,6 +129,7 @@ export default function WorkSpaceModal(props) {
           css={{
             display: "flex",
             flexDirection: "row",
+            
           }}
         >
           <PlusIcon
@@ -133,6 +139,7 @@ export default function WorkSpaceModal(props) {
               borderRadius: "5px",
               marginRight: "10px",
               color: "white",
+              fill :"white",
             }}
             width={30}
             height={30}
@@ -140,6 +147,7 @@ export default function WorkSpaceModal(props) {
 
           <div
             css={{
+              fill :"white",
               fontSize: "22px",
               color: "#6b6b6b",
               //  justifyContent : 'center',
