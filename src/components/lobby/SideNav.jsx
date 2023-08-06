@@ -6,7 +6,7 @@ import { kakaoUnlink, kakaoInfo } from "../../utils/apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import WorkSpaceModal from "./WorkSpaceModal";
-import { SelectedWsIdx, SelectedWsName, showUserInfo } from "../../utils/atoms";
+import { SelectedWsIdx, SelectedWsName, showUserInfo, recoilWsList } from "../../utils/atoms";
 import { useRecoilState } from "recoil";
 import { motion, useAnimate, stagger } from "framer-motion";
 import InviteModal from "./InviteModal";
@@ -28,7 +28,8 @@ export default function SideNav() {
   const [cookies] = useCookies(["cookies"]);
   const [profile, setProfile] = useState();
   const [name, setName] = useState();
-  const [workspaceList, setWorkspaceList] = useState([]);
+  const [workspaceList, setWorkspaceList] = useRecoilState(recoilWsList);
+  // const [workspaceList, setWorkspaceList] = useState([]);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isUnlink, setIsUnlink] = useState(false);
   const [, setUserInfo] = useRecoilState(showUserInfo);
@@ -76,6 +77,10 @@ export default function SideNav() {
       headers: { Token: cookies.accessToken },
     });
     setWorkspaceList(response.data.data);
+    if ((wsIdx == 0) && (response.data.data.length > 0)) {
+      setWsIdx(response.data.data[0].workspaceId)
+      setWsName(response.data.data[0].workspaceName)
+    }
   };
 
   // hover 시작
