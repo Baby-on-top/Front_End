@@ -42,7 +42,7 @@ export default function WidgetPlace({
   }
   useEffect(() => {
     fetch();
-  }, [showWidgetDetailModal, widgetList]);
+  }, [showWidgetDetailModal]);
 
   const moveToWidgetDetail = (type, id) => {
     if (!click) return;
@@ -149,7 +149,6 @@ export default function WidgetPlace({
               <div
                 css={{
                   flex: 3,
-
                   borderBottomLeftRadius: "24px",
                   borderBottomRightRadius: "24px",
                   display: "flex",
