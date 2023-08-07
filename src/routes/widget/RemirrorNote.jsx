@@ -8,6 +8,7 @@ import json from "refractor/lang/json.js";
 import markdown from "refractor/lang/markdown.js";
 import typescript from "refractor/lang/typescript.js";
 import { htmlToProsemirrorNode } from "remirror";
+import SaveImgaeBtn from "./SaveImageBtn";
 import {
   BulletListExtension,
   HardBreakExtension,
@@ -116,7 +117,7 @@ const customStyles = `
   }
 `;
 
-const RemirrorNote = () => {
+const RemirrorNote = ({ widgetId }) => {
   let myModule = require("../../components/tldraw/store");
   let provider = myModule.yjsReturn();
 
@@ -187,6 +188,7 @@ const RemirrorNote = () => {
           </div>
         </Remirror>
       </ThemeProvider>
+      <SaveImgaeBtn type={"note"} widgetId={widgetId} />
     </div>
   );
 };

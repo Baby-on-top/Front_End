@@ -23,12 +23,12 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
     myModule.setIDs(widgetId, boardId);
 
     if (type === WidgetType.CALENDAR) {
-      return <CalendarWidget />;
+      return <CalendarWidget widgetId={widgetId} />;
     }
     if (type === WidgetType.DRAWING) {
-      return <TldrawEditor />;
+      return <TldrawEditor widgetId={widgetId} />;
     }
-    return <RemirrorNote />;
+    return <RemirrorNote widgetId={widgetId} />;
   }
 
   return (

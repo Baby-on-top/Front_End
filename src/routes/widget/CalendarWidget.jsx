@@ -8,8 +8,8 @@ import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import { colors } from "../../utils/colors";
 import { useEffect, useState, useCallback } from "react";
-
-export default function CalendarWidget() {
+import SaveImgaeBtn from "./SaveImageBtn";
+export default function CalendarWidget({ widgetId }) {
   const [viewType, setViewType] = useState("month");
 
   useEffect(() => {
@@ -116,6 +116,7 @@ export default function CalendarWidget() {
         >
           일간
         </motion.div>
+        <SaveImgaeBtn widgetId={widgetId} type={"calendar"} />
       </div>
     );
   }

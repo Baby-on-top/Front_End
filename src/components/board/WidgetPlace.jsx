@@ -42,7 +42,7 @@ export default function WidgetPlace({
   }
   useEffect(() => {
     fetch();
-  }, [showWidgetDetailModal]);
+  }, [showWidgetDetailModal, widgetList]);
 
   const moveToWidgetDetail = (type, id) => {
     if (!click) return;
