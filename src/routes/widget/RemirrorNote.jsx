@@ -1,11 +1,13 @@
 import "remirror/styles/all.css";
 
-import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import React, { useEffect, useState } from "react";
 import css from "refractor/lang/css.js";
 import javascript from "refractor/lang/javascript.js";
 import json from "refractor/lang/json.js";
 import markdown from "refractor/lang/markdown.js";
 import typescript from "refractor/lang/typescript.js";
+import { kakaoInfo } from "../../utils/apis";
 import { htmlToProsemirrorNode } from "remirror";
 import {
   BulletListExtension,
@@ -118,8 +120,42 @@ const customStyles = `
 const RemirrorNote = () => {
   let myModule = require("../../components/tldraw/store");
   let provider = myModule.yjsReturn();
-  console.log("asdfasdfasfd");
-  console.log(provider);
+
+  let awareness = provider.awareness;
+  const [cookies] = useCookies(["cookies"]);
+  const [name, setName] = useState("");
+
+  console.log("22222222222");
+  getUserInfo();
+  async function getUserInfo() {
+    const response = await kakaoInfo(cookies);
+    setName(response.data.data.name);
+  }
+  awareness.setLocalStateField("user", {
+    // Define a print name that should be displayed
+    name: name,
+    // Define a color that should be associated to the user:
+    color: "#ffb61e", // should be a hex color
+  });
+
+  useEffect(() => {
+    awareness.on("change", () => {
+      // Map each awareness state to a dom-string
+      const strings = [];
+      awareness.getStates().forEach((state) => {
+        console.log("11111111111111111", name);
+        if (state.user) {
+          strings.push(
+            `<div style="color:${state.user.color};">• ${state.user.name}</div>`
+          );
+        }
+        const usersElement = document.querySelector("#users");
+        if (usersElement) {
+          usersElement.innerHTML = strings.join("");
+        }
+      });
+    });
+  }, []);
 
   const extensions = () => [
     new HardBreakExtension(),
@@ -159,6 +195,7 @@ const RemirrorNote = () => {
 
   return (
     <ThemeProvider>
+      <div id="users"></div>
       <style>{customStyles}</style>
       <Remirror
         manager={manager}
