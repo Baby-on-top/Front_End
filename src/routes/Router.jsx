@@ -9,6 +9,7 @@ import InviteCallback from "./InviteCallback";
 import BoardCallback from "../components/board/BoardCallback";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Call from "./Call";
 
 export default function Router() {
   const router = createBrowserRouter([
@@ -46,6 +47,11 @@ export default function Router() {
     {
       path: "/invite-check",
       element: <InviteCallback />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/voice-chat",
+      element: <Call />,
       errorElement: <ErrorPage />,
     },
     {
