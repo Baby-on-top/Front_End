@@ -40,7 +40,7 @@ jobs:
           cat .env
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
       - name: Deploy
         uses: awact/s3-action@master
