@@ -33,10 +33,10 @@ jobs:
       - name: Setting .env
         run: |
           touch .env
-          echo REACT_APP_API_URL=${{secrets.REACT_APP_API_URL}} >> .env.production
-          echo REACT_APP_REST_API_KEY=${{secrets.REACT_APP_REST_API_KEY}} >> .env.production
-          echo REACT_APP_REDIRECT_URI=${{secrets.REACT_APP_REDIRECT_URI}} >> .env.production
-          echo REACT_APP_LOGOUT_REDIRECT_URI=${{secrets.REACT_APP_LOGOUT_REDIRECT_URI}} >> .env.production
+          echo REACT_APP_API_URL=${{secrets.REACT_APP_API_URL}} >> .env
+          echo REACT_APP_REST_API_KEY=${{secrets.REACT_APP_REST_API_KEY}} >> .env
+          echo REACT_APP_REDIRECT_URI=${{secrets.REACT_APP_REDIRECT_URI}} >> .env
+          echo REACT_APP_LOGOUT_REDIRECT_URI=${{secrets.REACT_APP_LOGOUT_REDIRECT_URI}} >> .env
           cat .env
 
       - name: Build
