@@ -12,7 +12,7 @@ const config = {
   codec: "vp8",
 };
 
-const appId = "167a00d3f3be4a85bbbdbfc04829679f";
+const appId = "XXXXXXX";
 const token = null;
 
 const Call = () => {
@@ -44,6 +44,7 @@ const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
 
 const VideoCall = ({ channelName }) => {
   // 당장 타입을 지정하지 않아도, IAoraRTCRemoteUser 타입에 맞게 될 거싱다.
+  const [inCall, setInCall] = useState(false);
   const [users, setUsers] = useState([]);
   const [start, setStart] = useState(false);
   const client = useClient();
@@ -59,7 +60,6 @@ const VideoCall = ({ channelName }) => {
   //   }, [ready, tracks]);
 
   useEffect(() => {
-    console.log("💡💡💡💡💡");
     let init = async (name) => {
       //   console.log("🌟", name);
       client.on("user-published", async (user, mediaType) => {
@@ -111,14 +111,54 @@ const VideoCall = ({ channelName }) => {
 
   return (
     <div>
-      {ready && tracks && <Controls />}
+      {ready && tracks && (
+        <Controls tracks={tracks} setStart={setStart} setInCall={setInCall} />
+      )}
       {start && tracks && <Videos users={users} tracks={tracks} />}
     </div>
   );
 };
 
-const Controls = () => {
-  return <div>control🎮</div>;
+const Controls = (props) => {
+  const client = useClient();
+  const { tracks, setStart, setInCall } = props;
+  const [trackState, setTrackState] = useState({ video: true, audio: true });
+
+  const mute = async (type) => {
+    if (type === "audio") {
+      await tracks[0].setEnabled(!trackState.audio);
+      setTrackState((ps) => {
+        return { ...ps, audio: !ps.audio };
+      });
+    } else if (type === "video") {
+      await tracks[1].setEnabled(!trackState.video);
+      setTrackState((ps) => {
+        return { ...ps, video: !ps.video };
+      });
+    }
+  };
+
+  const leaveChannel = async () => {
+    await client.leave();
+    client.removeAllListeners();
+    // we close the tracks to perform cleanup
+    tracks[0].close();
+    tracks[1].close();
+    setStart(false);
+    setInCall(false);
+  };
+
+  return (
+    <div className="controls">
+      <p className={trackState.audio ? "on" : ""} onClick={() => mute("audio")}>
+        {trackState.audio ? "MuteAudio" : "UnmuteAudio"}
+      </p>
+      <p className={trackState.video ? "on" : ""} onClick={() => mute("video")}>
+        {trackState.video ? "MuteVideo" : "UnmuteVideo"}
+      </p>
+      {<p onClick={() => leaveChannel()}>Leave</p>}
+    </div>
+  );
 };
 
 const Videos = (props) => {
@@ -130,21 +170,38 @@ const Videos = (props) => {
       <div>Videos📀</div>
       <div>
         {/* Video track을 같이 보내야 한다. */}
-        <AgoraVideoPlayer
-          style={{ height: "100px%", width: "100px" }}
-          className="vid"
-          videoTrack={tracks[1]}
-        />
+        <div>
+          <AgoraVideoPlayer
+            style={{
+              height: "100px",
+              width: "100px",
+              backgroundColor: "blue",
+              borderRadius: "8px",
+              border: "2px solid red",
+            }}
+            className="vid"
+            videoTrack={tracks[1]}
+          />
+        </div>
         {users.length > 0 &&
           users.map((user) => {
             if (user.videoTrack) {
               return (
-                <AgoraVideoPlayer
-                  style={{ height: "100px", width: "100px" }}
-                  className="vid"
-                  videoTrack={user.videoTrack}
-                  key={user.uid}
-                />
+                <div>
+                  <AgoraVideoPlayer
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      backgroundColor: "black",
+                      borderRadius: "50%",
+                      border: "2px solid red",
+                      overflow: "hidden",
+                    }}
+                    className="vid"
+                    videoTrack={user.videoTrack}
+                    key={user.uid}
+                  />
+                </div>
               );
             } else return null;
           })}
