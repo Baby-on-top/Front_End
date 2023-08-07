@@ -9,6 +9,9 @@ import WidgetPlace from "../components/board/WidgetPlace";
 import WidgetDetailModal from "../components/board/WidgetDetailModal";
 import ChatButton from "../components/chat/ChatButton";
 import { getBoardDetail } from "../utils/apis";
+import VideoPlace from "../components/video/VideoPlace";
+import { useRecoilState } from "recoil";
+import { showVideoChat } from "../utils/atoms";
 
 export default function Board() {
   const navigate = useNavigate();
@@ -20,6 +23,12 @@ export default function Board() {
 
   const [workspaceName, setWorkspaceName] = useState("");
   const [boardName, setBoardName] = useState("");
+
+  const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
+
+  useEffect(() => {
+    // console.log("🏗️", isVideoChat);
+  }, [isVideoChat]);
 
   const widgetsRef = useRef([]);
 
@@ -42,7 +51,11 @@ export default function Board() {
 
   return (
     <div>
-      <BoardHeader workspaceName={workspaceName} boardName={boardName} />
+      <BoardHeader
+        workspaceName={workspaceName}
+        boardName={boardName}
+        setIsVideoChat={setIsVideoChat}
+      />
       <WidgetPlace
         widgetsRef={widgetsRef}
         setWidgetId={setWidgetId}
@@ -55,13 +68,13 @@ export default function Board() {
         setWidgetType={setWidgetType}
       />
       <ChatButton />
-
       <WidgetAddModal boardId={boardId} />
       <WidgetDetailModal
         widgetType={widgetType}
         widgetId={widgetId}
         boardId={boardId}
       />
+      {isVideoChat && <VideoPlace />}
     </div>
   );
 }

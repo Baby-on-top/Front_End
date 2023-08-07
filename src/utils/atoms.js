@@ -85,3 +85,8 @@ export const widgetListState = atom({
   default: [],
   effects_UNSTABLE: [persistAtom],
 });
+
+export const showVideoChat = atom({
+  key: "showVideoChat",
+  default: false,
+});
