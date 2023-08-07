@@ -154,7 +154,13 @@ export default function DropDown({ id }) {
       .slice(0, boardListIdx)
       .concat(data.data)
       .concat(boardList.slice(boardListIdx + 1));
-    setBoardList(newBoardList);
+    // setBoardList(newBoardList);
+    let res = []
+    if (newBoardList.length > 0) {
+      let tmpList = [...newBoardList]
+      res = tmpList.sort((a,b) => b.updateAt.localeCompare(a.updateAt))
+    }
+    await setBoardList(res)
   };
   // edit 끝
 

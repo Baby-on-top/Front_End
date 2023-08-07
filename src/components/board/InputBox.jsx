@@ -74,7 +74,7 @@ export default function InputBox({ widget, fetch }) {
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
-              changeTitle(widget.id, text);
+              // changeTitle(widget.id, text);
             }
           }}
         />
