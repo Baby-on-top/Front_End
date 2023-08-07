@@ -37,6 +37,7 @@ jobs:
           echo REACT_APP_REST_API_KEY=${{secrets.REACT_APP_REST_API_KEY}} >> .env
           echo REACT_APP_REDIRECT_URI=${{secrets.REACT_APP_REDIRECT_URI}} >> .env
           echo REACT_APP_LOGOUT_REDIRECT_URI=${{secrets.REACT_APP_LOGOUT_REDIRECT_URI}} >> .env
+          echo GENERATE_SOURCEMAP=${{secrets.GENERATE_SOURCEMAP}} >> .env
           cat .env
 
       - name: Build
