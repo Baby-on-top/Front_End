@@ -87,7 +87,11 @@ export default function BoardModal({ updateCards }) {
   };
 
   return (
-    <>
+    <div css={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
       {wsIdx != 0 && (
         <button
           onClick={toggleModal}
@@ -95,7 +99,7 @@ export default function BoardModal({ updateCards }) {
           css={{
             display: "inline-block",
             height: "30px",
-            marginTop: "20px",
+            marginTop: "-10px",
             marginRight: "20px",
             color: "white",
             fontSize: "15px",
@@ -284,6 +288,6 @@ export default function BoardModal({ updateCards }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

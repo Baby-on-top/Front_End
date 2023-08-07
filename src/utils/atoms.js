@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-import { WidgetType } from "../components/board/WidgetType";
 import { recoilPersist } from "recoil-persist";
 const { persistAtom } = recoilPersist();
 /// Lobby
