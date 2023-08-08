@@ -8,16 +8,17 @@ export default function Videos({ users, tracks }) {
   //   const [inCall, setInCall] = useState(false);
   return (
     <div>
-      <div>Videos</div>
+      {/* <div>Videos</div> */}
       <div css={{ display: "flex" }}>
         <div>
           <AgoraVideoPlayer
             style={{
-              height: "100px",
-              width: "100px",
-              backgroundColor: "blue",
-              borderRadius: "8px",
-              border: "2px solid red",
+              height: "120px",
+              width: "120px",
+              backgroundColor: "black",
+              borderRadius: "50%",
+              border: "4px solid #d8edff",
+              overflow: "hidden",
             }}
             className="vid"
             videoTrack={tracks[1]}
@@ -30,11 +31,11 @@ export default function Videos({ users, tracks }) {
                 <div>
                   <AgoraVideoPlayer
                     style={{
-                      height: "100px",
-                      width: "100px",
+                      height: "120px",
+                      width: "120px",
                       backgroundColor: "black",
                       borderRadius: "50%",
-                      border: "2px solid red",
+                      border: "4px solid #f4cccc",
                       overflow: "hidden",
                     }}
                     className="vid"

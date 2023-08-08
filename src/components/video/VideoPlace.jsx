@@ -5,6 +5,8 @@ import Controls from "./Controls";
 import Videos from "./Videos";
 import { createClient, createMicrophoneAndCameraTracks } from "agora-rtc-react";
 import { useParams } from "react-router-dom";
+import { leftChannel } from "../../utils/atoms";
+import { useRecoilState } from "recoil";
 
 const config = {
   mode: "rtc",
@@ -25,6 +27,11 @@ export default function VideoPlace() {
   const [start, setStart] = useState(false);
   const client = useClient();
   const { ready, tracks } = useMicrophoneAndCameraTracks();
+  // const [isLeftChannel, setIsLeftChannel] = useRecoilState(leftChannel);
+
+  // useEffect(() => {
+  //   console.log("🤑", isLeftChannel);
+  // }, [isLeftChannel]);
 
   useEffect(() => {
     let init = async (name) => {
@@ -78,8 +85,8 @@ export default function VideoPlace() {
   }, [boardId, client, ready, tracks]);
 
   return (
-    <div css={{ position: "fixed", bottom: 20, left: "50%" }}>
-      <Controls />
+    <div css={{ position: "fixed", bottom: 20, left: "50%", zIndex: 4 }}>
+      {/* <Controls /> */}
       {start && tracks && <Videos users={users} tracks={tracks} />}
     </div>
   );

@@ -5,13 +5,14 @@ import cat from "../../assets/cat.jpg";
 import { useNavigate } from "react-router-dom";
 import { colors } from "../../utils/colors";
 import { useRecoilState } from "recoil";
-import { showVideoChat } from "../../utils/atoms";
+import { leftChannel, showVideoChat } from "../../utils/atoms";
 import { MicrophoneIcon as OutLineMicrophoneIcon } from "@heroicons/react/24/outline";
 import { MicrophoneIcon as SolidMicrophoneIcon } from "@heroicons/react/24/solid";
 
 export default function BoardHeader({ boardName, workspaceName }) {
   const navigate = useNavigate();
   const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
+  // const [isLeftChannel, setIsLeftChannel] = useRecoilState(leftChannel);
 
   return (
     <>
@@ -121,18 +122,23 @@ export default function BoardHeader({ boardName, workspaceName }) {
         </div>
         <div>
           {isVideoChat ? (
+            // 음성통화 활성 중일 때,
             <SolidMicrophoneIcon
               css={{ width: 32, height: 32, marginRight: 24 }}
               onClick={() => {
                 setIsVideoChat(!isVideoChat);
+                // console.log("🌁");
+                // setIsLeftChannel(!isLeftChannel);
                 // 클릭하면 연결되는 것
               }}
             />
           ) : (
+            // 음성통화 비활성 중일 때,
             <OutLineMicrophoneIcon
               css={{ width: 32, height: 32, marginRight: 24 }}
               onClick={() => {
                 setIsVideoChat(!isVideoChat);
+                // setIsLeftChannel(!isLeftChannel);
                 // 클릭하면 연결 끊는 것
               }}
             />

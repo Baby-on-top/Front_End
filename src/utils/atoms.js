@@ -97,3 +97,6 @@ export const widgetImage = atom({
 });
 
 export const leftChannel = atom({
+  key: "leftChannel",
+  default: false,
+});

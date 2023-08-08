@@ -27,7 +27,6 @@ export default function WidgetPlace({
   async function fetch() {
     try {
       const response = await axios.get("/api/widget/" + boardId);
-      console.log("🚨", response.data.data);
       const newRects = response.data.data.map((data) => {
         return {
           ...data,
@@ -149,7 +148,6 @@ export default function WidgetPlace({
               <div
                 css={{
                   flex: 3,
-
                   borderBottomLeftRadius: "24px",
                   borderBottomRightRadius: "24px",
                   display: "flex",
