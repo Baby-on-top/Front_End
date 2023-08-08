@@ -31,7 +31,7 @@ export default function ThumbnailBox({ widget }) {
 
   const changeImage = async (id, change) => {
     const response = await widgetImageUpdate(id, change);
-    sendChanges();
+    //sendChanges(); -> 잠깐 에러 주석
   };
 
   return (

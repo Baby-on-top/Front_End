@@ -8,9 +8,10 @@ import { ArrowDownOnSquareIcon } from "@heroicons/react/24/solid";
 
 const SaveImgaeBtn = ({ type, widgetId }) => {
   const [, setWidgetList] = useRecoilState(widgetListState);
+
   async function fetch() {
     try {
-      const response = await axios.get("/api/widget/" + boardId);
+      const response = await axios.get("/api/widget/" + widgetId); // 잠깐 에러 주석
       console.log("🚨", response.data.data);
       const newRects = response.data.data.map((data) => {
         return {
