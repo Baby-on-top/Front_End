@@ -25,13 +25,6 @@ export default function InputBox({ widget, fetch }) {
   };
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
   const { deleteRect } = useYcanvas(yRects);
-  const sendChanges = (id, title) => {
-    // console.log("😀", id, title);
-    socket.emit("changes", {
-      id,
-      title,
-    });
-  };
 
   const changeTitle = async (id, change) => {
     // console.log("🏗️");
