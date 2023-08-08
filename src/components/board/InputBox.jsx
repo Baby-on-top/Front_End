@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { widgetTitleUpdate } from "../../utils/apis";
 import { io } from "socket.io-client";
+import { widgetDelete } from "../../utils/apis";
+import { yRects } from "../tldraw/store";
+import { useYcanvas } from "./useYCanvasWidget";
+import { useRecoilState } from "recoil";
+import { widgetListState } from "../../utils/atoms";
 
 const socket = io("http://localhost:4000", {
   path: "/socket.io",
@@ -14,6 +19,15 @@ export default function InputBox({ widget, fetch }) {
 
   const sendChanges = (id, title) => {
     socket.emit("title-changes", {
+      id,
+      title,
+    });
+  };
+  const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const { deleteRect } = useYcanvas(yRects);
+  const sendChanges = (id, title) => {
+    // console.log("😀", id, title);
+    socket.emit("changes", {
       id,
       title,
     });
@@ -99,6 +113,15 @@ export default function InputBox({ widget, fetch }) {
         css={{
           borderTopRightRadius: "24px",
           flex: 2,
+        }}
+        onClick={() => {
+          const temp = widgetList.filter((data) => {
+            if (data.id !== widget.id) {
+              return data;
+            }
+          });
+          widgetDelete(widget.id);
+          deleteRect(temp);
         }}
       ></XMarkIcon>
     </div>

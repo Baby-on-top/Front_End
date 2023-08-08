@@ -343,6 +343,21 @@ export async function widgetImageUpdate(id, image) {
     console.error(e);
   }
 }
+export async function widgetDelete(id) {
+  const info = {
+    id: id,
+  };
+  try {
+    const response = await axios({
+      method: "DELETE",
+      url: Urls.WIDGET,
+      data: info,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 /// 이미지 업로드 (to S3)
 export async function imageUpload(data) {

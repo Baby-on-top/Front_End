@@ -46,9 +46,20 @@ export const useYcanvas = (yRootMap) => {
     });
   };
 
+  const deleteYRect = (data) => {
+    ydoc?.transact(() => {
+      const yRects = yRootMap.get("rects");
+
+      yRects.delete(0, yRects.length);
+      yRects.push(data);
+    });
+  };
+
   const dragEndCanvas = useCallback(updateYRect, [yRootMap, ydoc]);
 
   const testYRect = useCallback(addYRect, [yRootMap, ydoc]);
+
+  const deleteRect = useCallback(deleteYRect, [yRootMap, ydoc]);
 
   const hasChangeRects = (event) => event.path.join() === "rects";
 
@@ -72,5 +83,6 @@ export const useYcanvas = (yRootMap) => {
     dragStartCanvas,
     dragEndCanvas,
     testYRect,
+    deleteRect,
   };
 };
