@@ -12,7 +12,7 @@ const roomID = `y-${widget_id}-${board_id}`;
 
 // Create a websocket provider
 let provider = new WebsocketProvider(
-  "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+  "wss://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
   roomID,
   doc,
   {
@@ -38,7 +38,7 @@ function setIDs(newWidgetID, newBoardID) {
   board_id = newBoardID;
   provider.disconnect();
   provider = new WebsocketProvider(
-    "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+    "wss://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
     `y-${widget_id}-${board_id}`,
     doc,
     {
@@ -63,7 +63,7 @@ function yjsDisconnect(newBoardID) {
   board_id = newBoardID;
   provider.disconnect();
   provider = new WebsocketProvider(
-    "ws://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
+    "wss://ec2-3-37-28-211.ap-northeast-2.compute.amazonaws.com:3000",
     `y-${board_id}`,
     doc,
     {
