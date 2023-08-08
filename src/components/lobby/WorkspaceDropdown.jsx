@@ -14,7 +14,7 @@ import {
   workspaceLeave,
 } from "../../utils/apis";
 import { useCookies } from "react-cookie";
-import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
+import { AiFillCaretDown } from "react-icons/ai"
 
 export default function WorkspaceDropdown({ wsId, wsCreateId }) {
   const [isActive, setIsActive] = useState(false);
@@ -161,16 +161,17 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
     <>
       {
         wsIdx != 0 && (
-          <EllipsisHorizontalIcon
+          <AiFillCaretDown
             onClick={handleDropdownToggle}
             css={{
-              float: "left",
+              // float: "left",
               width: "5%",
               textAlign: "center",
               paddingLeft: "10px",
               paddingRight: "5px",
+              marginTop: '40px',
             }}
-          ></EllipsisHorizontalIcon>
+          ></AiFillCaretDown>
         )
         // <p
         // >...</p>
@@ -198,11 +199,11 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
             // float: 'right',
             border: "2px solid grey",
             borderRadius: "15px",
-            width: "12%",
+            width: "13%",
             fontsize: "1rem",
             position: "absolute",
-            top: "70px",
-            left: "550px",
+            top: "90px",
+            left: "350px",
             // zIndex: '-1px',
             // padding: '0px',
             // marginTop: '-25px',
@@ -517,11 +518,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                 toggleModal();
                 await reDeleteWorkspace();
               }}
-              // onClick={async () => {
-              //   const deleteData = await deleteInfo();
-              //   toggleModal();
-              //   await reDeleteWorkspace(deleteData);
-              // }}
               css={{
                 height: "40px",
                 width: "100px",
@@ -619,11 +615,6 @@ export default function WorkspaceDropdown({ wsId, wsCreateId }) {
                 toggleModal();
                 await reLeaveWorkspace();
               }}
-              // onClick={async () => {
-              //   const leaveData = await leave();
-              //   toggleModal();
-              //   await reLeaveWorkspace(leaveData);
-              // }}
               css={{
                 height: "40px",
                 width: "100px",

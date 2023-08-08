@@ -7,10 +7,19 @@ import { motion } from "framer-motion";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import { colors } from "../../utils/colors";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
+import InputTitle from "../../components/board/InputTitle";
 
-export default function CalendarWidget() {
+export default function CalendarWidget({
+  widgetId,
+  widgetTitle,
+  isMod,
+  setIsMod,
+  fetch,
+}) {
   const [viewType, setViewType] = useState("month");
+  const calendarRef = useRef();
+  const [text, setText] = useState(widgetTitle);
 
   useEffect(() => {
     setViewType(viewType);
@@ -19,43 +28,175 @@ export default function CalendarWidget() {
   const initialEvents = [
     {
       id: "event1",
-      title: "주간 회의",
-      start: "2023-08-07T09:00:00",
-      end: "2023-08-07T10:00:00",
-      state: "완료",
+      title: "최종발표 연습",
+      start: "2023-08-07T13:00:00",
+      end: "2023-08-07T14:00:00",
+      state: "예정",
       attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
       location: "2층 회의실",
-      backgroundColor: "orange",
+      backgroundColor: "skyblue",
     },
     {
       id: "event2",
-      title: "점심 약속",
-      start: "2023-08-11T12:00:00",
-      end: "2023-08-11T13:00:00",
+      title: "정기 회의",
+      start: "2023-08-11T15:00:00",
+      end: "2023-08-11T16:00:00",
       state: "예정",
-      attendees: ["아이유", "뉴진스", "대니"],
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
       location: "고반식당",
       backgroundColor: "lime",
     },
     {
       id: "event3",
-      title: "휴가",
+      title: "최종발표 연습",
       start: "2023-08-08",
       end: "2023-08-12",
-      state: "완료",
-      attendees: ["리우디우"],
+      state: "예정",
+      attendees: ["김정인"],
       backgroundColor: "pink",
       isAllday: true,
       category: "allday",
     },
     {
+      id: "event3",
+      title: "컴포넌트 추가 및 개발",
+      start: "2023-08-03",
+      end: "2023-08-05",
+      state: "완료",
+      attendees: ["김정인"],
+      backgroundColor: "gray",
+      isAllday: true,
+      category: "allday",
+    },
+    {
+      id: "event3",
+      title: "서버 배포",
+      start: "2023-08-05",
+      end: "2023-08-06",
+      state: "완료",
+      attendees: ["김정인"],
+      backgroundColor: "gray",
+      isAllday: true,
+      category: "allday",
+    },
+    {
       id: "event4",
-      title: "최종발표 연습",
-      start: "2023-08-07T13:00:00",
-      end: "2023-08-07T16:00:00",
+      title: "포스트 컨펌받기",
+      start: "2023-08-08T13:00:00",
+      end: "2023-08-08T16:00:00",
       state: "예정",
       attendees: ["블루반", "그린반", "레드반"],
       location: "609호 강의실",
+      backgroundColor: "skyblue",
+    },
+    {
+      id: "event5",
+      title: "최종발표날",
+      start: "2023-08-13T13:10:00",
+      end: "2023-08-13T16:00:00",
+      state: "예정",
+      attendees: ["블루반", "그린반", "레드반"],
+      location: "609호 강의실",
+      backgroundColor: "skyblue",
+    },
+    {
+      id: "event1",
+      title: "멘토링",
+      start: "2023-08-09T19:00:00",
+      end: "2023-08-09T20:00:00",
+      state: "예정",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "yellow",
+    },
+    {
+      id: "event1",
+      title: "멘토링",
+      start: "2023-08-06T15:00:00",
+      end: "2023-08-06T16:00:00",
+      state: "완료",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "black",
+    },
+    {
+      id: "event1",
+      title: "멘토링",
+      start: "2023-08-02T20:00:00",
+      end: "2023-08-02T21:00:00",
+      state: "완료",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "black",
+    },
+    {
+      id: "event1",
+      title: "프로젝트 합치기",
+      start: "2023-08-06T20:00:00",
+      end: "2023-08-06T21:00:00",
+      state: "완료",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "black",
+    },
+    {
+      id: "event1",
+      title: "프로젝트 합치기",
+      start: "2023-08-06T20:00:00",
+      end: "2023-08-06T21:00:00",
+      state: "완료",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "black",
+    },
+    {
+      id: "event1",
+      title: "발레학원",
+      start: "2023-08-14T09:00:00",
+      end: "2023-08-14T11:00:00",
+      state: "예정",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "skyblue",
+    },
+    {
+      id: "event1",
+      title: "이력서 작성",
+      start: "2023-08-15T09:00:00",
+      end: "2023-08-17T11:00:00",
+      state: "예정",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "skyblue",
+    },
+    {
+      id: "event1",
+      title: "멘토님 만남",
+      start: "2023-08-15T09:00:00",
+      end: "2023-08-15T11:00:00",
+      state: "예정",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "yellow",
+    },
+    {
+      id: "event1",
+      title: "회고",
+      start: "2023-08-20T09:00:00",
+      end: "2023-08-20T11:00:00",
+      state: "예정",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
+      backgroundColor: "green",
+    },
+    {
+      id: "event1",
+      title: "면접",
+      start: "2023-08-18T09:00:00",
+      end: "2023-08-18T11:00:00",
+      state: "예정",
+      attendees: ["윤지우", "김정인", "왕준수", "이지현", "최광민"],
+      location: "2층 회의실",
       backgroundColor: "skyblue",
     },
   ];
@@ -198,13 +339,34 @@ export default function CalendarWidget() {
           marginBottom: "35px",
           alignItems: "center",
           justifyContent: "space-between",
+          height: "89px",
         }}
       >
-        <h1>캘린더 이름</h1>
+        <div css={{ width: "100%", marginRight: "50px" }}>
+          {isMod ? (
+            <InputTitle
+              widgetId={widgetId}
+              text={text}
+              setText={setText}
+              setIsMod={setIsMod}
+              fetch={() => fetch()}
+            />
+          ) : (
+            <h1
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMod(true);
+              }}
+            >
+              {text}
+            </h1>
+          )}
+        </div>
         <CalendarButtons viewType={viewType} setViewType={setViewType} />
       </div>
       <div className="calendar-widget">
         <Calendar
+          ref={calendarRef}
           height="900px"
           usageStatistics={false}
           view={viewType}

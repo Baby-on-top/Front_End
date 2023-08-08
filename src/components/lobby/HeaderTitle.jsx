@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React from "react";
+import React, {useEffect} from 'react';
 import WorkspaceDropdown from "./WorkspaceDropdown";
 import BoardModal from "./BoardModal";
 import { recoilBoardList, SearchBoard, SelectedWsIdx } from "../../utils/atoms";
@@ -14,8 +14,13 @@ export default function HeaderTitle({ idx, name, createId }) {
     setSearchInfo(e.target.value);
   };
 
+  useEffect(()=>{
+    setSearchInfo("")
+  },[wsIdx]);
+
   return (
     <>
+      <WorkspaceDropdown wsId={idx} wsCreateId={createId} />
       <p
         className="title"
         css={{
@@ -26,7 +31,7 @@ export default function HeaderTitle({ idx, name, createId }) {
       >
         {name}
       </p>
-      <WorkspaceDropdown wsId={idx} wsCreateId={createId} />
+      
       <div
         css={{
           flex: "4",
@@ -34,7 +39,11 @@ export default function HeaderTitle({ idx, name, createId }) {
       ></div>
       <div
         css={{
-          position: "relative",
+          // position: "relative",
+          display: 'flex',
+          alignItems: 'center',
+          alignContent: 'center',
+          marginTop: "-25px",
         }}
       >
         {wsIdx != 0 && (
@@ -43,7 +52,7 @@ export default function HeaderTitle({ idx, name, createId }) {
             height={20}
             css={{
               position: "absolute",
-              marginTop: "25px",
+              marginTop: "15px",
               marginLeft: "5px",
             }}
           ></MagnifyingGlassIcon>
@@ -54,6 +63,7 @@ export default function HeaderTitle({ idx, name, createId }) {
             type="text"
             placeholder="보드 이름"
             onChange={getValue}
+            value={searchInfo}
             css={{
               flex: "4",
               width: "250px",

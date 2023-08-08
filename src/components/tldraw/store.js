@@ -71,7 +71,7 @@ function yjsDisconnect(newBoardID) {
     }
   );
   provider.connect();
-  window.location.reload();
+  // window.location.reload();
 }
 
 module.exports = {

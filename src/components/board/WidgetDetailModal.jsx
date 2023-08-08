@@ -6,29 +6,55 @@ import RemirrorNote from "../../routes/widget/RemirrorNote";
 import TldrawEditor from "../../routes/widget/TldrawEditor";
 import { WidgetType } from "./WidgetType";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { getThumbnail } from "./hooks/updateThumbnail";
+import SaveImageBtn from "./SaveImageBtn";
 
-export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
+export default function WidgetDetailModal({
+  widgetType,
+  widgetId,
+  widgetTitle,
+  boardId,
+  fetchWidgetList,
+}) {
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
   );
   const isDrawing = widgetType === WidgetType.DRAWING;
+  const [isTitleMod, setIsTitleMod] = useState(false);
 
   const ref = useRef(null);
   const isInView = useInView(ref);
 
-  function getWidget(type, widgetId, boardId) {
+  function getWidget(type, widgetId, widgetTitle, boardId) {
     const myModule = require("../tldraw/store");
     myModule.setIDs(widgetId, boardId);
 
-    if (type === WidgetType.CALENDAR) {
-      return <CalendarWidget />;
-    }
     if (type === WidgetType.DRAWING) {
-      return <TldrawEditor />;
+      return <TldrawEditor widgetId={widgetId} />;
     }
-    return <RemirrorNote />;
+
+    if (type === WidgetType.CALENDAR) {
+      return (
+        <CalendarWidget
+          widgetId={widgetId}
+          widgetTitle={widgetTitle}
+          isMod={isTitleMod}
+          setIsMod={setIsTitleMod}
+          fetch={() => fetchWidgetList()}
+        />
+      );
+    }
+
+    return (
+      <RemirrorNote
+        widgetId={widgetId}
+        widgetTitle={widgetTitle}
+        isMod={isTitleMod}
+        setIsMod={setIsTitleMod}
+        fetch={() => fetchWidgetList()}
+      />
+    );
   }
 
   return (
@@ -40,6 +66,7 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
         setShowWidgetDetailModal(!showWidgetDetailModal);
         const myModule = require("../tldraw/store");
         myModule.yjsDisconnect(boardId);
+        setIsTitleMod(false);
       }}
       css={{
         backgroundColor: "rgba(0,0,0,0.4)" /* Black w/ opacity */,
@@ -59,11 +86,20 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
         zIndex: 100,
       }}
     >
-      <div css={{ width: "100%", maxWidth: isDrawing ? "1280px" : "960px" }}>
+      <div
+        css={{
+          width: "100%",
+          maxWidth: isDrawing ? "1280px" : "960px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
+        <SaveImageBtn type={widgetType} widgetId={widgetId} boardId={boardId} />
         <div
           id="close-btn"
           css={{
-            width: 48,
+            width: 36,
             height: 48,
             textAlign: "right",
             float: "right",
@@ -80,7 +116,10 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
       </div>
       <div
         className="modal-body"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsTitleMod(false);
+        }}
         css={{
           width: "100%",
           height: "84%",
@@ -97,7 +136,7 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
           transition: "all 0.3s cubic-bezier(0.17, 0.55, 0.55, 1) 0.3s",
         }}
       >
-        {getWidget(widgetType, widgetId, boardId)}
+        {getWidget(widgetType, widgetId, widgetTitle, boardId)}
       </div>
     </div>
   );

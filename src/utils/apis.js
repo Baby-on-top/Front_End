@@ -265,6 +265,22 @@ export async function getBoardDetail(accessToken, boardId) {
 
 //////// 🗒️Widget /////////
 
+export async function getWidgetList(boardId) {
+  try {
+    const response = await axios.get(Urls.WIDGET + `/${boardId}`);
+    const newRects = response.data.data.map((data) => {
+      return {
+        ...data,
+        id: data.id.toString(),
+      };
+    });
+
+    return newRects;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export async function widgetAdd(widget) {
   const info = {
     widgetType: widget.widgetType,
@@ -326,9 +342,9 @@ export async function widgetTitleUpdate(id, title) {
   }
 }
 
-export async function widgetImageUpdate(id, image) {
+export async function widgetImageUpdate(widgetId, image) {
   const info = {
-    id: id,
+    id: widgetId,
     widgetImage: image,
   };
 
@@ -336,6 +352,21 @@ export async function widgetImageUpdate(id, image) {
     const response = await axios({
       method: "PUT",
       url: Urls.WIDGET_UPDATE_IMAGE,
+      data: info,
+    });
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function widgetDelete(id) {
+  const info = {
+    id: id,
+  };
+  try {
+    const response = await axios({
+      method: "DELETE",
+      url: Urls.WIDGET,
       data: info,
     });
     return response.data;

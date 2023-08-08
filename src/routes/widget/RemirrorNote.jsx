@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import "remirror/styles/all.css";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import css from "refractor/lang/css.js";
 import javascript from "refractor/lang/javascript.js";
 import json from "refractor/lang/json.js";
@@ -51,6 +51,7 @@ import {
   ToggleBlockquoteButton,
   ToggleCalloutButton,
 } from "@remirror/react";
+import InputTitle from "../../components/board/InputTitle";
 
 const FONT_SIZES = ["8", "10", "12", "14", "16", "18", "24", "30"];
 
@@ -116,9 +117,10 @@ const customStyles = `
   }
 `;
 
-const RemirrorNote = () => {
+const RemirrorNote = ({ widgetId, widgetTitle, isMod, setIsMod, fetch }) => {
   let myModule = require("../../components/tldraw/store");
   let provider = myModule.yjsReturn();
+  const [text, setText] = useState(widgetTitle);
 
   const extensions = () => [
     new HardBreakExtension(),
@@ -145,7 +147,9 @@ const RemirrorNote = () => {
     }),
   ];
 
-  useEffect(() => {}, [provider]);
+  useEffect(() => {
+    setText(widgetTitle);
+  }, [widgetTitle]);
 
   const { manager, state, onChange } = useRemirror({
     extensions,
@@ -156,7 +160,26 @@ const RemirrorNote = () => {
 
   return (
     <div>
-      <h1 css={{ marginBottom: "35px" }}>제목</h1>
+      <div css={{ marginBottom: isMod ? "7.5px" : "35px" }}>
+        {isMod ? (
+          <InputTitle
+            widgetId={widgetId}
+            text={text}
+            setText={setText}
+            setIsMod={setIsMod}
+            fetch={() => fetch()}
+          />
+        ) : (
+          <h1
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsMod(true);
+            }}
+          >
+            {text}
+          </h1>
+        )}
+      </div>
 
       <ThemeProvider>
         <style>{customStyles}</style>

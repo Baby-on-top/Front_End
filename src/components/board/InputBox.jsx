@@ -3,6 +3,11 @@ import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { widgetTitleUpdate } from "../../utils/apis";
 import { io } from "socket.io-client";
+import { widgetDelete } from "../../utils/apis";
+import { yRects } from "../tldraw/store";
+import { useYcanvas } from "./useYCanvasWidget";
+import { useRecoilState } from "recoil";
+import { widgetListState } from "../../utils/atoms";
 
 const socket = io("http://localhost:4000", {
   path: "/socket.io",
@@ -13,12 +18,13 @@ export default function InputBox({ widget, fetch }) {
   const [isMod, setIsMod] = useState(false);
 
   const sendChanges = (id, title) => {
-    // console.log("😀", id, title);
-    socket.emit("changes", {
+    socket.emit("title-changes", {
       id,
       title,
     });
   };
+  const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const { deleteRect } = useYcanvas(yRects);
 
   const changeTitle = async (id, change) => {
     // console.log("🏗️");
@@ -30,8 +36,9 @@ export default function InputBox({ widget, fetch }) {
   };
 
   const connect = () => {
-    socket.on("connect", () => console.log(socket));
-    // socket.on("connects", () => console.log(socket));
+    socket.on("connect", () => {
+      console.log(socket);
+    });
   };
 
   useEffect(() => {
@@ -40,9 +47,9 @@ export default function InputBox({ widget, fetch }) {
 
   useEffect(() => {
     socket.on("data", (data) => {
-      console.log(data);
-      // fetch();
-      // window.location.reload();
+      if (data.id == widget.id) {
+        setText(data.title);
+      }
     });
   }, [socket]);
 
@@ -99,6 +106,15 @@ export default function InputBox({ widget, fetch }) {
         css={{
           borderTopRightRadius: "24px",
           flex: 2,
+        }}
+        onClick={() => {
+          const temp = widgetList.filter((data) => {
+            if (data.id !== widget.id) {
+              return data;
+            }
+          });
+          widgetDelete(widget.id);
+          deleteRect(temp);
         }}
       ></XMarkIcon>
     </div>

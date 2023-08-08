@@ -48,14 +48,19 @@ export default function Cards() {
         headers: { Token: token },
       });
     }
-    await setBoardList(response.data.data);
-
-    // const response = await axios.get(Urls.BOARD, {
-    //   params: { workspaceId: wsIdx, searchKeyword: "" },
-    //   headers: { Token: token },
-    // });
-    // setBoardList(response.data.data);
+    // await setBoardList(response.data.data);
+    // console.log(response.data.data)
+    let res = []
+    if (response.data.data.length > 0) {
+      let tmpList = [...response.data.data]
+      res = tmpList.sort((a,b)=>b.updateAt.localeCompare(a.updateAt))
+    }
+    await setBoardList(res)
   };
+
+  // useEffect(() => {
+  //   fetchData();
+  // },[boardList]);
 
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
 
