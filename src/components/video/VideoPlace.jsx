@@ -85,7 +85,7 @@ export default function VideoPlace() {
   }, [boardId, client, ready, tracks]);
 
   return (
-    <div css={{ position: "fixed", bottom: 20, left: "50%", zIndex: 4 }}>
+    <div css={{ position: "fixed", bottom: 20, left: "50%", zIndex: 1000 }}>
       {/* <Controls /> */}
       {start && tracks && <Videos users={users} tracks={tracks} />}
     </div>
