@@ -326,9 +326,9 @@ export async function widgetTitleUpdate(id, title) {
   }
 }
 
-export async function widgetImageUpdate(id, image) {
+export async function widgetImageUpdate(widgetId, image) {
   const info = {
-    id: id,
+    id: widgetId,
     widgetImage: image,
   };
 

@@ -4,7 +4,6 @@ import { useUsers } from "y-presence";
 import { useMultiplayerState } from "../../components/tldraw/hooks/useMultiplayerState";
 import "../../components/tldraw/styles.css";
 import { awareness, roomID } from "../../components/tldraw/store";
-import SaveImgaeBtn from "./SaveImageBtn";
 
 function Editor({ roomId }) {
   const fileSystemEvents = useFileSystem();
@@ -42,7 +41,6 @@ export default function TldrawEditor({ widgetId }) {
   return (
     <div className="tldraw">
       {/* <Info /> */}
-      <SaveImgaeBtn widgetId={widgetId} type={"drawing"} />
       <Editor roomId={roomID} widgetId={widgetId} />
     </div>
   );

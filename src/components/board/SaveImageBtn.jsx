@@ -3,15 +3,15 @@ import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
 import axios from "axios";
-import { getThumbnail } from "../../components/board/hooks/updateThumbnail";
+import { getThumbnail } from "./hooks/updateThumbnail";
 import { ArrowDownOnSquareIcon } from "@heroicons/react/24/solid";
 
-const SaveImgaeBtn = ({ type, widgetId }) => {
+const SaveImageBtn = ({ type, widgetId, boardId }) => {
   const [, setWidgetList] = useRecoilState(widgetListState);
 
   async function fetch() {
     try {
-      const response = await axios.get("/api/widget/" + widgetId); // 잠깐 에러 주석
+      const response = await axios.get("/api/widget/" + boardId); // 잠깐 에러 주석
       console.log("🚨", response.data.data);
       const newRects = response.data.data.map((data) => {
         return {
@@ -29,31 +29,33 @@ const SaveImgaeBtn = ({ type, widgetId }) => {
   return (
     <motion.div
       css={{
-        width: "50px",
-        height: "50px",
-        position: "absolute",
-        top: type == "note" ? "150px" : type == "drawing" ? "70px" : "230px",
-        right: type == "note" ? "460px" : type == "drawing" ? "20px" : "480px",
+        width: "40px",
+        height: "40px",
         borderRadius: "30px",
         boxShadow: "1px 2px 3px gray",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        zIndex: 30,
+        cursor: "pointer",
+        backgroundColor: "white",
+        marginBottom: 6,
+        marginRight: 6,
       }}
       whileTap={{ scale: 0.85 }}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         getThumbnail(type, widgetId);
         fetch();
+        alert("위젯의 썸네일이 저장되었습니다.");
       }}
     >
       <ArrowDownOnSquareIcon
-        width={30}
-        height={30}
-        css={{ color: "gray" }}
+        width={28}
+        height={28}
+        css={{ color: "grey" }}
       ></ArrowDownOnSquareIcon>
     </motion.div>
   );
 };
 
-export default SaveImgaeBtn;
+export default SaveImageBtn;

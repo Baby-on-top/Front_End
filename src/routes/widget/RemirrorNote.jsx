@@ -8,7 +8,6 @@ import json from "refractor/lang/json.js";
 import markdown from "refractor/lang/markdown.js";
 import typescript from "refractor/lang/typescript.js";
 import { htmlToProsemirrorNode } from "remirror";
-import SaveImgaeBtn from "./SaveImageBtn";
 import {
   BulletListExtension,
   HardBreakExtension,
@@ -188,7 +187,6 @@ const RemirrorNote = ({ widgetId }) => {
           </div>
         </Remirror>
       </ThemeProvider>
-      <SaveImgaeBtn type={"note"} widgetId={widgetId} />
     </div>
   );
 };

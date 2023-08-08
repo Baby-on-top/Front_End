@@ -43,6 +43,10 @@ a {
   border-radius: 6px;
 }
 
+.c-QTiTL.c-QTiTL-jvfJsl-side-right span {
+  display: none;
+}
+
 .c-hSIOJC {
   font-family: "Noto Sans KR", sans-serif;
 }

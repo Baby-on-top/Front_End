@@ -2,7 +2,7 @@ import html2canvas from "html2canvas";
 import { WidgetType } from "../WidgetType";
 import { imageUpload, widgetImageUpdate } from "../../../utils/apis";
 
-export const getThumbnail = (type, id) => {
+export const getThumbnail = (type, widgetId) => {
   let className = "note-editor";
   if (type === WidgetType.CALENDAR) {
     className = "calendar-widget";
@@ -11,10 +11,10 @@ export const getThumbnail = (type, id) => {
     className = "tldraw";
   }
   const captureDiv = document.getElementsByClassName(className)[0];
-  makeDivToImageFile(captureDiv, id);
+  makeDivToImageFile(captureDiv, widgetId);
 };
 
-function makeDivToImageFile(captureDiv, id) {
+function makeDivToImageFile(captureDiv, widgetId) {
   html2canvas(captureDiv, {
     allowTaint: true,
     useCORS: true,
@@ -29,11 +29,15 @@ function makeDivToImageFile(captureDiv, id) {
         const formData = new FormData();
         formData.append("file", blob, "capture.png"); // 마지막 인자는 업로드된 이미지의 원하는 파일명입니다.
 
-        const response = await imageUpload(formData);
-        const imageURL = response.data;
+        try {
+          const response = await imageUpload(formData);
+          const imageURL = response.data;
 
-        const response2 = await widgetImageUpdate(id, imageURL);
-        console.log(response2);
+          const response2 = await widgetImageUpdate(widgetId, imageURL);
+          console.log(response2);
+        } catch (e) {
+          console.error(e);
+        }
       }, "image/png"); // Blob의 MIME 타입을 지정합니다. 여기서는 PNG 이미지로 지정하였습니다.
     })
     .catch(function (e) {

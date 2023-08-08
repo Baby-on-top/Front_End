@@ -8,6 +8,7 @@ import { WidgetType } from "./WidgetType";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { getThumbnail } from "./hooks/updateThumbnail";
+import SaveImageBtn from "./SaveImageBtn";
 
 export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
@@ -59,11 +60,20 @@ export default function WidgetDetailModal({ widgetType, widgetId, boardId }) {
         zIndex: 100,
       }}
     >
-      <div css={{ width: "100%", maxWidth: isDrawing ? "1280px" : "960px" }}>
+      <div
+        css={{
+          width: "100%",
+          maxWidth: isDrawing ? "1280px" : "960px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex-end",
+        }}
+      >
+        <SaveImageBtn type={widgetType} widgetId={widgetId} boardId={boardId} />
         <div
           id="close-btn"
           css={{
-            width: 48,
+            width: 36,
             height: 48,
             textAlign: "right",
             float: "right",
