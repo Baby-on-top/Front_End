@@ -265,6 +265,22 @@ export async function getBoardDetail(accessToken, boardId) {
 
 //////// 🗒️Widget /////////
 
+export async function getWidgetList(boardId) {
+  try {
+    const response = await axios.get(Urls.WIDGET + `/${boardId}`);
+    const newRects = response.data.data.map((data) => {
+      return {
+        ...data,
+        id: data.id.toString(),
+      };
+    });
+
+    return newRects;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export async function widgetAdd(widget) {
   const info = {
     widgetType: widget.widgetType,

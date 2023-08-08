@@ -7,10 +7,19 @@ import { motion } from "framer-motion";
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
 import { colors } from "../../utils/colors";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
+import InputTitle from "../../components/board/InputTitle";
 
-export default function CalendarWidget() {
+export default function CalendarWidget({
+  widgetId,
+  widgetTitle,
+  isMod,
+  setIsMod,
+  fetch,
+}) {
   const [viewType, setViewType] = useState("month");
+  const calendarRef = useRef();
+  const [text, setText] = useState(widgetTitle);
 
   useEffect(() => {
     setViewType(viewType);
@@ -330,13 +339,34 @@ export default function CalendarWidget() {
           marginBottom: "35px",
           alignItems: "center",
           justifyContent: "space-between",
+          height: "89px",
         }}
       >
-        <h1>캘린더 이름</h1>
+        <div css={{ width: "100%", marginRight: "50px" }}>
+          {isMod ? (
+            <InputTitle
+              widgetId={widgetId}
+              text={text}
+              setText={setText}
+              setIsMod={setIsMod}
+              fetch={() => fetch()}
+            />
+          ) : (
+            <h1
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsMod(true);
+              }}
+            >
+              {text}
+            </h1>
+          )}
+        </div>
         <CalendarButtons viewType={viewType} setViewType={setViewType} />
       </div>
       <div className="calendar-widget">
         <Calendar
+          ref={calendarRef}
           height="900px"
           usageStatistics={false}
           view={viewType}

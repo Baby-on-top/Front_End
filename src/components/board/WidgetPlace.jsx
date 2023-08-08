@@ -13,8 +13,9 @@ import ThumbnailBox from "./ThumbnailBox";
 export default function WidgetPlace({
   setWidgetId,
   setWidgetType,
+  setWidgetTitle,
+  fetch,
   widgetsRef,
-  boardId,
 }) {
   const constraintsRef = useRef();
   const { widgetList, setWidgetList, dragStartCanvas, dragEndCanvas } =
@@ -24,29 +25,15 @@ export default function WidgetPlace({
     showWidgetDetailModalState
   );
 
-  async function fetch() {
-    try {
-      const response = await axios.get("/api/widget/" + boardId);
-      const newRects = response.data.data.map((data) => {
-        return {
-          ...data,
-          id: data.id.toString(),
-        };
-      });
-
-      setWidgetList(newRects);
-    } catch (e) {
-      console.error("fail : " + e);
-    }
-  }
   useEffect(() => {
     fetch();
   }, [showWidgetDetailModal]);
 
-  const moveToWidgetDetail = (type, id) => {
+  const moveToWidgetDetail = (type, id, title) => {
     if (!click) return;
     setWidgetId(id);
     setWidgetType(type);
+    setWidgetTitle(title);
     setShowWidgetDetailModal(!showWidgetDetailModal);
   };
 
@@ -120,7 +107,13 @@ export default function WidgetPlace({
                 y: widget.y - 90 || 0,
                 zIndex: widget.x ? 2 : 1,
               }}
-              onClick={() => moveToWidgetDetail(widget.widgetType, widget.id)}
+              onClick={() =>
+                moveToWidgetDetail(
+                  widget.widgetType,
+                  widget.id,
+                  widget.widgetTitle
+                )
+              }
             >
               <div
                 css={{
@@ -141,7 +134,7 @@ export default function WidgetPlace({
                     flex: 1,
                   }}
                 >
-                  <InputBox widget={widget} fetch={fetch} />
+                  <InputBox widget={widget} fetch={() => fetch()} />
                 </div>
               </div>
 
