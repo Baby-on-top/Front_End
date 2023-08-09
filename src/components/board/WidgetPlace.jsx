@@ -24,6 +24,9 @@ export default function WidgetPlace({
   const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
     showWidgetDetailModalState
   );
+  var img = new Image();
+  img.src =
+    "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
 
   useEffect(() => {
     fetch();
@@ -39,6 +42,7 @@ export default function WidgetPlace({
 
   const handleDragStart = useCallback(
     (e) => {
+      e.dataTransfer.setDragImage(img, 0, 0);
       if (e.target instanceof HTMLDivElement) dragStartCanvas(e);
     },
     [dragStartCanvas]
@@ -101,6 +105,7 @@ export default function WidgetPlace({
               dragMomentum={false} // 드래그하고 나서 움직임 없도록 설정
               dragElastic={0} // 제한 영역 외부에서 허용되는 움직임
               onDragEnd={handleDragEnd}
+              onDrag={handleDragEnd}
               onDragStart={handleDragStart}
               style={{
                 x: widget.x - 90 || 0,
