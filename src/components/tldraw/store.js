@@ -11,9 +11,14 @@ const doc = new Y.Doc();
 const roomID = `y-${widget_id}-${board_id}`;
 
 // Create a websocket provider
-let provider = new WebsocketProvider("wss://crdt.lignin.today", roomID, doc, {
-  connect: true,
-});
+let provider = new WebsocketProvider(
+  process.env.REACT_APP_YJS_CRDT_URL,
+  roomID,
+  doc,
+  {
+    connect: true,
+  }
+);
 
 const awareness = provider.awareness;
 

@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { widgetTitleUpdate } from "../../utils/apis";
 import { useEffect } from "react";
 
-const socket = io("https://sock.lignin.today", {
+const socket = io(process.env.REACT_APP_SOCKET_API_URL, {
   path: "/socket.io",
 });
 

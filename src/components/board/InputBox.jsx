@@ -9,7 +9,7 @@ import { useYcanvas } from "./useYCanvasWidget";
 import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
 
-const socket = io("https://sock.lignin.today", {
+const socket = io(process.env.REACT_APP_SOCKET_API_URL, {
   path: "/socket.io",
 });
 
