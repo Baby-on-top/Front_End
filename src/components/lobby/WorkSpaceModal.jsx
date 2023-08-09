@@ -8,7 +8,7 @@ import {
   recoilWorkspaceList,
   SelectedWsIdx,
 } from "../../utils/atoms";
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { PlusIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { motion } from "framer-motion";
 // import axios from 'axios';
 
@@ -171,6 +171,7 @@ export default function WorkSpaceModal(props) {
             right: "0",
             bottom: "0",
             position: "fixed",
+            zIndex : "5",
           }}
         >
           <div
@@ -187,53 +188,45 @@ export default function WorkSpaceModal(props) {
               right: 0,
               bottom: 0,
               position: "fixed",
-              background: "rgba(49,49,49,0.8)",
+              background: 'rgba(255,255,255,0.9)',
             }}
           ></div>
           {/* <div onClick={handleDelete} className="overlay"></div> */}
           <div
             className="modal-content"
             css={{
-              position: "absolute",
-              top: "40%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              lineHeight: "1.4",
-              background: "white",
-              padding: "14px 28px",
-              borderRadius: "3px",
-              width: "600px",
+              width: '450px',
+              background: 'linear-gradient(180deg, #DCF9E0 0%, #FFFFFF 30.21%)',
+              boxShadow: '0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1)',
+              borderRadius: '16px',
+              position: 'absolute',
+              top: '40%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              lineHeight: '1.4',
+              padding: '14px 28px',
             }}
           >
             <div className="modal-top">
-              <h2
+              <div
                 className="modal-name"
                 css={{
-                  display: "inline-block",
-                  float: "left",
-                  marginTop: "30px",
-                  marginBottom: "15px",
+                  display: 'inline-block',
+                  float: 'left',
+                  marginTop: '30px',
+                  marginBottom: '15px',
+                  marginLeft: '5px',
+                  fontSize: "24px",
+                  fontFamily: "Noto Sans KR",
+                  fontWeight: 'bold',
                 }}
               >
                 워크스페이스 생성하기
-              </h2>
-              <p
-                className="modal-close"
-                onClick={() => {
-                  {
-                    workspaceModal();
-                    handleDelete();
-                  }
-                }}
-                css={{
-                  marginRight: "15px",
-                  marginTop: "35px",
-                  float: "right",
-                  display: "inline-block",
-                }}
-              >
-                X
-              </p>
+              </div>
+              <XMarkIcon onClick={handleDelete} width={30} height={30} css={{
+                float: 'right',
+                marginTop: '33px',
+              }}></XMarkIcon>
             </div>
             <input
               className="modal-title"
@@ -241,11 +234,11 @@ export default function WorkSpaceModal(props) {
               placeholder=" Workspace name"
               onChange={workspaceTitle}
               css={{
-                width: "545px",
-                height: "30px",
+                width: "400px",
+                height: '40px',
                 border: "2px solid rgba(173, 169, 169, 0.5)",
                 outline: "none",
-                borderRadius: "3px",
+                borderRadius: "10px",
               }}
             />
             <div onClick={workspaceImageClick}>
@@ -256,11 +249,11 @@ export default function WorkSpaceModal(props) {
                   alt="이미지"
                   css={{
                     marginTop: "20px",
-                    width: "545px",
+                    width: "400px",
                     height: "300px",
                     border: "2px solid rgba(173, 169, 169, 0.5)",
                     outline: "none",
-                    borderRadius: "3px",
+                    borderRadius: "10px",
                   }}
                 ></img>
               ) : (
@@ -269,11 +262,11 @@ export default function WorkSpaceModal(props) {
                   placeholder=" Add Profile"
                   css={{
                     marginTop: "20px",
-                    width: "545px",
+                    width: "400px",
                     height: "300px",
                     border: "2px solid rgba(173, 169, 169, 0.5)",
                     outline: "none",
-                    borderRadius: "3px",
+                    borderRadius: "13px",
                   }}
                 ></input>
               )}
@@ -303,20 +296,22 @@ export default function WorkSpaceModal(props) {
                     await addWorkspace(postData);
                   }}
                   css={{
-                    height: "40px",
-                    width: "100px",
-                    marginTop: "25px",
-                    marginBottom: "10px",
-                    marginRight: "10px",
-                    color: "white",
-                    fontSize: "15px",
-                    fontWeight: "bold",
-                    paddingLeft: "30px",
-                    paddingRight: "30px",
-                    border: "2px solid",
-                    backgroundColor: "rgba(19, 192, 106, 0.5)",
-                    borderRadius: "5px",
-                    display: "inline-block",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '40px',
+                    boxShadow: '0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5)',
+                    borderRadius: '7px',
+                    border: '0',
+                    outline: 'none',
+                    color: '#ffffff',
+                    width: '100px',
+                    margin: 'auto',
+                    marginTop: '25px',
+                    marginBottom: '10px',
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                    background: '#00AB59',
                   }}
                 >
                   저장
@@ -332,20 +327,23 @@ export default function WorkSpaceModal(props) {
                 <button
                   className="workspace-modal-save-before"
                   css={{
-                    height: "40px",
-                    width: "100px",
-                    marginTop: "25px",
-                    marginBottom: "10px",
-                    marginRight: "10px",
-                    color: "white",
-                    fontSize: "15px",
-                    fontWeight: "bold",
-                    paddingLeft: "30px",
-                    paddingRight: "30px",
-                    border: "2px solid",
-                    backgroundColor: "rgba(173, 169, 169, 0.5)",
-                    borderRadius: "5px",
-                    display: "inline-block",
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    height: '40px',
+                    background: '#0bdd12',
+                    boxShadow: '0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5)',
+                    borderRadius: '7px',
+                    border: '0',
+                    outline: 'none',
+                    color: '#ffffff',
+                    width: '100px',
+                    margin: 'auto',
+                    marginTop: '25px',
+                    marginBottom: '10px',
+                    fontSize: '15px',
+                    fontWeight: 'bold',
+                    backgroundColor: 'rgba(173, 169, 169, 0.5)',
                   }}
                 >
                   저장

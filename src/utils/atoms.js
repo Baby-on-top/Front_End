@@ -37,6 +37,7 @@ export const recoilWorkspaceList = atom({
 export const SelectedWsIdx = atom({
   key: "SelectedWsIdx",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 export const SelectedWsCreateId = atom({
   key: "SelectedWsCreateId",
@@ -46,6 +47,7 @@ export const SelectedWsCreateId = atom({
 export const SelectedWsName = atom({
   key: "SelectedWsName",
   default: "",
+  effects_UNSTABLE: [persistAtom],
 });
 
 //보드검색

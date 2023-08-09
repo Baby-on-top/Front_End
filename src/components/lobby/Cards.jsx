@@ -140,15 +140,21 @@ export default function Cards() {
           css={{
             width: "30%",
             height: "300px",
-            border: "2px solid",
-            borderColor: "#E6E6E6",
+            border: 'none',
             flexDirection: "column",
-            borderRadius: "10px",
+            borderRadius: "20px",
             cursor: "pointer",
             display: "flex",
             float: "left",
             marginRight: "30px",
             marginBottom: "20px",
+            border: '3.5px solid #c3c6ce',
+            transition: '0.5s ease-out',
+            overflow: 'visible',
+            ':hover': {
+              borderColor: 'rgba(191, 255, 191, 0.5)',
+              boxShadow: '0 4px 18px 0 rgba(0, 0, 0, 0.25)',
+            },
           }}
         >
           <img
@@ -161,12 +167,7 @@ export default function Cards() {
             css={{
               flex: "20",
               objectFit: "cover",
-              borderRadius: "8px 8px 0px 0px",
-              // flex: "5",
-              // width: "100%",
-              // height: "70%",
-              // objectFit: "contain",
-              // display: "flex",
+              borderRadius: "18px 18px 0px 0px",
             }}
           />
           {/* bottom */}
