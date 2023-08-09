@@ -35,11 +35,6 @@ export default function Board() {
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
 
-  async function getUserInfo() {
-    const response = await kakaoInfo(cookie);
-    setName(response.data.data.name);
-  }
-
   const colors = [
     "#FF0000",
     "#FF7F00",
@@ -50,17 +45,6 @@ export default function Board() {
     "#8A2BE2",
   ];
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-  awareness.setLocalStateField("user", {
-    name: name,
-    color: randomColor,
-  });
-  useEffect(() => {
-    // console.log("🏗️", isVideoChat);
-  }, [isVideoChat]);
-  useEffect(() => {
-    getUserInfo();
-  }, []);
 
   const widgetsRef = useRef([]);
   const token = cookie.accessToken;
@@ -86,6 +70,16 @@ export default function Board() {
     await fetchWidgetList();
   };
 
+  async function getUserInfo() {
+    const response = await kakaoInfo(cookie);
+    setName(response.data.data.name);
+  }
+
+  awareness.setLocalStateField("user", {
+    name: name,
+    color: randomColor,
+  });
+
   useEffect(() => {
     if (!token) {
       // 토큰이 없다면 로그인 화면으로 라우팅
@@ -94,7 +88,12 @@ export default function Board() {
     }
 
     fetch();
+    getUserInfo();
   }, []);
+
+  useEffect(() => {
+    // console.log("🏗️", isVideoChat);
+  }, [isVideoChat]);
 
   return (
     <div>

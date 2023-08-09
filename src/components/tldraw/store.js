@@ -1,5 +1,3 @@
-const { getUserInfo } = require;
-
 const Y = require("yjs");
 const { WebsocketProvider } = require("y-websocket");
 
