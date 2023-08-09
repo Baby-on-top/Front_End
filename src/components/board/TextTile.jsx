@@ -2,12 +2,23 @@
 import { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { colors } from "../../utils/colors";
+import { useRecoilState } from "recoil";
+import { showWidgetDetailModalState } from "../../utils/atoms";
 
 const socket = io("http://localhost:4000", {
   path: "/socket.io",
 });
 
-export default function TextTile({ widget, moveToWidgetDetail }) {
+export default function TextTile({
+  widget,
+  widgetsRef,
+  setWidgetType,
+  setWidgetId,
+  setWidgetTitle,
+}) {
+  const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
+    showWidgetDetailModalState
+  );
   const [text, setText] = useState(widget.widgetTitle);
 
   useEffect(() => {
@@ -17,6 +28,19 @@ export default function TextTile({ widget, moveToWidgetDetail }) {
       }
     });
   }, [socket]);
+
+  const moveToWidgetDetail = async (type, id, title) => {
+    await widgetsRef.current[id].scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    setWidgetType(type);
+    setWidgetId(id);
+    setWidgetTitle(title);
+    await setTimeout(() => {
+      setShowWidgetDetailModal(!showWidgetDetailModal);
+    }, 300);
+  };
 
   return (
     <div

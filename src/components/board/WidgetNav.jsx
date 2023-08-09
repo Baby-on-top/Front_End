@@ -7,11 +7,7 @@ import { colors } from "../../utils/colors";
 
 import { useRecoilState } from "recoil";
 import { showWidgetAddModalState } from "../../utils/atoms";
-import {
-  showNavState,
-  widgetListState,
-  showWidgetDetailModalState,
-} from "../../utils/atoms";
+import { showNavState, widgetListState } from "../../utils/atoms";
 import TextTile from "./TextTile";
 
 const SpreadNavWrapper = styled.div`
@@ -54,22 +50,6 @@ export default function WidgetNav({
   );
   const [showNav, setShowNav] = useRecoilState(showNavState);
   const [widgetList] = useRecoilState(widgetListState);
-  const [showWidgetDetailModal, setShowWidgetDetailModal] = useRecoilState(
-    showWidgetDetailModalState
-  );
-
-  const moveToWidgetDetail = async (type, id, title) => {
-    await widgetsRef.current[id].scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-    setWidgetType(type);
-    setWidgetId(id);
-    setWidgetTitle(title);
-    await setTimeout(() => {
-      setShowWidgetDetailModal(!showWidgetDetailModal);
-    }, 300);
-  };
 
   if (showNav) {
     return WidgetNavSpread(
@@ -78,7 +58,10 @@ export default function WidgetNav({
       setShowWidgetAddModal,
       showNav,
       setShowNav,
-      moveToWidgetDetail
+      widgetsRef,
+      setWidgetType,
+      setWidgetId,
+      setWidgetTitle
     );
   } else {
     return WidgetNavFold(
@@ -97,7 +80,10 @@ export function WidgetNavSpread(
   setShowWidgetAddModal,
   showNav,
   setShowNav,
-  moveToWidgetDetail
+  widgetsRef,
+  setWidgetType,
+  setWidgetId,
+  setWidgetTitle
 ) {
   return (
     <SpreadNavWrapper>
@@ -166,7 +152,10 @@ export function WidgetNavSpread(
         {widgetList.map((widget) => (
           <TextTile
             widget={widget}
-            moveToWidgetDetail={() => moveToWidgetDetail()}
+            widgetsRef={widgetsRef}
+            setWidgetType={setWidgetType}
+            setWidgetId={setWidgetId}
+            setWidgetTitle={setWidgetTitle}
           />
         ))}
       </div>
