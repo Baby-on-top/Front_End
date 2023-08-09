@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 import { widgetTitleUpdate } from "../../utils/apis";
 import { useEffect } from "react";
 
-const socket = io("http://localhost:4000", {
+const socket = io("https://sock.lignin.today", {
   path: "/socket.io",
 });
 

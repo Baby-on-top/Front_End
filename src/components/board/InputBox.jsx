@@ -9,7 +9,7 @@ import { useYcanvas } from "./useYCanvasWidget";
 import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
 
-const socket = io("http://localhost:4000", {
+const socket = io("https://sock.lignin.today", {
   path: "/socket.io",
 });
 

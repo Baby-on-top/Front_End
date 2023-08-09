@@ -5,7 +5,7 @@ import { colors } from "../../utils/colors";
 import { useRecoilState } from "recoil";
 import { showWidgetDetailModalState } from "../../utils/atoms";
 
-const socket = io("http://localhost:4000", {
+const socket = io("https://sock.lignin.today", {
   path: "/socket.io",
 });
 
