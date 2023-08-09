@@ -13,10 +13,13 @@ import VideoPlace from "../components/video/VideoPlace";
 import { useRecoilState } from "recoil";
 import { showVideoChat, widgetListState } from "../utils/atoms";
 import Toast from "../components/toast/Toast";
+import { awareness } from "../components/tldraw/store";
+import { kakaoInfo } from "../utils/apis";
 
 export default function Board() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
+  const [name, setName] = useState("");
 
   const boardId = useParams().boardId;
   const [widgetId, setWidgetId] = useState(0);
@@ -32,9 +35,32 @@ export default function Board() {
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
 
+  async function getUserInfo() {
+    const response = await kakaoInfo(cookie);
+    setName(response.data.data.name);
+  }
+
+  const colors = [
+    "#FF0000",
+    "#FF7F00",
+    "#FFFF00",
+    "#00FF00",
+    "#0000FF",
+    "#4B0082",
+    "#8A2BE2",
+  ];
+  const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+  awareness.setLocalStateField("user", {
+    name: name,
+    color: randomColor,
+  });
   useEffect(() => {
     // console.log("🏗️", isVideoChat);
   }, [isVideoChat]);
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   const widgetsRef = useRef([]);
   const token = cookie.accessToken;

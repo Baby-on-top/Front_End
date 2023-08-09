@@ -27,11 +27,8 @@ export default function WidgetDetailModal({
   const isInView = useInView(ref);
 
   function getWidget(type, widgetId, widgetTitle, boardId) {
-    const myModule = require("../tldraw/store");
-    myModule.setIDs(widgetId, boardId);
-
     if (type === WidgetType.DRAWING) {
-      return <TldrawEditor widgetId={widgetId} />;
+      return <TldrawEditor />;
     }
 
     if (type === WidgetType.CALENDAR) {
@@ -64,8 +61,6 @@ export default function WidgetDetailModal({
       onClick={() => {
         getThumbnail(widgetType, widgetId);
         setShowWidgetDetailModal(!showWidgetDetailModal);
-        const myModule = require("../tldraw/store");
-        myModule.yjsDisconnect(boardId);
         setIsTitleMod(false);
       }}
       css={{

@@ -6,7 +6,7 @@ import {
   provider,
   undoManager,
   yBindings,
-  yShapes
+  yShapes,
 } from "../store";
 
 export function useMultiplayerState(roomId) {
@@ -143,6 +143,6 @@ export function useMultiplayerState(roomId) {
     onChange,
     onUndo,
     onRedo,
-    onChangePresence
+    onChangePresence,
   };
 }
