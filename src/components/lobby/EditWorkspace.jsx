@@ -98,6 +98,7 @@ export default function EditWorkspace({ id }) {
             right: "0",
             bottom: "0",
             position: "fixed",
+            zIndex : "5",
           }}
         >
           <div
