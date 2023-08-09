@@ -12,11 +12,11 @@ export default function ChatRoom({ roomId }) {
   const client = useRef({});
   const scrollRef = useRef();
 
-  const CHAT_ROOM_MESSAGE_URL = "http://localhost:8090/api/chat/room/";
+  const CHAT_ROOM_MESSAGE_URL = "http://gg.lignin.today:8090/api/chat/room/";
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://localhost:8090/ws-stomp/websocket",
+      brokerURL: "ws://gg.lignin.today:8090/ws-stomp/websocket",
       onConnect: () => {
         subscribe();
       },
