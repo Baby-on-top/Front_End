@@ -8,7 +8,12 @@ import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
 import { widgetAdd } from "../../utils/apis";
 
-export default function WidgetAddModal({ boardId, fetchWidgetList }) {
+export default function WidgetAddModal({
+  boardId,
+  fetchWidgetList,
+  setShowToast,
+  setToastMsg,
+}) {
   const [showWidgetAddModal, setShowWidgetAddModal] = useRecoilState(
     showWidgetAddModalState
   );
@@ -61,6 +66,15 @@ export default function WidgetAddModal({ boardId, fetchWidgetList }) {
     await selectAddWidet(widgetType);
     await fetchWidgetList();
     setShowWidgetAddModal(!showWidgetAddModal);
+
+    if (widgetType === WidgetType.CALENDAR) {
+      setToastMsg("캘린더가 추가되었습니다.");
+    } else if (widgetType === WidgetType.DRAWING) {
+      setToastMsg("그림판이 추가되었습니다.");
+    } else {
+      setToastMsg("노트가 추가되었습니다.");
+    }
+    setShowToast(true);
   };
 
   return (

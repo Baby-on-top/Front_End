@@ -12,6 +12,7 @@ import { getBoardDetail, getWidgetList } from "../utils/apis";
 import VideoPlace from "../components/video/VideoPlace";
 import { useRecoilState } from "recoil";
 import { showVideoChat, widgetListState } from "../utils/atoms";
+import Toast from "../components/toast/Toast";
 
 export default function Board() {
   const navigate = useNavigate();
@@ -27,6 +28,9 @@ export default function Board() {
 
   const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+
+  const [showToast, setShowToast] = useState(false);
+  const [toastMsg, setToastMsg] = useState("");
 
   useEffect(() => {
     // console.log("🏗️", isVideoChat);
@@ -68,6 +72,7 @@ export default function Board() {
 
   return (
     <div>
+      {showToast && <Toast setShowToast={setShowToast} text={toastMsg} />}
       <BoardHeader
         workspaceName={workspaceName}
         boardName={boardName}
@@ -87,7 +92,12 @@ export default function Board() {
         setWidgetTitle={setWidgetTitle}
       />
       <ChatButton />
-      <WidgetAddModal boardId={boardId} fetchWidgetList={fetchWidgetList} />
+      <WidgetAddModal
+        boardId={boardId}
+        fetchWidgetList={fetchWidgetList}
+        setShowToast={setShowToast}
+        setToastMsg={setToastMsg}
+      />
       <WidgetDetailModal
         widgetType={widgetType}
         widgetId={widgetId}

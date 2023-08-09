@@ -18,7 +18,7 @@ export default function ChatModal({ setModalOpened }) {
     <div
       css={{
         // position: "absolute",
-        position: 'fixed',
+        position: "fixed",
         bottom: "24px",
         right: "24px",
         lineHeight: "1.4",
@@ -30,7 +30,7 @@ export default function ChatModal({ setModalOpened }) {
         borderColor: "black",
         filter: "drop-shadow(0px 0px 14px rgba(0,0,0,0.2))",
         borderRadius: "24px",
-        zIndex: 999,
+        zIndex: 99,
       }}
     >
       <ChatHeader roomName={roomName} />
