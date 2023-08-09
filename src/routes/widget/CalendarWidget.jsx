@@ -1,14 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import Calendar from "@toast-ui/react-calendar";
 import "@toast-ui/calendar/dist/toastui-calendar.min.css";
-import { motion } from "framer-motion";
-
-// 일정 생성 팝업
 import "tui-date-picker/dist/tui-date-picker.css";
 import "tui-time-picker/dist/tui-time-picker.css";
+import { motion } from "framer-motion";
 import { colors } from "../../utils/colors";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import InputTitle from "../../components/board/InputTitle";
+import randomColor from "randomcolor";
 
 export default function CalendarWidget({
   widgetId,
@@ -203,7 +202,7 @@ export default function CalendarWidget({
 
   function CalendarButtons({ viewType, setViewType }) {
     return (
-      <div className="calendar-buttons" css={{ display: "flex" }}>
+      <div css={{ display: "flex" }}>
         <motion.div
           onClick={() => setViewType("month")}
           css={{
@@ -330,6 +329,64 @@ export default function CalendarWidget({
     },
   };
 
+  // 다음 달 or 다음 주 or 다음 날로 이동
+  // const handleClickNextButton = () => {
+  //   const calendarInstance = calendarRef.current.getInstance();
+  //   calendarInstance.next();
+  // };
+  // const handleClickPrevButton = () => {
+  //   const calendarInstance = calendarRef.current.getInstance();
+  //   calendarInstance.prev();
+  // };
+
+  // 캘린더 인스턴스 생성
+  const getCalInstance = useCallback(
+    () => calendarRef.current.getInstance(),
+    []
+  );
+
+  // 일정 생성
+  const onBeforeCreateEvent = (eventData) => {
+    const event = {
+      id: String(Math.random()),
+      title: eventData.title,
+      start: eventData.start,
+      end: eventData.end,
+      location: eventData.location,
+      state: eventData.state,
+      isAllDay: eventData.isAllDay,
+      category: eventData.isAllDay ? "allday" : "time",
+      backgroundColor: randomColor(),
+    };
+
+    getCalInstance().createEvents([event]);
+    alert("일정 생성 완료!");
+  };
+
+  // 일정 수정
+  const onBeforeUpdateEvent = (updateData) => {
+    const targetEvent = updateData.event;
+    const changes = { ...updateData.changes };
+
+    getCalInstance().updateEvent(
+      targetEvent.id,
+      targetEvent.calendarId,
+      changes
+    );
+  };
+
+  // 일정 삭제
+  const onBeforeDeleteEvent = (res) => {
+    const { id, calendarId } = res;
+    getCalInstance().deleteEvent(id, calendarId);
+  };
+
+  // const onAfterRenderEvent = (res) => {
+  //   console.group("onAfterRenderEvent");
+  //   console.log("Event Info : ", res.title);
+  //   console.groupEnd();
+  // };
+
   return (
     <div css={{ margin: "20px" }}>
       <div
@@ -365,6 +422,8 @@ export default function CalendarWidget({
         <CalendarButtons viewType={viewType} setViewType={setViewType} />
       </div>
       <div className="calendar-widget">
+        {/* <button onClick={() => handleClickPrevButton()}>Go prev!</button>
+        <button onClick={() => handleClickNextButton()}>Go next!</button> */}
         <Calendar
           ref={calendarRef}
           height="900px"
@@ -383,6 +442,10 @@ export default function CalendarWidget({
           }}
           template={template}
           theme={theme}
+          onBeforeCreateEvent={onBeforeCreateEvent}
+          onBeforeUpdateEvent={onBeforeUpdateEvent}
+          onBeforeDeleteEvent={onBeforeDeleteEvent}
+          // onAfterRenderEvent={onAfterRenderEvent}
         />
       </div>
     </div>
