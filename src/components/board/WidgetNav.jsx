@@ -12,12 +12,7 @@ import {
   widgetListState,
   showWidgetDetailModalState,
 } from "../../utils/atoms";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:4000", {
-  path: "/socket.io",
-});
+import TextTile from "./TextTile";
 
 const SpreadNavWrapper = styled.div`
   position: fixed;
@@ -168,40 +163,14 @@ export function WidgetNavSpread(
           overflow: "scroll",
         }}
       >
-        {widgetList.map((widget) => textTile(widget, moveToWidgetDetail))}
+        {widgetList.map((widget) => (
+          <TextTile
+            widget={widget}
+            moveToWidgetDetail={() => moveToWidgetDetail()}
+          />
+        ))}
       </div>
     </SpreadNavWrapper>
-  );
-}
-
-function textTile(widget, moveToWidgetDetail) {
-  const [text, setText] = useState(widget.widgetTitle);
-
-  useEffect(() => {
-    socket.on("data", (data) => {
-      if (data.id == widget.id) {
-        setText(data.title);
-      }
-    });
-  }, [socket]);
-
-  return (
-    <div
-      key={widget.id}
-      css={{
-        margin: "2px 0px",
-        padding: "8px 16px",
-        fontSize: "16px",
-        alignItems: "center",
-        cursor: "pointer",
-        ":hover": { backgroundColor: colors.overlay_grey },
-      }}
-      onClick={() =>
-        moveToWidgetDetail(widget.widgetType, widget.id, widget.widgetTitle)
-      }
-    >
-      {text}
-    </div>
   );
 }
 

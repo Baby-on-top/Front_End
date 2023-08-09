@@ -1,21 +1,20 @@
 /** @jsxImportSource @emotion/react */
 import styled from "@emotion/styled";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { showWidgetAddModalState } from "../../utils/atoms";
 import { widgetListState } from "../../utils/atoms";
 import { WidgetType } from "./WidgetType";
 import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
 import { widgetAdd } from "../../utils/apis";
-import axios from "axios";
 
-export default function WidgetAddModal({ boardId }) {
+export default function WidgetAddModal({ boardId, fetchWidgetList }) {
   const [showWidgetAddModal, setShowWidgetAddModal] = useRecoilState(
     showWidgetAddModalState
   );
-  const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const widgetList = useRecoilValue(widgetListState);
 
-  const { testYRect } = useYcanvas(yRects);
+  // const { testYRect } = useYcanvas(yRects);
 
   const WidgetSelectBox = styled.div`
     width: 200px;
@@ -52,22 +51,15 @@ export default function WidgetAddModal({ boardId }) {
           ? "https://dprllohwojeet.cloudfront.net/assets/images/0b16bc66-e916-494c-9bf6-4202c5e5b84b.png"
           : "https://dprllohwojeet.cloudfront.net/assets/images/d6a63526-b29e-4d07-83cb-77fb889cafb4.png",
     };
-    console.log("test");
     // TODO: add api
     await widgetAdd(newWidget);
-    const response = await axios.get("/api/widget/" + boardId * 1);
-    const newRects = response.data.data.map((data) => {
-      return {
-        ...data,
-        id: data.id.toString(),
-      };
-    });
-    setWidgetList(newRects);
-    testYRect(newRects);
+
+    // testYRect(newRects);
   };
 
-  const onClick = (widgetType) => {
-    selectAddWidet(widgetType);
+  const onClick = async (widgetType) => {
+    await selectAddWidet(widgetType);
+    await fetchWidgetList();
     setShowWidgetAddModal(!showWidgetAddModal);
   };
 

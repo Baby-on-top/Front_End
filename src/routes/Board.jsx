@@ -87,7 +87,7 @@ export default function Board() {
         setWidgetTitle={setWidgetTitle}
       />
       <ChatButton />
-      <WidgetAddModal boardId={boardId} />
+      <WidgetAddModal boardId={boardId} fetchWidgetList={fetchWidgetList} />
       <WidgetDetailModal
         widgetType={widgetType}
         widgetId={widgetId}

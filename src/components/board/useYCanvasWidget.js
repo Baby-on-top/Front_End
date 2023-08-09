@@ -55,7 +55,20 @@ export const useYcanvas = (yRootMap) => {
     });
   };
 
-  const dragEndCanvas = useCallback(updateYRect, [yRootMap, ydoc]);
+  const throttleFunction = (func, delay) => {
+    let lastExecTime = 0;
+    return (...args) => {
+      const currentTime = Date.now();
+      if (currentTime - lastExecTime > delay) {
+        lastExecTime = currentTime;
+        func(...args);
+      }
+    };
+  };
+
+  const throttledUpdateYRect = throttleFunction(updateYRect, 70); // Adjust the delay as needed (1000ms in this case)
+
+  const dragEndCanvas = useCallback(throttledUpdateYRect, [yRootMap, ydoc]);
 
   const testYRect = useCallback(addYRect, [yRootMap, ydoc]);
 
