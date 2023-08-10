@@ -5,7 +5,7 @@ import cat from "../../assets/cat.jpg";
 import { useNavigate } from "react-router-dom";
 import { colors } from "../../utils/colors";
 import { useRecoilState } from "recoil";
-import { leftChannel, showVideoChat } from "../../utils/atoms";
+import { leftChannel, showVideoChat, useStatusState } from "../../utils/atoms";
 import { MicrophoneIcon as OutLineMicrophoneIcon } from "@heroicons/react/24/outline";
 import { MicrophoneIcon as SolidMicrophoneIcon } from "@heroicons/react/24/solid";
 
@@ -13,7 +13,7 @@ export default function BoardHeader({ boardName, workspaceName }) {
   const navigate = useNavigate();
   const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
   // const [isLeftChannel, setIsLeftChannel] = useRecoilState(leftChannel);
-
+  const [userStatus, setUserStatus] = useRecoilState(useStatusState);
   return (
     <>
       <div
@@ -75,50 +75,36 @@ export default function BoardHeader({ boardName, workspaceName }) {
           position: "fixed",
           display: "flex",
           alignItems: "center",
-          float: "right",
-          right: 0,
+          right: 20,
           zIndex: 3,
         }}
       >
-        <div id="user-profiles">
-          <img
-            src={dambe_pikka}
-            alt="dambe_pikka"
-            css={{
-              position: "relative",
-              zIndex: 4,
-              right: 28,
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
-          <img
-            src={ddung_heart}
-            alt="ddung_heart"
-            css={{
-              position: "relative",
-              zIndex: 3,
-              right: 35,
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
-          <img
-            src={cat}
-            alt="cat"
-            css={{
-              position: "absolute",
-              right: 72,
-              width: 36,
-              height: 36,
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
+        <div
+          id="user-profiles"
+          style={{
+            position: "relative",
+          }}
+        >
+          {userStatus?.map((item, idx) => {
+            return (
+              <img
+                src={
+                  item?.profile ??
+                  "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
+                }
+                alt="dambe_pikka"
+                css={{
+                  position: "relative",
+                  zIndex: idx * -1,
+                  right: 1 - idx * -10,
+                  width: 36,
+                  height: 36,
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+            );
+          })}
         </div>
         <div>
           {isVideoChat ? (

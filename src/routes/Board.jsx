@@ -11,7 +11,16 @@ import ChatButton from "../components/chat/ChatButton";
 import { getBoardDetail, getWidgetList } from "../utils/apis";
 import VideoPlace from "../components/video/VideoPlace";
 import { useRecoilState } from "recoil";
-import { showVideoChat, widgetListState } from "../utils/atoms";
+import {
+  showVideoChat,
+  widgetListState,
+  useStatusState,
+  showUserInfo,
+} from "../utils/atoms";
+import { io } from "socket.io-client";
+const socket = io("http://localhost:4000", {
+  path: "/socket.io",
+});
 
 export default function Board() {
   const navigate = useNavigate();
@@ -27,11 +36,65 @@ export default function Board() {
 
   const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const [userStatus, setUserStatus] = useRecoilState(useStatusState);
+  const [userInfo] = useRecoilState(showUserInfo);
+
+  const connect = () => {
+    socket.on("connect", () => {
+      console.log("🏹", socket);
+    });
+  };
+
+  useEffect(() => {
+    connect();
+  }, []);
 
   useEffect(() => {
     // console.log("🏗️", isVideoChat);
   }, [isVideoChat]);
 
+  useEffect(() => {
+    console.log("in");
+
+    socket.emit("status-in", userInfo);
+
+    return () => {
+      socket.emit("status-out", userInfo);
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("⭕️⭕️⭕️", userStatus);
+  }, [userStatus]);
+
+  useEffect(() => {
+    socket.on("status-in-data", (data) => {
+      const temp = userStatus.filter((item) => {
+        if (item.id == data.id) {
+          return item;
+        }
+      });
+
+      if (temp.length < 1) {
+        setUserStatus([...userStatus, { ...data, boardId }]);
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on("status-out-data", (data) => {
+      const temp = userStatus.filter((item) => {
+        if (item.id !== data.id) {
+          return item;
+        }
+      });
+      setUserStatus(temp);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    console.log("🎶", userStatus);
+  }, []);
   const widgetsRef = useRef([]);
   const token = cookie.accessToken;
 
@@ -72,6 +135,7 @@ export default function Board() {
         workspaceName={workspaceName}
         boardName={boardName}
         setIsVideoChat={setIsVideoChat}
+        userStatus={userStatus}
       />
       <WidgetPlace
         widgetsRef={widgetsRef}
