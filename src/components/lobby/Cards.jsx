@@ -239,7 +239,8 @@ export default function Cards({ userStatus }) {
                   if (item?.boardId == data?.boardId * 1) {
                     return (
                       <img
-                        src={data?.profile}
+                        key={data?.id}
+                        src={data?.profile ?? dambe_pikka}
                         alt="dambe_pikka"
                         css={{
                           position: "relative",

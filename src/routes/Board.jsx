@@ -56,35 +56,37 @@ export default function Board() {
   useEffect(() => {
     console.log("in");
 
-    socket.emit("status-in", userInfo);
+    // 페이지를 들어올 때
+    socket.emit("status-in", { userInfo, userStatus, boardId });
 
+    // 페이지를 나갈 때 실행
     return () => {
-      socket.emit("status-out", userInfo);
+      socket.emit("status-out", { userInfo, userStatus, boardId });
     };
   }, []);
 
   useEffect(() => {
-    console.log("⭕️⭕️⭕️", userStatus);
-  }, [userStatus]);
-
-  useEffect(() => {
+    // 접속해있는 유저들의 상태를 변경시키는 부분
     socket.on("status-in-data", (data) => {
-      const temp = userStatus.filter((item) => {
-        if (item.id == data.id) {
+      let test = data.userStatus.filter((item) => {
+        if (item.id == data.userInfo.id) {
           return item;
         }
       });
 
-      if (temp.length < 1) {
-        setUserStatus([...userStatus, { ...data, boardId }]);
+      if (test.length < 1 && data.length !== 0) {
+        setUserStatus([
+          ...data.userStatus,
+          { ...data.userInfo, boardId: data.boardId },
+        ]);
       }
     });
   }, [socket]);
 
   useEffect(() => {
     socket.on("status-out-data", (data) => {
-      const temp = userStatus.filter((item) => {
-        if (item.id !== data.id) {
+      const temp = data.userStatus.filter((item) => {
+        if (item.id !== data.userInfo.id) {
           return item;
         }
       });
@@ -136,6 +138,7 @@ export default function Board() {
         boardName={boardName}
         setIsVideoChat={setIsVideoChat}
         userStatus={userStatus}
+        boardId={boardId}
       />
       <WidgetPlace
         widgetsRef={widgetsRef}

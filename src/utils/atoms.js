@@ -105,4 +105,5 @@ export const leftChannel = atom({
 export const useStatusState = atom({
   key: "useStatusState",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });

@@ -9,7 +9,7 @@ import { leftChannel, showVideoChat, useStatusState } from "../../utils/atoms";
 import { MicrophoneIcon as OutLineMicrophoneIcon } from "@heroicons/react/24/outline";
 import { MicrophoneIcon as SolidMicrophoneIcon } from "@heroicons/react/24/solid";
 
-export default function BoardHeader({ boardName, workspaceName }) {
+export default function BoardHeader({ boardName, workspaceName, boardId }) {
   const navigate = useNavigate();
   const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
   // const [isLeftChannel, setIsLeftChannel] = useRecoilState(leftChannel);
@@ -87,22 +87,21 @@ export default function BoardHeader({ boardName, workspaceName }) {
         >
           {userStatus?.map((item, idx) => {
             return (
-              <img
-                src={
-                  item?.profile ??
-                  "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
-                }
-                alt="dambe_pikka"
-                css={{
-                  position: "relative",
-                  zIndex: idx * -1,
-                  right: 1 - idx * -10,
-                  width: 36,
-                  height: 36,
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
+              item.boardId * 1 == boardId && (
+                <img
+                  src={item?.profile ?? dambe_pikka}
+                  alt="dambe_pikka"
+                  css={{
+                    position: "relative",
+                    zIndex: idx * -1,
+                    right: 1 - idx * -10,
+                    width: 36,
+                    height: 36,
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                />
+              )
             );
           })}
         </div>
