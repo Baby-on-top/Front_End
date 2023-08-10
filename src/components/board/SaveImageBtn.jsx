@@ -11,7 +11,7 @@ const SaveImageBtn = ({ type, widgetId, boardId }) => {
 
   async function fetch() {
     try {
-      const response = await axios.get("/api/widget/" + boardId); // 잠깐 에러 주석
+      const response = await axios.get("/api/widget/" + boardId);
       console.log("🚨", response.data.data);
       const newRects = response.data.data.map((data) => {
         return {

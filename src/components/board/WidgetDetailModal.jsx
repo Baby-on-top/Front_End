@@ -90,7 +90,7 @@ export default function WidgetDetailModal({
           justifyContent: "flex-end",
         }}
       >
-        <SaveImageBtn type={widgetType} widgetId={widgetId} boardId={boardId} />
+        {/* <SaveImageBtn type={widgetType} widgetId={widgetId} boardId={boardId} /> */}
         <div
           id="close-btn"
           css={{
