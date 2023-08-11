@@ -44,6 +44,9 @@ export default function Board() {
   const [userStatus, setUserStatus] = useRecoilState(useStatusState);
   const [userInfo] = useRecoilState(showUserInfo);
 
+  if (window.location.href.indexOf("reloaded") == -1)
+    window.location.replace(window.location.href + "?reloaded");
+
   const connect = () => {
     socket.on("connect", () => {
       console.log("🏹", socket);
