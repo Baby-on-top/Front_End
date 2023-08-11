@@ -92,7 +92,7 @@ export default function Board() {
         }
       });
 
-      if (test.length < 1) {
+      if (test.length < 1 && data.userInfo.length !== 0) {
         setUserStatus([
           ...data.userStatus,
           { ...data.userInfo, boardId: data.boardId },
