@@ -1,14 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { widgetImageUpdate } from "../../utils/apis";
-import { io } from "socket.io-client";
-
-const socket = io(process.env.REACT_APP_SOCKET_API_URL, {
-  path: "/socket.io",
-});
+import { SocketContext } from "../../utils/socket";
 
 export default function ThumbnailBox({ widget }) {
   const [image, setImage] = useState(widget.widgetImage);
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
     sendImageChanges(widget.id, image);

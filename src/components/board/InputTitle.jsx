@@ -1,11 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { io } from "socket.io-client";
 import { widgetTitleUpdate } from "../../utils/apis";
-import { useEffect } from "react";
-
-const socket = io(process.env.REACT_APP_SOCKET_API_URL, {
-  path: "/socket.io",
-});
+import { useEffect, useContext } from "react";
+import { SocketContext } from "../../utils/socket";
 
 export default function InputTitle({
   widgetId,
@@ -14,6 +10,7 @@ export default function InputTitle({
   setText,
   setIsMod,
 }) {
+  const socket = useContext(SocketContext);
   const sendChanges = (id, title) => {
     socket.emit("title-changes", {
       id,
