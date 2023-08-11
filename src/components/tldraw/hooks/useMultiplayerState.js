@@ -48,34 +48,31 @@ export function useMultiplayerState(roomId) {
           }
         });
       });
-    }, 50),
+    }, 100),
     []
   );
 
   // 페이지 내용이 변경되었을 때 호출된다.
   // 변경된 페이지의 모양(shapes)과 바인딩(bidings)을 동기화하여 문서의 상태를 업데이트한다.
-  const onChangePage = useCallback(
-    throttle((app, shapes, bindings) => {
-      undoManager.stopCapturing();
-      doc.transact(() => {
-        Object.entries(shapes).forEach(([id, shape]) => {
-          if (!shape) {
-            yShapes.delete(id);
-          } else {
-            yShapes.set(shape.id, shape);
-          }
-        });
-        Object.entries(bindings).forEach(([id, binding]) => {
-          if (!binding) {
-            yBindings.delete(id);
-          } else {
-            yBindings.set(binding.id, binding);
-          }
-        });
+  const onChangePage = useCallback((app, shapes, bindings) => {
+    undoManager.stopCapturing();
+    doc.transact(() => {
+      Object.entries(shapes).forEach(([id, shape]) => {
+        if (!shape) {
+          yShapes.delete(id);
+        } else {
+          yShapes.set(shape.id, shape);
+        }
       });
-    }, 50),
-    []
-  );
+      Object.entries(bindings).forEach(([id, binding]) => {
+        if (!binding) {
+          yBindings.delete(id);
+        } else {
+          yBindings.set(binding.id, binding);
+        }
+      });
+    });
+  }, []);
 
   // 실행 취소
   const onUndo = useCallback(() => {
@@ -128,7 +125,7 @@ export function useMultiplayerState(roomId) {
       return () => {
         unsubOthers();
       };
-    }, 50),
+    }, 100),
     [appInstance]
   );
 
