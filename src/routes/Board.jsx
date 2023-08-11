@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useNavigate, useParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import WidgetAddModal from "../components/board/WidgetAddModal";
 import BoardHeader from "../components/board/BoardHeader";
 import WidgetNav from "../components/board/WidgetNav";
@@ -17,14 +17,12 @@ import {
   useStatusState,
   showUserInfo,
 } from "../utils/atoms";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:4000", {
-  path: "/socket.io",
-});
+import { SocketContext } from "../utils/socket";
 
 export default function Board() {
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
+  const socket = useContext(SocketContext);
 
   const boardId = useParams().boardId;
   const [widgetId, setWidgetId] = useState(0);

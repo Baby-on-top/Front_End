@@ -1,21 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 import { widgetTitleUpdate } from "../../utils/apis";
-import { io } from "socket.io-client";
 import { widgetDelete } from "../../utils/apis";
 import { yRects } from "../tldraw/store";
 import { useYcanvas } from "./useYCanvasWidget";
 import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
-
-const socket = io("http://localhost:4000", {
-  path: "/socket.io",
-});
+import { SocketContext } from "../../utils/socket";
 
 export default function InputBox({ widget, fetch }) {
   const [text, setText] = useState(widget.widgetTitle);
   const [isMod, setIsMod] = useState(false);
+  const socket = useContext(SocketContext);
 
   const sendChanges = (id, title) => {
     socket.emit("title-changes", {
@@ -34,16 +31,6 @@ export default function InputBox({ widget, fetch }) {
     // console.log("🌟", response);
     setIsMod(!isMod);
   };
-
-  const connect = () => {
-    socket.on("connect", () => {
-      console.log(socket);
-    });
-  };
-
-  useEffect(() => {
-    connect();
-  }, []);
 
   useEffect(() => {
     socket.on("data", (data) => {

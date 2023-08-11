@@ -78,6 +78,7 @@ export const showNavState = atom({
 export const showUserInfo = atom({
   key: "showUserInfo",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const widgetListState = atom({
