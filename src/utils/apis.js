@@ -291,8 +291,6 @@ export async function widgetAdd(widget) {
     widgetImage: widget.widgetImage,
   };
 
-  console.log("🔫", info);
-
   try {
     const response = await axios({
       method: "POST",

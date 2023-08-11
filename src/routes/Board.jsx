@@ -11,10 +11,20 @@ import ChatButton from "../components/chat/ChatButton";
 import { getBoardDetail, getWidgetList } from "../utils/apis";
 import VideoPlace from "../components/video/VideoPlace";
 import { useRecoilState } from "recoil";
-import { showVideoChat, widgetListState } from "../utils/atoms";
+import {
+  showVideoChat,
+  widgetListState,
+  useStatusState,
+  showUserInfo,
+} from "../utils/atoms";
 import Toast from "../components/toast/Toast";
 import { awareness } from "../components/tldraw/store";
 import { kakaoInfo } from "../utils/apis";
+
+import { io } from "socket.io-client";
+const socket = io("http://localhost:4000", {
+  path: "/socket.io",
+});
 
 export default function Board() {
   const navigate = useNavigate();
@@ -31,6 +41,18 @@ export default function Board() {
 
   const [isVideoChat, setIsVideoChat] = useRecoilState(showVideoChat);
   const [widgetList, setWidgetList] = useRecoilState(widgetListState);
+  const [userStatus, setUserStatus] = useRecoilState(useStatusState);
+  const [userInfo] = useRecoilState(showUserInfo);
+
+  const connect = () => {
+    socket.on("connect", () => {
+      console.log("🏹", socket);
+    });
+  };
+
+  useEffect(() => {
+    connect();
+  }, []);
 
   const [showToast, setShowToast] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
@@ -46,6 +68,50 @@ export default function Board() {
   ];
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
 
+  useEffect(() => {
+    console.log("in");
+
+    // 페이지를 들어올 때
+    socket.emit("status-in", { userInfo, userStatus, boardId });
+
+    // 페이지를 나갈 때 실행
+    return () => {
+      socket.emit("status-out", { userInfo, userStatus, boardId });
+    };
+  }, []);
+
+  useEffect(() => {
+    // 접속해있는 유저들의 상태를 변경시키는 부분
+    socket.on("status-in-data", (data) => {
+      let test = data.userStatus.filter((item) => {
+        if (item.id == data.userInfo.id) {
+          return item;
+        }
+      });
+
+      if (test.length < 1) {
+        setUserStatus([
+          ...data.userStatus,
+          { ...data.userInfo, boardId: data.boardId },
+        ]);
+      }
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    socket.on("status-out-data", (data) => {
+      const temp = data.userStatus.filter((item) => {
+        if (item.id !== data.userInfo.id) {
+          return item;
+        }
+      });
+      setUserStatus(temp);
+    });
+  }, [socket]);
+
+  useEffect(() => {
+    console.log("🎶", userStatus);
+  }, []);
   const widgetsRef = useRef([]);
   const token = cookie.accessToken;
 
@@ -102,6 +168,8 @@ export default function Board() {
         workspaceName={workspaceName}
         boardName={boardName}
         setIsVideoChat={setIsVideoChat}
+        userStatus={userStatus}
+        boardId={boardId}
       />
       <WidgetPlace
         widgetsRef={widgetsRef}

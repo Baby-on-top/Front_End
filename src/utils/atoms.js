@@ -102,3 +102,10 @@ export const leftChannel = atom({
   key: "leftChannel",
   default: false,
 });
+
+// 유저 위치
+export const useStatusState = atom({
+  key: "useStatusState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
+});
