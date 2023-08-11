@@ -3,7 +3,11 @@ import { WidgetType } from "../WidgetType";
 import { imageUpload, widgetImageUpdate } from "../../../utils/apis";
 
 export const getThumbnail = (type, widgetId) => {
-  let className = "note-editor";
+  if (type === WidgetType.NOTE) {
+    return;
+  }
+  // let className = "note-editor";
+  let className;
   if (type === WidgetType.CALENDAR) {
     className = "calendar-widget";
   }
