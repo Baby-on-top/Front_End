@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import throttle from "lodash.throttle";
 import { Room } from "@y-presence/client";
 import {
   awareness,
@@ -27,48 +28,54 @@ export function useMultiplayerState(roomId) {
     [roomId]
   );
 
-  const onChange = useCallback((app) => {
-    const shapes = app.shapes;
-    const bindings = app.bindings;
-    doc.transact(() => {
-      shapes.forEach((shape) => {
-        if (!shape) {
-          return;
-        } else {
-          yShapes.set(shape.id, shape);
-        }
+  const onChange = useCallback(
+    throttle((app) => {
+      const shapes = app.shapes;
+      const bindings = app.bindings;
+      doc.transact(() => {
+        shapes.forEach((shape) => {
+          if (!shape) {
+            return;
+          } else {
+            yShapes.set(shape.id, shape);
+          }
+        });
+        bindings.forEach((binding) => {
+          if (!binding) {
+            return;
+          } else {
+            yBindings.set(binding.id, binding);
+          }
+        });
       });
-      bindings.forEach((binding) => {
-        if (!binding) {
-          return;
-        } else {
-          yBindings.set(binding.id, binding);
-        }
-      });
-    });
-  }, []);
+    }, 50),
+    []
+  );
 
   // 페이지 내용이 변경되었을 때 호출된다.
   // 변경된 페이지의 모양(shapes)과 바인딩(bidings)을 동기화하여 문서의 상태를 업데이트한다.
-  const onChangePage = useCallback((app, shapes, bindings) => {
-    undoManager.stopCapturing();
-    doc.transact(() => {
-      Object.entries(shapes).forEach(([id, shape]) => {
-        if (!shape) {
-          yShapes.delete(id);
-        } else {
-          yShapes.set(shape.id, shape);
-        }
+  const onChangePage = useCallback(
+    throttle((app, shapes, bindings) => {
+      undoManager.stopCapturing();
+      doc.transact(() => {
+        Object.entries(shapes).forEach(([id, shape]) => {
+          if (!shape) {
+            yShapes.delete(id);
+          } else {
+            yShapes.set(shape.id, shape);
+          }
+        });
+        Object.entries(bindings).forEach(([id, binding]) => {
+          if (!binding) {
+            yBindings.delete(id);
+          } else {
+            yBindings.set(binding.id, binding);
+          }
+        });
       });
-      Object.entries(bindings).forEach(([id, binding]) => {
-        if (!binding) {
-          yBindings.delete(id);
-        } else {
-          yBindings.set(binding.id, binding);
-        }
-      });
-    });
-  }, []);
+    }, 50),
+    []
+  );
 
   // 실행 취소
   const onUndo = useCallback(() => {
@@ -89,38 +96,41 @@ export function useMultiplayerState(roomId) {
 
   // 룸에 발생하는 이벤트와 상태 변경을 구독하고 해지한다.
   // 다른 사용자의 상태 변경 및 앱 인스터스의 상태 변화를 구독하고 필요할 때 처리한다.
-  useEffect(() => {
-    if (!appInstance || !room) return;
+  useEffect(
+    throttle(() => {
+      if (!appInstance || !room) return;
 
-    const unsubOthers = room.subscribe("others", (users) => {
-      if (!appInstance.room) return;
+      const unsubOthers = room.subscribe("others", (users) => {
+        if (!appInstance.room) return;
 
-      const ids = users
-        .filter((user) => user.presence && user.presence.tdUser)
-        .map((user) => user.presence.tdUser.id);
+        const ids = users
+          .filter((user) => user.presence && user.presence.tdUser)
+          .map((user) => user.presence.tdUser.id);
 
-      Object.values(appInstance.room.users).forEach((user) => {
-        if (
-          user &&
-          !ids.includes(user.id) &&
-          user.id !== appInstance.room.userId
-        ) {
-          appInstance.removeUser(user.id);
-        }
+        Object.values(appInstance.room.users).forEach((user) => {
+          if (
+            user &&
+            !ids.includes(user.id) &&
+            user.id !== appInstance.room.userId
+          ) {
+            appInstance.removeUser(user.id);
+          }
+        });
+
+        appInstance.updateUsers(
+          users
+            .filter((user) => user.presence && user.presence.tdUser)
+            .map((other) => other.presence.tdUser)
+            .filter(Boolean)
+        );
       });
 
-      appInstance.updateUsers(
-        users
-          .filter((user) => user.presence && user.presence.tdUser)
-          .map((other) => other.presence.tdUser)
-          .filter(Boolean)
-      );
-    });
-
-    return () => {
-      unsubOthers();
-    };
-  }, [appInstance]);
+      return () => {
+        unsubOthers();
+      };
+    }, 50),
+    [appInstance]
+  );
 
   useEffect(() => {
     if (!appInstance) return;
