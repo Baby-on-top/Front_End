@@ -1,14 +1,13 @@
 const Y = require("yjs");
 const { WebsocketProvider } = require("y-websocket");
 
-let widget_id = 2;
-
-let board_id = 3;
-
 // Create the doc
 const doc = new Y.Doc();
 
-const roomID = `y-${widget_id}-${board_id}`;
+const currentURL = window.location.href;
+const parts = currentURL.split("/");
+let board_number = parts[parts.length - 1];
+let roomID = `y-${board_number}`;
 
 // Create a websocket provider
 let provider = new WebsocketProvider(

@@ -17,6 +17,8 @@ import { awareness } from "../components/tldraw/store";
 import { kakaoInfo } from "../utils/apis";
 
 export default function Board() {
+  if (window.location.href.indexOf("reloaded") == -1)
+    window.location.replace(window.location.href + "?reloaded");
   const navigate = useNavigate();
   const [cookie] = useCookies(["cookie"]);
   const [name, setName] = useState("");

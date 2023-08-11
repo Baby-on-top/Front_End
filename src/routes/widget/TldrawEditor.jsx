@@ -9,16 +9,18 @@ function Editor() {
   const { onMount, ...events } = useMultiplayerState(roomID);
 
   return (
-    <Tldraw
-      showMenu={false}
-      showZoom={false}
-      autofocus
-      showPages={false}
-      onMount={onMount}
-      {...fileSystemEvents}
-      {...events}
-      darkMode={false}
-    />
+    <div key={roomID}>
+      <Tldraw
+        showMenu={false}
+        showZoom={false}
+        autofocus
+        showPages={false}
+        onMount={onMount}
+        {...fileSystemEvents}
+        {...events}
+        darkMode={false}
+      />
+    </div>
   );
 }
 
