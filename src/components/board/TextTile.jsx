@@ -1,13 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { io } from "socket.io-client";
 import { colors } from "../../utils/colors";
 import { useRecoilState } from "recoil";
 import { showWidgetDetailModalState } from "../../utils/atoms";
-
-const socket = io("http://localhost:4000", {
-  path: "/socket.io",
-});
+import { SocketContext } from "../../utils/socket";
 
 export default function TextTile({
   widget,
@@ -20,7 +17,7 @@ export default function TextTile({
     showWidgetDetailModalState
   );
   const [text, setText] = useState(widget.widgetTitle);
-
+  const socket = useContext(SocketContext);
   useEffect(() => {
     socket.on("data", (data) => {
       if (data.id == widget.id) {

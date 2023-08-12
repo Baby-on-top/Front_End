@@ -6,8 +6,6 @@ name: Lignin CI/CD
 on:
   push:
     branches: ["master"]
-  pull_request:
-    branches: ["master"]
 
 jobs:
   build:
@@ -37,6 +35,11 @@ jobs:
           echo REACT_APP_REST_API_KEY=${{secrets.REACT_APP_REST_API_KEY}} >> .env
           echo REACT_APP_REDIRECT_URI=${{secrets.REACT_APP_REDIRECT_URI}} >> .env
           echo REACT_APP_LOGOUT_REDIRECT_URI=${{secrets.REACT_APP_LOGOUT_REDIRECT_URI}} >> .env
+          echo REACT_APP_AGORA_APP_KEY=${{secrets.REACT_APP_AGORA_APP_KEY}} >> .env
+          echo REACT_APP_CHAT_API_URL=${{secrets.REACT_APP_CHAT_API_URL}} >> .env
+          echo REACT_APP_CHAT_BROKER_URL=${{secrets.REACT_APP_CHAT_BROKER_URL}} >> .env
+          echo REACT_APP_SOCKET_API_URL=${{secrets.REACT_APP_SOCKET_API_URL}} >> .env
+          echo REACT_APP_YJS_CRDT_URL=${{secrets.REACT_APP_YJS_CRDT_URL}} >> .env
           echo GENERATE_SOURCEMAP=${{secrets.GENERATE_SOURCEMAP}} >> .env
           cat .env
 

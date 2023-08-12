@@ -12,11 +12,11 @@ export default function ChatRoom({ roomId }) {
   const client = useRef({});
   const scrollRef = useRef();
 
-  const CHAT_ROOM_MESSAGE_URL = "http://localhost:8090/api/chat/room/";
+  const CHAT_ROOM_MESSAGE_URL = process.env.REACT_APP_CHAT_API_URL;
 
   const connect = () => {
     client.current = new StompJs.Client({
-      brokerURL: "ws://localhost:8090/ws-stomp/websocket",
+      brokerURL: process.env.REACT_APP_CHAT_BROKER_URL,
       onConnect: () => {
         subscribe();
       },

@@ -17,7 +17,7 @@ const UnlinkCheckModal = ({ setIsUnlink, unlink }) => {
         left: "50%",
         top: "50%",
         padding: "5px",
-        zIndex: "1011",
+        zIndex: "101",
       }}
     >
       <div

@@ -37,6 +37,7 @@ export const recoilWorkspaceList = atom({
 export const SelectedWsIdx = atom({
   key: "SelectedWsIdx",
   default: 0,
+  effects_UNSTABLE: [persistAtom],
 });
 export const SelectedWsCreateId = atom({
   key: "SelectedWsCreateId",
@@ -46,6 +47,7 @@ export const SelectedWsCreateId = atom({
 export const SelectedWsName = atom({
   key: "SelectedWsName",
   default: "",
+  effects_UNSTABLE: [persistAtom],
 });
 
 //보드검색
@@ -78,6 +80,7 @@ export const showNavState = atom({
 export const showUserInfo = atom({
   key: "showUserInfo",
   default: [],
+  effects_UNSTABLE: [persistAtom],
 });
 
 export const widgetListState = atom({
@@ -99,4 +102,11 @@ export const widgetImage = atom({
 export const leftChannel = atom({
   key: "leftChannel",
   default: false,
+});
+
+// 유저 위치
+export const useStatusState = atom({
+  key: "useStatusState",
+  default: [],
+  effects_UNSTABLE: [persistAtom],
 });

@@ -24,6 +24,7 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 import { Urls } from "../../utils/urls";
+import { awareness } from "../tldraw/store";
 
 export default function SideNav() {
   const { modalOpen, close, open } = useModal();
@@ -154,7 +155,6 @@ export default function SideNav() {
         borderRight: "1px solid black",
         display: "flex",
         flexDirection: "column",
-        
       }}
     >
       {/* 프로필 컨테이너 */}

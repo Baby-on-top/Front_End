@@ -8,6 +8,7 @@ import {
   SelectedWsName,
   SelectedWsIdx,
   SelectedWsCreateId,
+  useStatusState,
 } from "../utils/atoms";
 import { useRecoilState } from "recoil";
 
@@ -24,6 +25,7 @@ export default function Lobby() {
   const [wsName, setWsName] = useRecoilState(SelectedWsName);
   const [wsIdx, setWsIdx] = useRecoilState(SelectedWsIdx);
   const [wsCreateId, setCreateId] = useRecoilState(SelectedWsCreateId);
+  const [userStatus, setUserStatus] = useRecoilState(useStatusState);
 
   return (
     <div>
@@ -69,7 +71,7 @@ export default function Lobby() {
           <WorkspaceDropdown id={wsIdx} createId={wsCreateId} />
           <BoardModal updateCards={updateCards} /> */}
         </div>
-        <Cards />
+        <Cards userStatus={userStatus} setUserStatus={setUserStatus} />
       </div>
       <ChatButton />
     </div>

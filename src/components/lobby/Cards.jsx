@@ -18,7 +18,7 @@ import ddung_heart from "../../assets/ddung_heart.jpg";
 import cat from "../../assets/cat.jpg";
 import { Urls } from "../../utils/urls";
 
-export default function Cards() {
+export default function Cards({ userStatus }) {
   const navigate = useNavigate();
   const [boardList, setBoardList] = useRecoilState(recoilBoardList);
   const [workspaceList, setWorkspaceList] = useRecoilState(recoilWsList);
@@ -50,12 +50,12 @@ export default function Cards() {
     }
     // await setBoardList(response.data.data);
     // console.log(response.data.data)
-    let res = []
+    let res = [];
     if (response.data.data.length > 0) {
-      let tmpList = [...response.data.data]
-      res = tmpList.sort((a,b)=>b.updateAt.localeCompare(a.updateAt))
+      let tmpList = [...response.data.data];
+      res = tmpList.sort((a, b) => b.updateAt.localeCompare(a.updateAt));
     }
-    await setBoardList(res)
+    await setBoardList(res);
   };
 
   // useEffect(() => {
@@ -84,53 +84,49 @@ export default function Cards() {
   );
 
   //time
-  const noww = new Date()
-  const now = new Date(noww.getTime() + (noww.getTimezoneOffset() * 60000))
-  const year = now.getFullYear()
-  const month = now.getMonth() + 1
-  const day = now.getDate()
-  const hour = now.getHours()
-  const min = now.getMinutes()
+  const noww = new Date();
+  const now = new Date(noww.getTime() + noww.getTimezoneOffset() * 60000);
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+  const hour = now.getHours();
+  const min = now.getMinutes();
 
   const calTime = (data) => {
-    const upYear = Number(data.slice(0,4))
-    const upMonth = Number(data.slice(5,7))
-    const upDay = Number(data.slice(8,10))
-    const upHour = Number(data.slice(11,13))
-    const upMin = Number(data.slice(14,16))
+    const upYear = Number(data.slice(0, 4));
+    const upMonth = Number(data.slice(5, 7));
+    const upDay = Number(data.slice(8, 10));
+    const upHour = Number(data.slice(11, 13));
+    const upMin = Number(data.slice(14, 16));
 
-  if (upYear == year) {
-    if (upMonth == month) {
-      if (upDay == day) {
-        if (upHour == hour) {
-          if (upMin == min) {
-            const res = '0분 전'
-            return ('최근 업데이트  ' + res)
+    if (upYear == year) {
+      if (upMonth == month) {
+        if (upDay == day) {
+          if (upHour == hour) {
+            if (upMin == min) {
+              const res = "0분 전";
+              return "최근 업데이트  " + res;
+            } else {
+              const res = min - upMin + " 분 전";
+              return "최근 업데이트  " + res;
+            }
           } else {
-            const res = min - upMin +' 분 전'
-            return ('최근 업데이트  ' + res)
+            const res = hour - upHour + " 시간 전";
+            return "최근 업데이트  " + res;
           }
         } else {
-          const res = hour - upHour +' 시간 전'
-          return ('최근 업데이트  ' + res)
+          const res = day - upDay + " 일 전";
+          return "최근 업데이트  " + res;
         }
       } else {
-        const res = day - upDay +' 일 전'
-        return ('최근 업데이트  ' + res)
+        const res = month - upMonth + " 개월 전";
+        return "최근 업데이트  " + res;
       }
     } else {
-      const res = month - upMonth +' 개월 전'
-      return ('최근 업데이트  ' + res)
+      const res = year - upYear + " 년 전";
+      return "최근 업데이트  " + res;
     }
-  } else {
-    const res = year - upYear + ' 년 전'
-    return ('최근 업데이트  ' + res)
-  }
-}
-
-
-
-
+  };
 
   return (
     <div className="cards">
@@ -140,15 +136,21 @@ export default function Cards() {
           css={{
             width: "30%",
             height: "300px",
-            border: "2px solid",
-            borderColor: "#E6E6E6",
+            border: 'none',
             flexDirection: "column",
-            borderRadius: "10px",
+            borderRadius: "20px",
             cursor: "pointer",
             display: "flex",
             float: "left",
             marginRight: "30px",
             marginBottom: "20px",
+            border: '3.5px solid #c3c6ce',
+            transition: '0.5s ease-out',
+            overflow: 'visible',
+            ':hover': {
+              borderColor: 'rgba(191, 255, 191, 0.5)',
+              boxShadow: '0 4px 18px 0 rgba(0, 0, 0, 0.25)',
+            },
           }}
         >
           <img
@@ -161,12 +163,7 @@ export default function Cards() {
             css={{
               flex: "20",
               objectFit: "cover",
-              borderRadius: "8px 8px 0px 0px",
-              // flex: "5",
-              // width: "100%",
-              // height: "70%",
-              // objectFit: "contain",
-              // display: "flex",
+              borderRadius: "18px 18px 0px 0px",
             }}
           />
           {/* bottom */}
@@ -207,11 +204,15 @@ export default function Cards() {
                 onClick={() => clickCard(item.boardId)}
               >
                 {/* <p>{item.createAt}</p> */}
-                <span css={{
-                  fontFamily: "Noto Sans KR",
-                  color: "#797979",
-                  fontSize: "12px",
-                }}>{calTime(item.updateAt)}</span>
+                <span
+                  css={{
+                    fontFamily: "Noto Sans KR",
+                    color: "#797979",
+                    fontSize: "12px",
+                  }}
+                >
+                  {calTime(item.updateAt)}
+                </span>
               </div>
             </div>
 
@@ -235,44 +236,26 @@ export default function Cards() {
                 }}
               >
                 {/*참여자 프로필 */}
-                <img
-                  src={dambe_pikka}
-                  alt="dambe_pikka"
-                  css={{
-                    position: "relative",
-                    zIndex: -3,
-                    left: 20,
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-                <img
-                  src={ddung_heart}
-                  alt="ddung_heart"
-                  css={{
-                    position: "relative",
-                    zIndex: -1,
-                    left: 10,
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
-                <img
-                  src={cat}
-                  alt="cat"
-                  css={{
-                    zIndex: -4,
-                    position: "absolute",
-                    width: 28,
-                    height: 28,
-                    borderRadius: "50%",
-                    objectFit: "cover",
-                  }}
-                />
+                {userStatus?.map((data, idx) => {
+                  if (item?.boardId == data?.boardId * 1) {
+                    return (
+                      <img
+                        key={data?.id}
+                        src={data?.profile ?? dambe_pikka}
+                        alt="dambe_pikka"
+                        css={{
+                          position: "relative",
+                          zIndex: -3,
+                          left: 20 - idx * 5,
+                          width: 28,
+                          height: 28,
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                        }}
+                      />
+                    );
+                  }
+                })}
               </div>
               <div
                 className="DD"
@@ -283,7 +266,7 @@ export default function Cards() {
                   alignItems: "center",
                 }}
               >
-                <DropDown id={item.boardId} />
+                <DropDown id={item?.boardId} />
               </div>
             </div>
           </div>

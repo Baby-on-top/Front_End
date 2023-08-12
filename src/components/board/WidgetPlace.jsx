@@ -109,7 +109,7 @@ export default function WidgetPlace({
               onDragStart={handleDragStart}
               style={{
                 x: widget.x - 90 || 0,
-                y: widget.y - 90 || 0,
+                y: widget.y - 140 || 0,
                 zIndex: widget.x ? 2 : 1,
               }}
               onClick={() =>

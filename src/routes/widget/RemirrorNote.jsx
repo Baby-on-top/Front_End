@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import "remirror/styles/all.css";
 
+import provider from "../../components/tldraw/store";
 import React, { useEffect, useState } from "react";
 import css from "refractor/lang/css.js";
 import javascript from "refractor/lang/javascript.js";
@@ -117,35 +118,33 @@ const customStyles = `
   }
 `;
 
-const RemirrorNote = ({ widgetId, widgetTitle, isMod, setIsMod, fetch }) => {
-  let myModule = require("../../components/tldraw/store");
-  let provider = myModule.yjsReturn();
-  const [text, setText] = useState(widgetTitle);
+const extensions = () => [
+  new HardBreakExtension(),
+  new BulletListExtension(),
+  new OrderedListExtension(),
+  new TaskListExtension(),
+  new HeadingExtension(),
+  new LinkExtension(),
+  new ItalicExtension(),
+  new FontFamilyExtension(),
+  new FontSizeExtension({ defaultSize: "16", unit: "px" }),
+  // new BlockquoteExtension({ triggerKey: 'Tab' }), // Change the trigger key to 'Tab'
+  new HorizontalRuleExtension(),
+  ...wysiwygPreset(),
+  new FindExtension(),
+  new CalloutExtension(),
+  new CodeExtension(),
+  new BoldExtension(),
+  new UnderlineExtension(),
+  new PlaceholderExtension({ placeholder: "Type here..." }),
+  new YjsExtension({ getProvider: () => provider }),
+  new CodeBlockExtension({
+    supportedLanguages: [css, javascript, json, markdown, typescript],
+  }),
+];
 
-  const extensions = () => [
-    new HardBreakExtension(),
-    new BulletListExtension(),
-    new OrderedListExtension(),
-    new TaskListExtension(),
-    new HeadingExtension(),
-    new LinkExtension(),
-    new ItalicExtension(),
-    new FontFamilyExtension(),
-    new FontSizeExtension({ defaultSize: "16", unit: "px" }),
-    // new BlockquoteExtension({ triggerKey: 'Tab' }), // Change the trigger key to 'Tab'
-    new HorizontalRuleExtension(),
-    ...wysiwygPreset(),
-    new FindExtension(),
-    new CalloutExtension(),
-    new CodeExtension(),
-    new BoldExtension(),
-    new UnderlineExtension(),
-    new PlaceholderExtension({ placeholder: "Type here..." }),
-    new YjsExtension({ getProvider: () => provider }),
-    new CodeBlockExtension({
-      supportedLanguages: [css, javascript, json, markdown, typescript],
-    }),
-  ];
+const RemirrorNote = ({ widgetId, widgetTitle, isMod, setIsMod, fetch }) => {
+  const [text, setText] = useState(widgetTitle);
 
   useEffect(() => {
     setText(widgetTitle);

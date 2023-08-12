@@ -61,13 +61,13 @@ export default function HeaderTitle({ idx, name, createId }) {
           <input
             className="input-title"
             type="text"
-            placeholder="보드 이름"
+            placeholder="search board"
             onChange={getValue}
             value={searchInfo}
             css={{
               flex: "4",
-              width: "250px",
-              height: "30px",
+              width: "400px",
+              height: "40px",
               border: "2px solid #F5F5F5",
               outline: "none",
               borderRadius: "7px",
