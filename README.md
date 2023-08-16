@@ -35,6 +35,8 @@
   <img src="https://img.shields.io/badge/Recoil-1678e0?style=for-the-badge&logo=Recoil&logoColor=ffffff"/>&nbsp
   <img src="https://img.shields.io/badge/yjs-FFD900?style=for-the-badge&logo=macys&logoColor=000000"/>&nbsp
   <img src="https://img.shields.io/badge/Framer Motion-000000?style=for-the-badge&logo=Framer&logoColor=ffffff"/>&nbsp
+  <img src="https://img.shields.io/badge/Socket.io-010101?style=for-the-badge&logo=Socket.io&logoColor=FFFFFF"/>&nbsp
+  <img src="https://img.shields.io/badge/Agora-099DFD?style=for-the-badge&logo=agora&logoColor=FFFFFF"/>
 </td>
 </tr>
 <tr>
