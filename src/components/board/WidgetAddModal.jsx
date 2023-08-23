@@ -3,9 +3,9 @@ import styled from "@emotion/styled";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { showWidgetAddModalState } from "../../utils/atoms";
 import { widgetListState } from "../../utils/atoms";
-import { WidgetType } from "./WidgetType";
+import { WidgetType } from "../../utils/WidgetType";
 import { yRects } from "../tldraw/store";
-import { useYcanvas } from "./useYCanvasWidget";
+import { useYcanvas } from "./hooks/useYCanvasWidget";
 import { widgetAdd } from "../../utils/apis";
 
 export default function WidgetAddModal({

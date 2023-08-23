@@ -4,7 +4,7 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 import { widgetTitleUpdate } from "../../utils/apis";
 import { widgetDelete } from "../../utils/apis";
 import { yRects } from "../tldraw/store";
-import { useYcanvas } from "./useYCanvasWidget";
+import { useYcanvas } from "./hooks/useYCanvasWidget";
 import { useRecoilState } from "recoil";
 import { widgetListState } from "../../utils/atoms";
 import { SocketContext } from "../../utils/socket";

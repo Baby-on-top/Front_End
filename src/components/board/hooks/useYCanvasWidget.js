@@ -1,8 +1,8 @@
 import { useState, useCallback, useEffect } from "react";
 import * as Y from "yjs";
 import { useRecoilState } from "recoil";
-import { widgetListState } from "../../utils/atoms";
-import { widgetXyUpdate } from "../../utils/apis";
+import { widgetListState } from "../../../utils/atoms";
+import { widgetXyUpdate } from "../../../utils/apis";
 
 export const useYcanvas = (yRootMap) => {
   const ydoc = yRootMap.doc;

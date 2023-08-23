@@ -1,5 +1,5 @@
 import html2canvas from "html2canvas";
-import { WidgetType } from "../WidgetType";
+import { WidgetType } from "../../../utils/WidgetType";
 import { imageUpload, widgetImageUpdate } from "../../../utils/apis";
 
 export const getThumbnail = (type, widgetId) => {

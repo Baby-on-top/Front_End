@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useRecoilState } from "recoil";
 import { showWidgetDetailModalState } from "../../utils/atoms";
 import { yRects } from "../tldraw/store";
-import { useYcanvas } from "./useYCanvasWidget";
+import { useYcanvas } from "./hooks/useYCanvasWidget";
 import axios from "axios";
 
 import InputBox from "./InputBox";
