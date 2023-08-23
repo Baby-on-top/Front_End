@@ -4,11 +4,10 @@ import { showWidgetDetailModalState } from "../../utils/atoms";
 import CalendarWidget from "../../routes/widget/CalendarWidget";
 import RemirrorNote from "../../routes/widget/RemirrorNote";
 import TldrawEditor from "../../routes/widget/TldrawEditor";
-import { WidgetType } from "./WidgetType";
+import { WidgetType } from "../../utils/WidgetType";
 import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import { getThumbnail } from "./hooks/updateThumbnail";
-import SaveImageBtn from "./SaveImageBtn";
 
 export default function WidgetDetailModal({
   widgetType,
